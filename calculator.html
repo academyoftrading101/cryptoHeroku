@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+        integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/style/style.css">
+    <script src="https://kit.fontawesome.com/5c50a4aeb8.js" crossorigin="anonymous"></script>
+    <script>
+        function loaded() {
+            let innerhtml = []
+            for (let i = 0; i < 4; i++) {
+                innerhtml.push(document.getElementById("navButtons" + i).innerHTML)
+            }
+            var once = [true, true, true, true]
+            for (let i = 0; i < 4; i++) {
+                $("#navButtons" + i).on('mouseover', function () {
+                    if (once[i]) {
+                        if (i != 2)
+                            document.getElementById("navButtons" + i).innerHTML += '<br><img style="width: 40px;" src="/data/newBG/toggle rectangle green.svg">'
+                        else
+                            document.getElementById("navButtons" + i).innerHTML += '<br><img style="width: 100px; height: 6px" src="/data/newBG/toggle rectangle green.svg">'
+                        once[i] = false
+                    }
+                    for (let j = 0; j < 4; j++) {
+                        if (i != j) {
+                            document.getElementById("navButtons" + j).innerHTML = innerhtml[j]
+                            once[j] = true
+                        }
+                    }
+                });
+            }
+            let slider = []
+            let output = []
+            for (let i = 0; i < 3; i++) {
+                slider[i] = document.getElementById("slider" + i);
+                output[i] = document.getElementById("input" + i);
+                if (i == 0)
+                    output[i].value = slider[i].value * 100000;
+                else
+                    output[i].value = slider[i].value;
+                slider[i].oninput = function () {
+                    if (i == 0)
+                        output[i].value = slider[i].value * 100000;
+                    else
+                        output[i].value = slider[i].value;
+                }
+                output[i].oninput = () => {
+                    if (i == 0)
+                        slider[i].value = output[i].value / 100000
+                    else
+                        slider[i].value = output[i].value
+                }
+            }
+
+        }
+
+        function calc() {
+            let p = Number(document.getElementById("input0").value)
+            let n = Number((document.getElementById("input2").value * 12))
+            let r2 = (Number(document.getElementById("input1").value) / (12 * 100))
+            let r = r2 + 1
+            let emi = Math.round(p * r2 * (Math.pow(r, n) / (Math.pow(r, n) - 1)))
+            document.getElementById("result").style.display = "flex"
+
+            let a = emi, b = -(p - (emi * n)), c = p, d = (emi * n)
+            document.getElementById("myChart").remove()
+            let canvas = document.createElement('canvas')
+            canvas.setAttribute("id", "myChart")
+            document.getElementById("pie").appendChild(canvas)
+
+            var ctx = document.getElementById('myChart').getContext('2d');
+            let data = {
+                labels: ['Principal ', 'Interest '],
+                datasets: [{
+                    data: [c, b],
+                    backgroundColor: ["rgb(255, 99, 132)", "rgb(54, 162, 235)"]
+                }]
+            };
+            var myPieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    legend: {
+                        labels: {
+                            fontColor: "white",
+                            fontSize: 18
+                        }
+                    }
+                }
+            });
+
+            let vars = [a, b, c, d]
+            for (let i = 0; i < 4; i++) {
+                x = vars[i].toString();
+                var lastThree = x.substring(x.length - 3);
+                var otherNumbers = x.substring(0, x.length - 3);
+                if (otherNumbers != '')
+                    lastThree = ',' + lastThree;
+                vars[i] = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+                document.getElementById("result" + i).innerHTML = '<i class="fas fa-rupee-sign"> </i>' + vars[i]
+            }
+        }
+    </script>
+</head>
+
+<body class="newbg" onload="loaded()">
+    <div id="content" cla style="min-height: 83.8vh;">
+        <nav class="navbar navbar-expand-md navbar-light newbg"
+            style='background-color: #0099CC; padding-bottom: 0; margin-bottom: 0;padding-top: 0; margin-top: 0;'>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link active" href="/index"><img src="/data/newBG/Component 8.svg"></a>
+                </li>
+            </ul>
+            <button class="navbar-toggler text-white" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                </ul>
+                <ul class="nav nav-bar navbar-right">
+                    <li class="nav-item active">
+                        <a class="nav-link active text-white heading" style="width: 65px !important;" href="/index"
+                            style="font-size: larger;"><strong id="navButtons0">Home</strong></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link text-white heading" style="width: 65px !important;" href="/index"
+                            style="font-size: larger;"><strong id="navButtons1">Blog</strong></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link text-white heading" style="width: 120px !important;" href="/Pridictions"
+                            style="font-size: larger;"><strong id="navButtons2">Pridictions</strong></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link text-white heading" style="width: 120px !important;" href=" /contact"
+                            style="font-size: larger;"><strong id="navButtons3">Contact us</strong></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link text-white heading" style="width: 65px !important;" href="/quiz"
+                            style="font-size: larger;"><strong id="navButtons4">Quiz</strong></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container mt-10 mb-5">
+            <P class="display-4" id="demo"></P>
+            <div id="calculatorBody" class="row mt-10">
+                <div id="sliders" class="col-md-6">
+                    <form>
+                        <div class="form-group row">
+                            <label for="amount" class="col-sm-6 col-form-label">Loan Amount : </label>
+                            <div class="offset-sm-3 col-sm-3">
+                                <span class="d-flex"><i class="text-white fas fa-rupee-sign"
+                                        style="padding-top: 11px;"></i><input type="number"
+                                        class="transparent text-white form-control" id="input0" placeholder=""></span>
+                            </div>
+                        </div>
+                        <div class="slidecontainer">
+                            <input type="range" min="1" max="100" value="1" class="slider" id="slider0">
+                        </div>
+                        <div class="form-group row mt-5">
+                            <label for="input1" class="col-sm-6 col-form-label">Rate of Interest (P.A, in %) : </label>
+                            <div class="offset-sm-4 col-sm-2">
+                                <input type="number" class="transparent text-white form-control" id="input1"
+                                    placeholder="">
+                            </div>
+                        </div>
+                        <div class="slidecontainer">
+                            <input type="range" min="1" max="30" value="10" class="slider" id="slider1">
+                        </div>
+                        <div class="form-group row mt-5">
+                            <label for="input2" class="col-sm-6 col-form-label">Loan Tenure (in Yrs) : </label>
+                            <div class="offset-sm-4 col-sm-2">
+                                <input type="number" class="transparent text-white form-control" id="input2"
+                                    placeholder="">
+                            </div>
+                        </div>
+                        <div class="slidecontainer">
+                            <input type="range" min="1" max="30" value="1" class="slider" id="slider2">
+                        </div>
+                    </form>
+                    <div id="result" class="mt-10 row" style="display: none;">
+                        <div class="col-sm-6">
+                            <p>Monthly EMI</p>
+                            <p><strong id="result0"></strong></p>
+                            <p>Total Interest</p>
+                            <p><strong id="result1"></strong></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p>Principal Amount</p>
+                            <p><strong id="result2"></strong></p>
+                            <p>Total Amount</p>
+                            <p><strong id="result3"></strong></p>
+                        </div>
+                    </div>
+                    <button class="btn btn-success mt-10" onclick="calc()">Calculate</button>
+                </div>
+                <div id="pie" class="col-md-6 mt-10">
+                    <canvas id="myChart"></canvas>
+                    <script>
+                        var ctx = document.getElementById('myChart').getContext('2d');
+                        let data = {
+                            labels: ['Principal ', 'Interest '],
+                            datasets: [{
+                                data: [100000, 5504],
+                                backgroundColor: ["rgb(255, 99, 132)", "rgb(54, 162, 235)"]
+                            }]
+                        };
+                        var myPieChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: data,
+                            options: {
+                                legend: {
+                                    labels: {
+                                        fontColor: "white",
+                                        fontSize: 18
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+    <footer class="mt-5 newfooter" style="height: 100px;">
+        <div style="max-width: 99vw;">
+            <div class="float-right" style="padding-right: 50px;">
+                <span class="mb-3 mt-3"><img src="/data/newBG/© Copyright Green Stone 2021.svg"></span>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
