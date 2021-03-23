@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const serv = require('http').createServer(app);
 const Ticker = require('./schemas/ticker')
+const Pridictions = require('./schemas/pridictions')
+
 
 const mongoose = require('mongoose');
 //const connectDB = require('./mongodbconnection/connection');
@@ -25,6 +27,8 @@ connection();
 
 
 
+
+
 app.get('/', (req, res) =>
 {
     res.sendFile(__dirname + '/index.html');
@@ -44,13 +48,11 @@ app.get('/admin', (req, res) =>
 app.get('/calculator', (req, res) =>
 {
     res.sendFile(__dirname + '/calculator.html');
-    
 }); 
 
 app.get('/calculator2', (req, res) =>
 {
     res.sendFile(__dirname + '/calculator2.html');
-    
 }); 
 
 app.get('/contact', (req, res) =>
@@ -82,6 +84,43 @@ io.on('connection', function(socket){
     socket.on("showTicker", async ()=>{
         let tickerData = await Ticker.findOne({})
         socket.emit("showTicker", tickerData)
+    })
+
+    socket.on("pridictiondata", async ()=>{
+        let pridictiondata = await Pridictions.find({})
+        socket.emit("pridictiondata", pridictiondata)
+    })
+
+    socket.on("updatePridictions", async (d)=>{
+        let test = ["review", "reviewTitle", "reviewText", "title", "data", "data", "data", "data", "data", "data"]
+        let test3 = ["a", "b", "pridictions"]
+        console.log(d)
+        let test2 = await Pridictions.findOne({"coin":d[0]})
+        for(let i = 1; i < d.length; i++)
+        {
+            if(d[i] != "")
+            {
+                if(i <= 2)
+                {
+                    test2[test[0]][test[i]] = d[i]
+                }
+                else
+                {
+                    //console.log(String(Math.floor((i-3)/7)) + "   " + test[(i - ((Math.floor((i-3)/7))*7))] + "   " + (((i-3)%7)-1))
+                    if((((i-3)%7)-1) == -1)
+                        test2[test3[2]][String(Math.floor((i-3)/7))][test[(i - ((Math.floor((i-3)/7))*7))]] = d[i]
+                    else
+                        test2[test3[2]][String(Math.floor((i-3)/7))][test[(i - ((Math.floor((i-3)/7))*7))]][(((i-3)%7)-1)] = d[i]
+                    test2.markModified('pridictions')
+                    test2.markModified('data')
+                }
+            }
+        }
+        await test2.save()
+    })
+
+    socket.on("newPridiction", async (d)=>{
+        
     })
 
     socket.on("save", async (d)=>{

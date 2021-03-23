@@ -1,170 +1,416 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
-    <title>Admin</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/style/style.css">
-    <script>
-        let ogValue = []
-      function loaded()
-      {
-          
-        socket = io.connect()
-        let innerhtml = []
-        for(let i = 0; i < 4; i++)
-        {
-          innerhtml.push(document.getElementById("navButtons"+i).innerHTML)
-        }
-        var once = [true, true, true, true]
-        for(let i = 0; i < 4; i++)
-        {
-          $("#navButtons"+i).on('mouseover', function() 
-          { 
-            if(once[i])
-            {
-              if(i != 2)
-              document.getElementById("navButtons"+i).innerHTML += '<br><img style="width: 40px;" src="/data/newBG/toggle rectangle green.svg">'
-              else
-              document.getElementById("navButtons"+i).innerHTML += '<br><img style="width: 100px; height: 6px" src="/data/newBG/toggle rectangle green.svg">'
-              once[i] = false
-            }
-            for(let j = 0; j < 4; j++)
-            {
-              if(i != j)
-              {
-                document.getElementById("navButtons"+j).innerHTML = innerhtml[j]
-                once[j] = true
-              }
-            }
-          });
-        }
-        socket.emit("showTicker")
-        document.getElementById("form").style.display = "block"
-        socket.on("showTicker", (data)=>{
-            if(data.list.length != 0)
-            {
-                for(let i = 0; i < data.list.length; i++)
-                {
-                    let obj = {}
-                    obj.id = "input"+i
-                    obj.label = "Ticker " + (i+1) + " :"
-                    obj.value = data.list[i]
-                    ogValue.push(data.list[i])
-                    placeTicker(obj)
-                }
-            }
-        })
-      }
-      function placeTicker(obj)
-      {
-          let mainUl = document.getElementById("ul")
-          let li = document.createElement('li')
-          li.setAttribute("class", "list-group-item")
-          li.setAttribute("style", "background-color: transparent")
-          let label = document.createElement('label')
-          //label.setAttribute("style", "color: black;")
-          label.setAttribute("for", obj.id)
-          label.appendChild(document.createTextNode(obj.label))
-          let textarea = document.createElement('textarea')
-          textarea.setAttribute("class", "form-control mb-4")
-          textarea.setAttribute("id", obj.id)
-          textarea.setAttribute("rows", "1")
-          textarea.appendChild(document.createTextNode(obj.value))
-          li.appendChild(label)
-          li.appendChild(textarea)
-          mainUl.appendChild(li)
-      }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js"
+    integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA=="
+    crossorigin="anonymous"></script>
+  <title>Admin</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="/style/style.css">
+  <script>
+    let ogValue = []
+    socket = io.connect()
+    function loaded() {
 
-      function addticker()
-      {
-          let obj = {}
-          obj.id = "input"+(document.getElementsByTagName('li').length - 6)
-          obj.label = "Ticker " + ((document.getElementsByTagName('li').length - 6)+1) + " :"
-          obj.value = ""
-          ogValue.push("")
-          placeTicker(obj)
 
+      let innerhtml = []
+      for (let i = 0; i < 4; i++) {
+        innerhtml.push(document.getElementById("navButtons" + i).innerHTML)
       }
-
-      function save()
-      {
-          let newValues = []
-          for(let i = 0; i < ((document.getElementsByTagName('li').length - 6)); i++)
-          {
-              if(document.getElementById("input"+i).value == ogValue[i])
-              {
-                  newValues.push("")
-              }
-              else
-              {
-                  newValues.push(document.getElementById("input"+i).value)
-              }
-              if(document.getElementById("input"+i).value == "")
-              {
-                  newValues[i] = -1
-              }
+      var once = [true, true, true, true]
+      for (let i = 0; i < 4; i++) {
+        $("#navButtons" + i).on('mouseover', function () {
+          if (once[i]) {
+            if (i != 2)
+              document.getElementById("navButtons" + i).innerHTML += '<br><img style="width: 40px;" src="/data/newBG/toggle rectangle green.svg">'
+            else
+              document.getElementById("navButtons" + i).innerHTML += '<br><img style="width: 100px; height: 6px" src="/data/newBG/toggle rectangle green.svg">'
+            once[i] = false
           }
-          socket.emit("save", newValues)
+          for (let j = 0; j < 4; j++) {
+            if (i != j) {
+              document.getElementById("navButtons" + j).innerHTML = innerhtml[j]
+              once[j] = true
+            }
+          }
+        });
       }
-    </script>
+      socket.emit("showTicker")
+      socket.emit("pridictiondata")
+      document.getElementById("form").style.display = "block"
+      socket.on("showTicker", (data) => {
+        {
+          for (let i = 0; i < data.list.length; i++) {
+            let obj = {}
+            obj.id = "input" + i
+            obj.label = "Ticker " + (i + 1) + " :"
+            obj.value = data.list[i]
+            ogValue.push(data.list[i])
+            placeTicker(obj)
+          }
+        }
+
+      })
+    }
+    function placeTicker(obj) {
+      let mainUl = document.getElementById("ul")
+      let li = document.createElement('li')
+      li.setAttribute("class", "list-group-item")
+      li.setAttribute("style", "background-color: transparent")
+      let label = document.createElement('label')
+      //label.setAttribute("style", "color: black;")
+      label.setAttribute("for", obj.id)
+      label.appendChild(document.createTextNode(obj.label))
+      let textarea = document.createElement('textarea')
+      textarea.setAttribute("class", "form-control mb-4")
+      textarea.setAttribute("id", obj.id)
+      textarea.setAttribute("rows", "1")
+      textarea.appendChild(document.createTextNode(obj.value))
+      li.appendChild(label)
+      li.appendChild(textarea)
+      mainUl.appendChild(li)
+    }
+
+    function addticker() {
+      let obj = {}
+      obj.id = "input" + (document.getElementsByTagName('li').length - 6)
+      obj.label = "Ticker " + ((document.getElementsByTagName('li').length - 6) + 1) + " :"
+      obj.value = ""
+      ogValue.push("")
+      placeTicker(obj)
+
+    }
+
+    function save() {
+      let newValues = []
+      for (let i = 0; i < ((document.getElementsByTagName('li').length - 6)); i++) {
+        if (document.getElementById("input" + i).value == ogValue[i]) {
+          newValues.push("")
+        }
+        else {
+          newValues.push(document.getElementById("input" + i).value)
+        }
+        if (document.getElementById("input" + i).value == "") {
+          newValues[i] = -1
+        }
+      }
+      socket.emit("save", newValues)
+    }
+
+    let once = [true, true]
+
+    let pridictionData
+
+    socket.on("pridictiondata", data => {
+      pridictionData = data
+    })
+
+    let ogValues2 = []
+
+    function loaddata(n) {
+      ogValues2 = []
+      ogValues2.push(pridictionData[n].coin)
+      ogValues2.push(pridictionData[n].review.reviewTitle)
+      ogValues2.push(pridictionData[n].review.reviewText)
+      document.getElementById("coin").style.display = "block"
+      document.getElementById("coinName").innerHTML = "for " + pridictionData[n].coin
+      document.getElementById("input10").value = pridictionData[n].review.reviewTitle
+      document.getElementById("input11").value = pridictionData[n].review.reviewText
+      let table = document.getElementById("tables")
+      table.innerHTML = ""
+      for (let i = 0; i < pridictionData[n].pridictions.length; i++) {
+        ogValues2.push(pridictionData[n].pridictions[i].title)
+        let label = document.createElement('label')
+        label.for = "input3" + i
+        label.appendChild(document.createTextNode('Title :'))
+        let title = document.createElement('textarea')
+        title.setAttribute("class", "form-control mb-3 hms")
+        title.id = "input3" + i
+        title.rows = "1"
+        title.appendChild(document.createTextNode(pridictionData[n].pridictions[i].title))
+        let div = document.createElement('div')
+        div.setAttribute("class", "row")
+        let div2 = document.createElement('div')
+        div2.classList.add("col-md-5")
+        let div3 = document.createElement('div')
+        div3.classList.add("col-md-5")
+        for (let j = 0; j < pridictionData[n].pridictions[i].data.length; j++) {
+          ogValues2.push(pridictionData[n].pridictions[i].data[j])
+          let label1 = document.createElement('label')
+          label1.for = "input3" + i + j
+          let data = document.createElement('textarea')
+          data.setAttribute("class", "form-control mb-3 hms")
+          data.style.maxWidth = "300px"
+          data.id = "input3" + i + j
+          data.rows = "1"
+          data.appendChild(document.createTextNode(pridictionData[n].pridictions[i].data[j]))
+          if (j <= 2) {
+            label1.appendChild(document.createTextNode('R' + (j + 1) + ' :'))
+            div2.appendChild(label1)
+            div2.appendChild(data)
+          }
+          else {
+            label1.appendChild(document.createTextNode('s' + (j - 2) + ' :'))
+            div3.appendChild(label1)
+            div3.appendChild(data)
+          }
+        }
+        table.appendChild(label)
+        table.appendChild(title)
+        div.appendChild(div2)
+        div.appendChild(div3)
+        table.appendChild(div)
+      }
+      console.log(ogValues2)
+    }
+
+    function savePridictions(n) {
+      let newValues = []
+      newValues.push(document.getElementById("coinName").innerHTML.slice(4))
+      newValues.push(document.getElementById("input10").value)
+      newValues.push(document.getElementById("input11").value)
+      for (let i = 0; i < pridictionData[n].pridictions.length; i++) {
+        newValues.push(document.getElementById("input3" + i).value)
+        for (let j = 0; j < pridictionData[n].pridictions[i].data.length; j++) {
+          newValues.push(document.getElementById("input3" + i + j).value)
+        }
+      }
+      for (let i = 0; i < newValues.length; i++) {
+        if (newValues[i] == ogValues2[i] && i != 0) {
+          newValues[i] = ""
+        }
+      }
+      if(newValues.length < document.getElementsByClassName("hms").length)
+      {
+        let i = (newValues.length-3)/7
+        let f = ((document.getElementsByClassName("hms").length - 2)/7)
+        let newValues2 = [newValues[0]]
+        for(i; i < f; i++)
+        {
+          if(document.getElementById("input3"+i).value != "")
+          {
+            newValues2.push(document.getElementById("input3"+i).value)
+            for(let j = 0; j < 6; j++)
+            {
+              if(document.getElementById("input3"+i+j).value != "")
+                newValues2.push(document.getElementById("input3"+i+j).value)
+              else
+              {
+                alert("please fill all values")
+                return
+              }
+            }
+          }
+          else
+          {
+            alert("please fill all values")
+            return
+          }
+        }
+        socket.emit("newPridiction", newValues2)
+        socket.emit("updatePridictions", newValues)
+      }
+      else
+      {
+        socket.emit("updatePridictions", newValues)
+      }
+      
+    }
+
+    let once2 = true
+    let i
+    function addPridictions() {
+      if(once2)
+      {
+        i = Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length -1].id.slice(6,7)) + 1
+        once2 = false
+      }
+      let table = document.getElementById("tables")
+      let label = document.createElement('label')
+      label.for = "input3" + i
+      label.appendChild(document.createTextNode('Title :'))
+      let title = document.createElement('textarea')
+      title.setAttribute("class", "form-control mb-3 hms")
+      title.id = "input3" + i
+      title.rows = "1"
+      let div = document.createElement('div')
+      div.setAttribute("class", "row")
+      let div2 = document.createElement('div')
+      div2.classList.add("col-md-5")
+      let div3 = document.createElement('div')
+      div3.classList.add("col-md-5")
+      for (let j = 0; j < 6; j++) {
+          let label1 = document.createElement('label')
+          label1.for = "input3" + i + j
+          let data = document.createElement('textarea')
+          data.setAttribute("class", "form-control mb-3 hms")
+          data.style.maxWidth = "300px"
+          data.id = "input3" + i + j
+          data.rows = "1"
+          if (j <= 2) {
+            label1.appendChild(document.createTextNode('R' + (j + 1) + ' :'))
+            div2.appendChild(label1)
+            div2.appendChild(data)
+          }
+          else {
+            label1.appendChild(document.createTextNode('S' + (j - 2) + ' :'))
+            div3.appendChild(label1)
+            div3.appendChild(data)
+          }
+        }
+        table.appendChild(label)
+        table.appendChild(title)
+        div.appendChild(div2)
+        div.appendChild(div3)
+        table.appendChild(div)
+      i++
+    }
+  </script>
 </head>
+
 <body class="newbg" onload="loaded()">
-    <div id="content" cla style="min-height: 83.8vh;">
-        <nav class="navbar navbar-expand-md navbar-light newbg" style='background-color: #0099CC; padding-bottom: 0; margin-bottom: 0;padding-top: 0; margin-top: 0;'>
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link active" href="/index"><img src="/data/newBG/Component 8.svg"></a>
-              </li>
-            </ul>
-              <button class="navbar-toggler text-white" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-              </ul>
-                <ul class="nav nav-bar navbar-right">
-                <li class="nav-item active">
-                  <a class="nav-link active text-white heading" style="width: 65px !important;" href="/index" style="font-size: larger;"><strong id="navButtons0" >Home</strong></a>
-                </li>
-                  <li class="nav-item active">
-                    <a class="nav-link text-white heading" style="width: 65px !important;" href="/index" style="font-size: larger;"><strong id="navButtons1" >Blog</strong></a>
-                  </li>
-                <li class="nav-item active">
-                      <a class="nav-link text-white heading" style="width: 120px !important;" href="/Pridictions" style="font-size: larger;"><strong id="navButtons2" >Pridictions</strong></a>
-                  </li>
-                  <li class="nav-item active">
-                      <a class="nav-link text-white heading" style="width: 120px !important;" href=" /contact" style="font-size: larger;"><strong id="navButtons3" >Contact us</strong></a>
-                  </li>
-                <li class="nav-item active">
-                  <a class="nav-link text-white heading" style="width: 65px !important;" href="/quiz" style="font-size: larger;"><strong id="navButtons4" >Quiz</strong></a>
-                </li>
-                </ul>
-              </div>
-        </nav>
-        <div class="container mt-10 mb-5">
-            <P class="display-4">Edit Ticker :</P>
-            <div id="form" style="display: none;">
-                <div class="border border-dark rounded col-md-10" style="max-width: 70vw; padding: 0 !important;">
-                    <ul class="list-group" id="ul">
-                    </ul>
-                    <button class="btn btn-success mt-3 mr-auto" onclick="addticker()">Add Ticker</button>
-                    <button class="btn btn-success mt-3 offset-md-9" onclick="save()">Save</button>
-                </div>                
-            </div>
-        </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <footer class="mt-5 newfooter" style="height: 100px;">
-      <div style="max-width: 99vw;">
-          <div class="float-right" style="padding-right: 50px;">
-            <span class="mb-3 mt-3"><img src="/data/newBG/© Copyright Green Stone 2021.svg"></span>
-          </div>
+  <div id="content" cla style="min-height: 83.8vh;">
+    <nav class="navbar navbar-expand-md navbar-light newbg"
+      style='background-color: #0099CC; padding-bottom: 0; margin-bottom: 0;padding-top: 0; margin-top: 0;'>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link active" href="/index"><img src="/data/newBG/Component 8.svg"></a>
+        </li>
+      </ul>
+      <button class="navbar-toggler text-white" type="button" data-toggle="collapse"
+        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <ul class="nav nav-bar navbar-right">
+          <li class="nav-item active">
+            <a class="nav-link active text-white heading" style="width: 65px !important;" href="/index"
+              style="font-size: larger;"><strong id="navButtons0">Home</strong></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link text-white heading" style="width: 65px !important;" href="/index"
+              style="font-size: larger;"><strong id="navButtons1">Blog</strong></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link text-white heading" style="width: 120px !important;" href="/Pridictions"
+              style="font-size: larger;"><strong id="navButtons2">Pridictions</strong></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link text-white heading" style="width: 120px !important;" href=" /contact"
+              style="font-size: larger;"><strong id="navButtons3">Contact us</strong></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link text-white heading" style="width: 65px !important;" href="/quiz"
+              style="font-size: larger;"><strong id="navButtons4">Quiz</strong></a>
+          </li>
+        </ul>
       </div>
+    </nav>
+    <div class="container mt-10 mb-5">
+      <button class="btn btn-success"
+        onclick="if(once[0]){document.getElementById('editTickers').style.display = 'block'; once[0] = false;}else{document.getElementById('editTickers').style.display = 'none'; once[0] = true;}">Edit
+        Ticker</button>
+      <button class="btn btn-success"
+        onclick="if(once[1]){document.getElementById('editPridictions').style.display = 'block'; once[1] = false;}else{document.getElementById('editPridictions').style.display = 'none'; once[1] = true;}">Edit
+        Pridictions</button>
+      <div id="editTickers" style="display: none;">
+        <P class="display-4 mt-10">Edit Ticker :</P>
+        <div id="form" style="display: none;">
+          <div class="border border-dark rounded col-md-10" style="max-width: 70vw; padding: 0 !important;">
+            <ul class="list-group" id="ul">
+            </ul>
+            <button class="btn btn-success mt-3 mr-auto" onclick="addticker()">Add Ticker</button>
+            <button class="btn btn-success mt-3 offset-md-9" onclick="save()">Save</button>
+          </div>
+        </div>
+      </div>
+      <div id="editPridictions" style="display: none;">
+        <div class="mt-10">
+          <div id="data" class="col-md-10" style="max-width: 70vw; padding: 0 !important;">
+            <div id="banner2" class="mt-5 mb-5 " style="background-color: darkcyan;">
+              <nav class="navbar navbar-expand-md navbar-light">
+                <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse"
+                  data-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2" aria-expanded="false"
+                  aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                  <ul class="navbar-nav col-md-12">
+                    <li class="nav-item active col-md-2 text-center" style="padding: 0; margin: 0;">
+                      <button id="banner20" class="btn btn-info col-md-12"
+                        style="background: transparent; outline: none; border: 0;"
+                        onclick="loaddata(0); document.getElementById('save').onclick = ()=>{savePridictions(0)}">Bitcoin</button>
+                    </li>
+                    <li class="nav-item active col-md-2 text-center" style="padding: 0; margin: 0;">
+                      <button id="banner21" class="btn btn-info col-md-12"
+                        style="background: transparent; outline: none; border: 0;"
+                        onclick="loaddata(1); document.getElementById('save').onclick = ()=>{savePridictions(1)}">Ethereum</button>
+                    </li>
+                    <li class="nav-item active col-md-2 text-center" style="padding: 0; margin: 0;">
+                      <button id="banner22" class="btn btn-info col-md-12"
+                        style="background: transparent; outline: none; border: 0;"
+                        onclick="loaddata(2); document.getElementById('save').onclick = ()=>{savePridictions(2)}">Litecoin</button>
+                    </li>
+                    <li class="nav-item active col-md-2 text-center" style="padding: 0; margin: 0;">
+                      <button id="banner23" class="btn btn-info col-md-12"
+                        style="background: transparent; outline: none; border: 0;"
+                        onclick="loaddata(3); document.getElementById('save').onclick = ()=>{savePridictions(3)}">Cardano</button>
+                    </li>
+                    <li class="nav-item active col-md-2 text-center" style="padding: 0; margin: 0;">
+                      <button id="banner24" class="btn btn-info col-md-12"
+                        style="background: transparent; outline: none; border: 0;"
+                        onclick="loaddata(4); document.getElementById('save').onclick = ()=>{savePridictions(4)}">XRP</button>
+                    </li>
+                    <li class="nav-item active col-md-2 text-center" style="padding: 0; margin: 0;">
+                      <button id="banner25" class="btn btn-info col-md-12"
+                        style="background: transparent; outline: none; border: 0;"
+                        onclick="loaddata(5); document.getElementById('save').onclick = ()=>{savePridictions(5)}">Dogecoin</button>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+            <div id="coin" style="display: none;">
+              <P id="coinName" class="display-4 mt-10"></P>
+              <label for="input10">Edit Review title :</label>
+              <textarea class="form-control mb-3 hms" id="input10" rows="1" placeholder=""></textarea>
+              <label for="input11">Edit Review Text :</label>
+              <textarea class="form-control mb-3 hms" id="input11" rows="3" placeholder=""></textarea>
+              <P class="display-4 mt-5">Tables :</P>
+              <div id="tables">
+              </div>
+            </div>
+            <button id="addTable" class="btn btn-success mt-3" onclick="addPridictions()">Add</button>
+            <button id="save" class="btn btn-success mt-3 float-right" >Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+  <footer class="mt-5 newfooter" style="height: 100px;">
+    <div style="max-width: 99vw;">
+      <div class="float-right" style="padding-right: 50px;">
+        <span class="mb-3 mt-3"><img src="/data/newBG/© Copyright Green Stone 2021.svg"></span>
+      </div>
+    </div>
   </footer>
 </body>
+
 </html>

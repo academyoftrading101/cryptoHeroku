@@ -82,38 +82,110 @@
 	</nav>
   <div class="container" style="min-height: 80.8vh;">
     <div id="table" class="mt-10">
-      <h3 class="display-4">Bitcoin Price Prediction For 2021, 2022, 2023, 2024 And 2025</h3>
-        <!-- <<table id="table1" class="mt-5 text-center d-flex justify-content-center" style="color: #ffffff;">
-            <tr>
-              <th class="border">Month</th>
-              <th class="border">Open</th>
-              <th class="border">Min-Max</th>
-              <th class="border">Close</th>
-              <th class="border">Total,%</th>
-            </tr>
-            <tr class="text-center border">
-              <th></th>
-              <th></th>
-              <th>2021</th>
-              <th></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th class="border"><strong>Mar</strong></th>
-              <th class="border">46334</th>
-              <th class="border">46334-74256</th>
-              <th class="border"><strong>69274</strong></th>
-              <th class="border">49.5%</th>
-            </tr>
-            <tr>
-              <th class="border"><strong>Apr</strong></th>
-              <th class="border">69274</th>
-              <th class="border">53131-85983</th>
-              <th class="border"><strong>80358</strong></th>
-              <th class="border">73.4%</th>
-            </tr>
-          </table>> -->
-          <table class="mt-5 text-center d-flex justify-content-center" style="color: #ffffff;">
+      <h3 class="display-4 text-center">Bitcoin Price Prediction</h3>
+      <p class="mt-5">
+        While we talk About bitcoin, it is the most sought after cryptocurrency that almost everyone is aware of, but while coming to its predictions over price, there is now a specific fundamental way to find it, it is just the Demand and supply factor that will decide its future course of price action. Alternatively, we have TECHNICAL aspects of prediction of price and that is derived from understanding price patterns behavior of the same or other assets class with respect to Price patterns similar to bitcoin.
+      </p>
+      <p>
+        Here we will Mention about the price predictions for Short term and Long Term Perspective on basis of technical charts
+      </p>
+      <h3 class="display-5 mt-5">WEEKLY REVIEW </h3>
+      <p class="mt-5">
+        We are making a Higher High on DAILY charts which depicts the uptrend in price remains intact Following as the support and resistance level for the coming week along with the pivot points
+      </p>
+      <h3 class="display-5 mt-5">Support (S) means : </h3>
+      <p class="mt-5">
+        In the financial world, support means a price level where the price stops falling again and again and takes an upward movement after hitting the price. In simple terms it is the price level where bulls get highly active and they do not let the market fall below this price level. Once the price goes below the support level , a psychological impact can be seen in the chat pattern. Now buyers are not more confident on that particular price on which one part of the market was strongly bullish.It also means that buyers have changed their mind on price (buying level) on that security and demand on that particular price goes down against supply quantity.
+      </p>
+      <h3 class="display-5 mt-5">Resistance (R) means</h3>
+      <p class="mt-5">
+        Resistance is just opposite to the support level. It is the price level from where the price of a particular stock, index or financial security starts to decline again and again. Most of the time we can see that price never breaks this level and goes upward. It is the price level where bears are hyperactive and start aggressive selling . This kind of situation does not let the market up easily. Once this resistance level is broken up, an upward breakout can be seen. But one should be careful with this breakout. It may be a fake breakout. Do not go bullish until you satisfy that the price which was resistance has become a support now and price is not going downward from this level.
+      </p>
+      <h3 class="display-5 mt-5">Why is there multiple supports and resistance ?</h3>
+      <p class="mt-5">
+        Many traders ask the same question as to why there are multiple resistance and support levels . we can understand it in simple terms.
+      </p>
+      <p>
+        Let the price range as an orbit and stock price as a satellite which follows a range or path . if anyhow the satellite left his range or orbit .It is difficult for the satellite to come back in that range again. Similarly happens in the technical analysis. For a security it is hard to break its range which is its support and resistance level.Support and resistance create a price range in which stock swings. Once a stock moves beyond this support and resistance range , whether it is in upward movement or downward movement, a new class of range is set up. With change in price range , traders' price predictions also change and it causes multiple support and resistance levels in the market.
+      </p>
+      <input type="file" id="fileUpload" />
+      <input type="button" id="upload" value="Upload" onclick="Upload()" />
+      <hr />
+      <div id="dvExcel"></div>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+      <script type="text/javascript">
+          function Upload() {
+              var fileUpload = document.getElementById("fileUpload");
+              var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+              if (regex.test(fileUpload.value.toLowerCase())) {
+                  if (typeof (FileReader) != "undefined") {
+                      var reader = new FileReader();
+                      if (reader.readAsBinaryString) {
+                          reader.onload = function (e) {
+                              ProcessExcel(e.target.result);
+                          };
+                          reader.readAsBinaryString(fileUpload.files[0]);
+                      } else {
+                          //For IE Browser.
+                          reader.onload = function (e) {
+                              var data = "";
+                              var bytes = new Uint8Array(e.target.result);
+                              for (var i = 0; i < bytes.byteLength; i++) {
+                                  data += String.fromCharCode(bytes[i]);
+                              }
+                              ProcessExcel(data);
+                          };
+                          reader.readAsArrayBuffer(fileUpload.files[0]);
+                      }
+                  } else {
+                      alert("This browser does not support HTML5.");
+                  }
+              } else {
+                  alert("Please upload a valid Excel file.");
+              }
+          };
+          function ProcessExcel(data) {
+              //Read the Excel File data.
+              var workbook = XLSX.read(data, {
+                  type: 'binary'
+              });
+      
+              //Fetch the name of First Sheet.
+              var firstSheet = workbook.SheetNames[0];
+      
+              //Read all rows from First Sheet into an JSON array.
+              var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
+      
+              //Create a HTML Table element.
+              var table = document.createElement("table");
+              table.border = "1";
+              table.setAttribute("class", "text-white")
+      
+              //Add the header row.
+              var row = table.insertRow(-1);
+      
+              //Add the header cells.
+      
+              //Add the data rows from Excel file.
+              for (var i = 0; i < excelRows.length; i++) {
+                  //Add the data row.
+                  var row = table.insertRow(-1);
+      
+                  //Add the data cells.
+                  var cell = row.insertCell(-1);
+                  cell.innerHTML = excelRows[i].A;
+      
+                  cell = row.insertCell(-1);
+                  cell.innerHTML = excelRows[i].B;
+              }
+      
+              var dvExcel = document.getElementById("dvExcel");
+              dvExcel.innerHTML = "";
+              dvExcel.appendChild(table);
+          };
+      </script>
+          <!-- <table class="mt-5 text-center d-flex justify-content-center" style="color: #ffffff;">
             <tbody >
               <tr height="20" style="height: 15pt"> 
 
@@ -507,7 +579,7 @@
              
             <td align="center" style="border-color: #cccccc; border-style: solid; border-width: 1px">321%</td></tr>
           </tbody>
-        </table>
+        </table> -->
     </div>
   </div>
   <footer class="mt-5 newfooter" style="background-color: gray; height: 100px;">
