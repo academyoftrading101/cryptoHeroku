@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
+    <title>SIP Calculator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
         integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
         crossorigin="anonymous"></script>
@@ -42,18 +42,18 @@
                 slider[i] = document.getElementById("slider" + i);
                 output[i] = document.getElementById("input" + i);
                 if (i == 0)
-                    output[i].value = slider[i].value * 100000;
+                    output[i].value = slider[i].value * 500;
                 else
                     output[i].value = slider[i].value;
                 slider[i].oninput = function () {
                     if (i == 0)
-                        output[i].value = slider[i].value * 100000;
+                        output[i].value = slider[i].value * 500;
                     else
                         output[i].value = slider[i].value;
                 }
                 output[i].oninput = () => {
                     if (i == 0)
-                        slider[i].value = output[i].value / 100000
+                        slider[i].value = output[i].value / 500
                     else
                         slider[i].value = output[i].value
                 }
@@ -66,19 +66,19 @@
             let n = Number((document.getElementById("input2").value * 12))
             let r2 = (Number(document.getElementById("input1").value) / (12 * 100))
             let r = r2 + 1
-            let emi = Math.round(p * r2 * (Math.pow(r, n) / (Math.pow(r, n) - 1)))
+            let emi = Math.round(p * r * ((Math.pow(r, n) - 1)/ r2))
             document.getElementById("result").style.display = "flex"
-
-            let a = emi, b = -(p - (emi * n)), c = p, d = (emi * n)
+            console.log(emi)
+            let a = p*n, b = emi-a, c = emi
             document.getElementById("myChart").remove()
             let canvas = document.createElement('canvas')
             canvas.setAttribute("id", "myChart")
             document.getElementById("pie").appendChild(canvas)
             var ctx = document.getElementById('myChart').getContext('2d');
             let data = {
-                labels: ['Principal ', 'Interest '],
+                labels: ['Invested Amount ', 'Profit'],
                 datasets: [{
-                    data: [c, b],
+                    data: [a, b],
                     backgroundColor: ["rgb(54, 162, 235)", "rgb(255, 99, 132)"]
                 }]
             };
@@ -95,8 +95,8 @@
                 }
             });
 
-            let vars = [a, b, c, d]
-            for (let i = 0; i < 4; i++) {
+            let vars = [a, b, c]
+            for (let i = 0; i < 3; i++) {
                 x = vars[i].toString();
                 var lastThree = x.substring(x.length - 3);
                 var otherNumbers = x.substring(0, x.length - 3);
@@ -105,70 +105,69 @@
                 vars[i] = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
                 document.getElementById("result" + i).innerHTML = '<i class="fas fa-rupee-sign"> </i>' + vars[i]
             }
-            let pr = [] ,int = [], rem = [p]
-            document.getElementById("tbody").innerHTML = ""
-            document.getElementById("monthly").style.display = "block"
+            // let pr = [] ,int = [], rem = [p]
+            // document.getElementById("tbody").innerHTML = ""
+            // document.getElementById("monthly").style.display = "block"
 
 
-            let date = new Date()
-            monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-            let j, yr
-            for (let i = 0; i < n; i++)
-            {
-                int.push(Math.round(rem[i]*r2))
-                pr.push(emi - int[i])
-                rem.push(rem[i] - pr[i])
+            // let date = new Date()
+            // monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            // let j, yr
+            // for (let i = 0; i < n; i++)
+            // {
+            //     int.push(Math.round(rem[i]*r2))
+            //     pr.push(emi - int[i])
+            //     rem.push(rem[i] - pr[i])
 
-                let vars2 = [pr[i], int[i], emi, rem[i+1]]
-                let vars3 = []
-                for (let i = 0; i < 4; i++) {
-                    x = vars2[i].toString();
-                    var lastThree = x.substring(x.length - 3);
-                    var otherNumbers = x.substring(0, x.length - 3);
-                    if (otherNumbers != '')
-                        lastThree = ',' + lastThree;
-                    vars3.push(otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree)
-                }
-                let tbody = document.getElementById("tbody")
-                let tr = document.createElement('tr')
-                let th = document.createElement('th')
-                th.scope = "row"
-                if(i == 0)
-                {
-                    j = Number(date.getMonth()); 
-                    yr = date.getFullYear()
-                }
-                th.appendChild(document.createTextNode(monthArray[j] + " " + yr))
-                j++
-                if(j == 12)
-                {
-                    j = 0
-                    yr = date.getFullYear() + Math.ceil(i/12)
-                }
-                let td0 = document.createElement('td')
-                td0.innerHTML = '<i class="fas fa-rupee-sign" style="padding-top: 11px; color: gray;"></i>'
-                td0.appendChild(document.createTextNode(vars3[0]))
-                let td1 = document.createElement('td')
-                td1.innerHTML = '<i class="fas fa-rupee-sign" style="padding-top: 11px; color: gray;"></i>'
-                td1.appendChild(document.createTextNode(vars3[1]))
-                let td2 = document.createElement('td')
-                td2.innerHTML = '<i class="fas fa-rupee-sign" style="padding-top: 11px; color: gray;"></i>'
-                td2.appendChild(document.createTextNode(vars3[2]))
-                let td3 = document.createElement('td')
-                td3.innerHTML = '<i class="fas fa-rupee-sign" style="padding-top: 11px; color: gray;"></i>'
-                if(rem[i+1] < 0)
-                    td3.appendChild(document.createTextNode("0"))
-                else
-                    td3.appendChild(document.createTextNode(vars3[3]))
-                tr.appendChild(th)
-                tr.appendChild(td0)
-                tr.appendChild(td1)
-                tr.appendChild(td2)
-                tr.appendChild(td3)
-                tbody.appendChild(tr)
-                //console.log((i+1) + "   " + pr[i] + "   " + int[i] + "   " + rem[i+1])
-            }
-        
+            //     let vars2 = [pr[i], int[i], emi, rem[i+1]]
+            //     let vars3 = []
+            //     for (let i = 0; i < 4; i++) {
+            //         x = vars2[i].toString();
+            //         var lastThree = x.substring(x.length - 3);
+            //         var otherNumbers = x.substring(0, x.length - 3);
+            //         if (otherNumbers != '')
+            //             lastThree = ',' + lastThree;
+            //         vars3.push(otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree)
+            //     }
+            //     let tbody = document.getElementById("tbody")
+            //     let tr = document.createElement('tr')
+            //     let th = document.createElement('th')
+            //     th.scope = "row"
+            //     if(i == 0)
+            //     {
+            //         j = Number(date.getMonth()); 
+            //         yr = date.getFullYear()
+            //     }
+            //     th.appendChild(document.createTextNode(monthArray[j] + " " + yr))
+            //     j++
+            //     if(j == 12)
+            //     {
+            //         j = 0
+            //         yr = date.getFullYear() + Math.ceil(i/12)
+            //     }
+            //     let td0 = document.createElement('td')
+            //     td0.innerHTML = '<i class="fas fa-rupee-sign" style="padding-top: 11px; color: gray;"></i>'
+            //     td0.appendChild(document.createTextNode(vars3[0]))
+            //     let td1 = document.createElement('td')
+            //     td1.innerHTML = '<i class="fas fa-rupee-sign" style="padding-top: 11px; color: gray;"></i>'
+            //     td1.appendChild(document.createTextNode(vars3[1]))
+            //     let td2 = document.createElement('td')
+            //     td2.innerHTML = '<i class="fas fa-rupee-sign" style="padding-top: 11px; color: gray;"></i>'
+            //     td2.appendChild(document.createTextNode(vars3[2]))
+            //     let td3 = document.createElement('td')
+            //     td3.innerHTML = '<i class="fas fa-rupee-sign" style="padding-top: 11px; color: gray;"></i>'
+            //     if(rem[i+1] < 0)
+            //         td3.appendChild(document.createTextNode("0"))
+            //     else
+            //         td3.appendChild(document.createTextNode(vars3[3]))
+            //     tr.appendChild(th)
+            //     tr.appendChild(td0)
+            //     tr.appendChild(td1)
+            //     tr.appendChild(td2)
+            //     tr.appendChild(td3)
+            //     tbody.appendChild(tr)
+            //     //console.log((i+1) + "   " + pr[i] + "   " + int[i] + "   " + rem[i+1])
+            // }
         }
     </script>
 </head>
@@ -220,7 +219,7 @@
                 <div id="sliders" class="col-md-6">
                     <form>
                         <div class="form-group row">
-                            <label for="amount" class="col-sm-6 col-form-label">Loan Amount : </label>
+                            <label for="amount" class="col-sm-6 col-form-label">Monthly Investment : </label>
                             <div class="offset-sm-3 col-sm-3">
                                 <span class="d-flex"><i class="text-white fas fa-rupee-sign"
                                         style="padding-top: 11px;"></i><input type="number"
@@ -228,23 +227,25 @@
                             </div>
                         </div>
                         <div class="slidecontainer">
-                            <input type="range" min="1" max="100" value="1" class="slider" id="slider0">
+                            <input type="range" min="1" max="400" value="20" class="slider" id="slider0">
                         </div>
                         <div class="form-group row mt-5">
-                            <label for="input1" class="col-sm-6 col-form-label">Rate of Interest (P.A, in %) : </label>
+                            <label for="input1" class="col-sm-6 col-form-label">Expected Return Rate : </label>
                             <div class="offset-sm-4 col-sm-2">
+                                <span class="d-flex">
                                 <input type="number" class="transparent text-white form-control" id="input1"
-                                    placeholder="">
+                                    placeholder=""><p style="padding-top: 11px;"> %</p></span>
                             </div>
                         </div>
                         <div class="slidecontainer">
                             <input type="range" min="1" max="30" value="10" class="slider" id="slider1">
                         </div>
                         <div class="form-group row mt-5">
-                            <label for="input2" class="col-sm-6 col-form-label">Loan Tenure (in Yrs) : </label>
+                            <label for="input2" class="col-sm-6 col-form-label">Time Period : </label>
                             <div class="offset-sm-4 col-sm-2">
-                                <input type="number" class="transparent text-white form-control" id="input2"
-                                    placeholder="">
+                                <span class="d-flex">
+                                    <input type="number" class="transparent text-white form-control" id="input2"
+                                        placeholder=""><p style="padding-top: 11px;">Yr</p></span>
                             </div>
                         </div>
                         <div class="slidecontainer">
@@ -253,16 +254,14 @@
                     </form>
                     <div id="result" class="mt-10 row" style="display: none;">
                         <div class="col-sm-6">
-                            <p>Monthly EMI</p>
+                            <p>Invested Amount</p>
                             <p><strong id="result0"></strong></p>
-                            <p>Total Interest</p>
+                            <p>Estimated Profit</p>
                             <p><strong id="result1"></strong></p>
                         </div>
                         <div class="col-sm-6">
-                            <p>Principal Amount</p>
+                            <p>Total Return Value</p>
                             <p><strong id="result2"></strong></p>
-                            <p>Total Amount</p>
-                            <p><strong id="result3"></strong></p>
                         </div>
                     </div>
                     <button class="btn btn-success mt-10" onclick="calc()">Calculate</button>
@@ -272,9 +271,9 @@
                     <script>
                         var ctx = document.getElementById('myChart').getContext('2d');
                         let data = {
-                            labels: ['Principal ', 'Interest '],
+                            labels: ['Invested Amount ', 'Profit'],
                             datasets: [{
-                                data: [100000, 5504],
+                                data: [120000, 6703],
                                 backgroundColor: ["rgb(54, 162, 235)", "rgb(255, 99, 132)"]
                             }]
                         };

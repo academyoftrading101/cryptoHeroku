@@ -47,6 +47,12 @@ app.get('/calculator', (req, res) =>
     
 }); 
 
+app.get('/calculator2', (req, res) =>
+{
+    res.sendFile(__dirname + '/calculator2.html');
+    
+}); 
+
 app.get('/contact', (req, res) =>
 {
     res.sendFile(__dirname + '/contact.html');
