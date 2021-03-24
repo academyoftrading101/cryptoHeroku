@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const pridiction = new mongoose.Schema({
+const prediction = new mongoose.Schema({
     coin:{
         type:String
     },
@@ -12,7 +12,7 @@ const pridiction = new mongoose.Schema({
             type:String
         }
     },
-    pridictions:[{
+    predictions:[{
         title:{
             type:String
         },
@@ -24,4 +24,4 @@ const pridiction = new mongoose.Schema({
 
 
 
-module.exports = Pridictions = mongoose.model('pridiction', pridiction, 'pridictions');
+module.exports = Predictions = mongoose.model('prediction', prediction, 'predictions');

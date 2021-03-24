@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const serv = require('http').createServer(app);
 const Ticker = require('./schemas/ticker')
-const Pridictions = require('./schemas/pridictions')
+const Predictions = require('./schemas/predictions')
 
 
 const mongoose = require('mongoose');
@@ -62,9 +62,9 @@ app.get('/contact', (req, res) =>
     
 }); 
 
-app.get('/Pridictions', (req, res) =>
+app.get('/Predictions', (req, res) =>
 {
-    res.sendFile(__dirname + '/Pridictions.html');
+    res.sendFile(__dirname + '/Predictions.html');
     
 }); 
 
@@ -120,15 +120,15 @@ io.on('connection', function(socket){
         await tickerData.save()
     })
 
-    socket.on("pridictiondata", async ()=>{
-        let pridictiondata = await Pridictions.find({})
-        socket.emit("pridictiondata", pridictiondata)
+    socket.on("predictiondata", async (n)=>{
+        let predictiondata = await Predictions.find({})
+        socket.emit("predictiondata", predictiondata)
     })
 
-    socket.on("updatePridictions", async (d)=>{
+    socket.on("updatePredictions", async (d)=>{
         let test = ["review", "reviewTitle", "reviewText", "title", "data", "data", "data", "data", "data", "data"]
-        let test3 = ["a", "b", "pridictions"]
-        let test2 = await Pridictions.findOne({"coin":d[0]})
+        let test3 = ["a", "b", "predictions"]
+        let test2 = await Predictions.findOne({"coin":d[0]})
         let once = true
         for(let i = 1; i < d.length; i++)
         {
@@ -145,7 +145,7 @@ io.on('connection', function(socket){
                         test2[test3[2]][String(Math.floor((i-3)/7))][test[(i - ((Math.floor((i-3)/7))*7))]] = d[i]
                     else
                         test2[test3[2]][String(Math.floor((i-3)/7))][test[(i - ((Math.floor((i-3)/7))*7))]][(((i-3)%7)-1)] = d[i]
-                    test2.markModified('pridictions')
+                    test2.markModified('predictions')
                     test2.markModified('data')
                 }
             }
@@ -162,7 +162,7 @@ io.on('connection', function(socket){
                         once = false
                         test2[test3[2]].splice(String(Math.floor((i-3)/7)), 1)
                         //console.log(String(Math.floor((i-3)/7)) + "   " + test[(i - ((Math.floor((i-3)/7))*7))] + "   " + (((i-3)%7)-1))
-                        test2.markModified('pridictions')
+                        test2.markModified('predictions')
                         test2.markModified('data')
                         console.log(test2[test3[2]])
                     }
@@ -172,15 +172,15 @@ io.on('connection', function(socket){
         await test2.save()
     })
 
-    socket.on("newPridiction", async (d)=>{
-        let test2 = await Pridictions.findOne({"coin":d[0]})
+    socket.on("newPrediction", async (d)=>{
+        let test2 = await Predictions.findOne({"coin":d[0]})
         for(let i = 1; i < d.length; i = i+7)
         {
             let obj = {}
             obj.title = d[i]
             obj.data = [d[i+1], d[i+2], d[i+3], d[i+4], d[i+5], d[i+6]]
-            test2.pridictions.push(obj)
-            test2.markModified('pridictions')
+            test2.predictions.push(obj)
+            test2.markModified('predictions')
         }
         
         await test2.save()

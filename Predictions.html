@@ -10,98 +10,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js"
     integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA=="
     crossorigin="anonymous"></script>
-    <title>Bitcoin Pridictions</title>
+    <title>Bitcoin Predictions</title>
 </head>
-<body class="newbg" onload="loaded();">
+<body class="newbg" onload="loaded('Bitcoin');">
 	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="/style/style.css">
-  <script>
-    socket = io.connect()
-    socket.emit("pridictiondata")
-    function loaded()
-    {
-      //$('#modal').modal('toggle')
-      let innerhtml = []
-      for(let i = 0; i < 5; i++)
-      {
-        innerhtml.push(document.getElementById("navButtons"+i).innerHTML)
-      }
-      var once = [true, true, true, true, true]
-      for(let i = 0; i < 5; i++)
-      {
-        $("#navButtons"+i).on('mouseover', function() 
-        { 
-          if(once[i])
-          {
-            if(i != 2 || i != 3)
-            document.getElementById("navButtons"+i).innerHTML += '<br><img style="width: 40px;" src="/data/newBG/toggle rectangle green.svg">'
-            else
-            document.getElementById("navButtons"+i).innerHTML += '<br><img style="width: 100px; height: 6px" src="/data/newBG/toggle rectangle green.svg">'
-            once[i] = false
-          }
-          for(let j = 0; j < 5; j++)
-          {
-            if(i != j)
-            {
-              document.getElementById("navButtons"+j).innerHTML = innerhtml[j]
-              once[j] = true
-            }
-          }
-        });
-      }
-      
-      socket.on("pridictiondata", (data)=>{
-        document.getElementById("reviewTitle").innerHTML = data[0].review.reviewTitle
-        document.getElementById("reviewText").innerHTML = data[0].review.reviewText
-        for(let i = 0; i < data[0].pridictions.length; i++)
-        {
-          placeTable(data[0].pridictions[i])
-        }
-      })
-    }
-
-    function placeTable(obj)
-    {
-      let box = document.getElementById("pridictionBox")
-      let title = document.createElement("h3")
-      title.setAttribute("class", "display-5 mt-5")
-      title.innerHTML = obj.title
-      let table = document.createElement('table')
-      table.setAttribute("class", "mt-2 text-center d-flex justify-content-center")
-      table.setAttribute("style", "color: #ffffff;")
-      let tbody = document.createElement('tbody')
-      for(let i = 0; i < 3; i++)
-      {
-        let tr = document.createElement('tr')
-        let td0 = document.createElement('td')
-        td0.classList.add("td")
-        td0.align="center"
-        td0.innerHTML = "R"+(i+1)
-        let td1 = document.createElement('td')
-        td1.classList.add("td")
-        td1.align="center"
-        td1.innerHTML = obj.data[i]
-        let td2 = document.createElement('td')
-        td2.classList.add("td")
-        td2.align="center"
-        td2.innerHTML = "S"+(i+1)
-        let td3 = document.createElement('td')
-        td3.classList.add("td")
-        td3.align="center"
-        td3.innerHTML = obj.data[i+3]
-        tr.appendChild(td0)
-        tr.appendChild(td1)
-        tr.appendChild(td2)
-        tr.appendChild(td3)
-        tbody.appendChild(tr)
-      }
-      
-      table.appendChild(tbody)
-      box.appendChild(title)
-      box.appendChild(table)
-    }
-  </script>
+  <script src="/scripts/prediction.js"></script>
 	
   <nav class="navbar navbar-expand-md navbar-light newbg" style='background-color: #0099CC; padding-bottom: 0; margin-bottom: 0;padding-top: 0; margin-top: 0;'>
     <ul class="navbar-nav mr-auto">
@@ -117,19 +32,37 @@
       </ul>
 	    <ul class="nav nav-bar navbar-right">
         <li class="nav-item active">
-          <a class="nav-link active text-white heading" style="width: 65px !important;" href="/index" style="font-size: larger;"><strong id="navButtons0" >Home</strong></a>
+          <a class="nav-link active text-white heading" style="width: 65px !important; font-size: larger" href="/index" ><strong id="navButtons0" >Home</strong></a>
         </li>
 	      <li class="nav-item active">
-	        <a class="nav-link text-white heading" style="width: 65px !important;" href="/index" style="font-size: larger;"><strong id="navButtons1" >Blog</strong></a>
+	        <a class="nav-link text-white heading" style="width: 65px !important; font-size: larger" href="/index" ><strong id="navButtons1" >Blog</strong></a>
 	      </li>
-        <li class="nav-item active">
-	      	<a class="nav-link text-white heading" style="width: 120px !important;" href="/Pridictions" style="font-size: larger;"><strong id="navButtons2" >Pridictions</strong></a>
-	      </li>
+        <!-- <li class="nav-item active">
+	      	<a class="nav-link text-white heading" style="width: 120px !important; font-size: larger" href="/Predictions" ><strong id="navButtons2" >Predictions</strong></a>
+	      </li> -->
+        <li class="nav-item dropdown">
+          <a class="nav-link text-white heading dropdown-toggle" href="#" id="navbarDropdown" style="width: 150px !important; font-size: larger" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <strong id="navButtons2" >Predictions</strong>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/Predictions">Bitcoin</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Ethereum</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Litecoin</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Cardano</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">XRP</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Dogecoin</a>
+          </div>
+        </li>
 	      <li class="nav-item active">
-	      	<a class="nav-link text-white heading" style="width: 120px !important;" href=" /contact" style="font-size: larger;"><strong id="navButtons3" >Contact us</strong></a>
+	      	<a class="nav-link text-white heading" style="width: 120px !important; font-size: larger" href=" /contact" ><strong id="navButtons3" >Contact us</strong></a>
 	      </li>
         <li class="nav-item active">
-          <a class="nav-link text-white heading" style="width: 65px !important;" href="/quiz" style="font-size: larger;"><strong id="navButtons4" >Quiz</strong></a>
+          <a class="nav-link text-white heading" style="width: 65px !important; font-size: larger" href="/quiz" ><strong id="navButtons4" >Quiz</strong></a>
         </li>
 	    </ul>
 	  </div>
@@ -161,8 +94,8 @@
         Let the price range as an orbit and stock price as a satellite which follows a range or path . if anyhow the satellite left his range or orbit .It is difficult for the satellite to come back in that range again. Similarly happens in the technical analysis. For a security it is hard to break its range which is its support and resistance level.Support and resistance create a price range in which stock swings. Once a stock moves beyond this support and resistance range , whether it is in upward movement or downward movement, a new class of range is set up. With change in price range , traders' price predictions also change and it causes multiple support and resistance levels in the market.
       </p>
 
-      <h3 class="display-4 mt-5">Pridictions :</h3>
-      <div id="pridictionBox" class="mt-5">
+      <h3 class="display-4 mt-5">Predictions :</h3>
+      <div id="predictionBox" class="mt-5">
 
       </div>
           <!-- <table class="mt-5 text-center d-flex justify-content-center" style="color: #ffffff;">
