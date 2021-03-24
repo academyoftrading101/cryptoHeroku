@@ -28,8 +28,8 @@ function loaded(n) {
     }
 
     socket.on("predictiondata", (data) => {
-        document.getElementById("reviewTitle").innerHTML = data.review.reviewTitle
-        document.getElementById("reviewText").innerHTML = data.review.reviewText
+        //document.getElementById("reviewTitle").innerHTML = data.review.reviewTitle
+        //document.getElementById("reviewText").innerHTML = data.review.reviewText
         for (let i = 0; i < data.predictions.length; i++) {
             placeTable(data.predictions[i])
         }
