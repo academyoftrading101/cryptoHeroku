@@ -3,6 +3,7 @@ const app = express();
 const serv = require('http').createServer(app);
 const Ticker = require('./schemas/ticker')
 const Predictions = require('./schemas/predictions')
+const Admin = require('./schemas/admin')
 
 
 const mongoose = require('mongoose');
@@ -62,16 +63,25 @@ app.get('/contact', (req, res) =>
     
 }); 
 
-app.get('/Predictions', (req, res) =>
+app.get('/Bitcoins', (req, res) =>
 {
-    res.sendFile(__dirname + '/Predictions.html');
-    
+    res.sendFile(__dirname + '/Bitcoins.html');
+}); 
+
+app.get('/admin%20success', (req, res) =>
+{
+    res.sendFile(__dirname + '/adminRedirected.html');
 }); 
 
 app.get('/quiz', (req, res) =>
 {
     res.sendFile(__dirname + '/quiz.html');
 }); 
+
+app.delete('/admin%20success', function (req, res) {
+    res.send('DELETE request to homepage')
+    console.log('deleted ?')
+  })
 
 app.use(express.static(__dirname + '/public'));
 
@@ -81,6 +91,32 @@ var io = require('socket.io')(serv,{});
 
 io.on('connection', function(socket){
     console.log("socket connected")
+
+    socket.on("tryAdminLogin", async (email, pass, b)=>{
+        Admin.find({"email":email}, 
+            async function(err, data) {
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    if(data.length == 0){
+                        socket.emit("adminLogInFailed", "email");
+                        return
+                    }
+                    else
+                    {
+                        if(data[0].password == pass || b)
+                        {
+                            data[0].loggedIn = true;
+                            data[0].save();
+                            socket.emit("adminLoggedIn");
+                        }
+                        else
+                            socket.emit("adminLogInFailed", "password");
+                    }
+                }
+        });
+    })
 
     socket.on("showTicker", async ()=>{
         let tickerData = await Ticker.findOne({})
@@ -118,21 +154,21 @@ io.on('connection', function(socket){
             }
         }
         await tickerData.save()
+        socket.emit("savedTicker")
     })
 
     socket.on("predictiondata", async (n)=>{
-        let predictiondata = await Predictions.find({})
+        let predictiondata = await Predictions.findOne({"coin":n})
         socket.emit("predictiondata", predictiondata)
     })
 
     socket.on("updatePredictions", async (d)=>{
         let test = ["review", "reviewTitle", "reviewText", "title", "data", "data", "data", "data", "data", "data"]
-        let test3 = ["a", "b", "predictions"]
         let test2 = await Predictions.findOne({"coin":d[0]})
         let once = true
         for(let i = 1; i < d.length; i++)
         {
-            if(d[i] != "")
+            if(d[i] != "-1")
             {
                 if(i <= 2)
                 {
@@ -140,16 +176,15 @@ io.on('connection', function(socket){
                 }
                 else
                 {
-                    //console.log(String(Math.floor((i-3)/7)) + "   " + test[(i - ((Math.floor((i-3)/7))*7))] + "   " + (((i-3)%7)-1))
                     if((((i-3)%7)-1) == -1)
-                        test2[test3[2]][String(Math.floor((i-3)/7))][test[(i - ((Math.floor((i-3)/7))*7))]] = d[i]
+                        test2["predictions"][Number(Math.floor((i-3)/7))][test[(i - ((Math.floor((i-3)/7))*7))]] = d[i]
                     else
-                        test2[test3[2]][String(Math.floor((i-3)/7))][test[(i - ((Math.floor((i-3)/7))*7))]][(((i-3)%7)-1)] = d[i]
+                        test2["predictions"][Number(Math.floor((i-3)/7))][test[(i - ((Math.floor((i-3)/7))*7))]][(((i-3)%7)-1)] = d[i]
                     test2.markModified('predictions')
                     test2.markModified('data')
                 }
             }
-            else
+            else if(d[i] == "")
             {
                 if(i <= 2)
                 {
@@ -160,16 +195,16 @@ io.on('connection', function(socket){
                     if(once)
                     {
                         once = false
-                        test2[test3[2]].splice(String(Math.floor((i-3)/7)), 1)
+                        test2["predictions"].splice(String(Math.floor((i-3)/7)), 1)
                         //console.log(String(Math.floor((i-3)/7)) + "   " + test[(i - ((Math.floor((i-3)/7))*7))] + "   " + (((i-3)%7)-1))
                         test2.markModified('predictions')
                         test2.markModified('data')
-                        console.log(test2[test3[2]])
                     }
                 }
             }
         }
         await test2.save()
+        socket.emit("savedPrediction", "updated")
     })
 
     socket.on("newPrediction", async (d)=>{
@@ -184,8 +219,8 @@ io.on('connection', function(socket){
         }
         
         await test2.save()
+        socket.emit("savedPrediction", "added")
     })
-
     
     socket.on("getTicker", async ()=>{
         let tickerData = await Ticker.findOne({})

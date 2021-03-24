@@ -1,6 +1,19 @@
 
 let ogValue = []
 socket = io.connect()
+
+
+function tryLogin(e, p, b)
+{
+    document.getElementById("modal-title").innerHTML = "wait";
+    let text = "Signing in please wait"
+    document.getElementById("modal-body").innerHTML = '<div class="d-flex inline-flex"><div><p class="display-4 mr-4" style="color: black; font-size:medium; margin-bottom:0; margin-top:0.1rem">'+text+'</p></div><div class="spinner-border" role="status"><span class="sr-only"></span></div></div>'
+    $('#modal').modal('toggle');
+    socket.emit("tryAdminLogin", e, p, b);
+}
+
+
+
 function loaded() {
 
 
@@ -27,7 +40,7 @@ function loaded() {
         });
     }
     socket.emit("showTicker")
-    socket.emit("predictiondata", )
+    
     document.getElementById("form").style.display = "block"
     socket.on("showTicker", (data) => {
         {
@@ -73,6 +86,10 @@ function addticker() {
 }
 
 function save() {
+    document.getElementById("modal-title").innerHTML = "wait";
+    let text = "saving changes please wait"
+    document.getElementById("modal-body").innerHTML = '<div class="d-flex inline-flex"><div><p class="display-4 mr-4" style="color: black; font-size:medium; margin-bottom:0; margin-top:0.1rem">'+text+'</p></div><div class="spinner-border" role="status"><span class="sr-only"></span></div></div>'
+    $('#modal').modal('toggle');
     let newValues = []
     for (let i = 0; i < ((document.getElementsByTagName('li').length - 6)); i++) {
         if (document.getElementById("input" + i).value == ogValue[i]) {
@@ -86,79 +103,95 @@ function save() {
         }
     }
     socket.emit("save", newValues)
+    socket.on("savedTicker", ()=>{
+        document.getElementById("modal-title").innerHTML = "Success";
+        document.getElementById("modal-body").innerHTML = "Successfully saved changes";
+        let timeOut = setTimeout(() => {
+            $('#modal').modal('toggle');
+        }, 2000);
+        $('#modal').on('hidden.bs.modal', function (e) {
+            clearInterval(timeOut)
+        })
+    })
 }
 
 let once = [true, true]
 
 let predictionData
 
-socket.on("predictiondata", data => {
-    predictionData = data
-})
+
 
 let ogValues2 = []
 
-let o = {0:Bitcoin, 1:E}
+let o = {0:"Bitcoin", 1:"Ethereum", 2:"Litecoin", 3:"Cardano", 4:"XRP", 5:"Dogecoin"}
 
 function loaddata(n) {
-    ogValues2 = []
-    ogValues2.push(predictionData.coin)
-    ogValues2.push(predictionData.review.reviewTitle)
-    ogValues2.push(predictionData.review.reviewText)
-    document.getElementById("coin").style.display = "block"
-    document.getElementById("coinName").innerHTML = "for " + predictionData.coin
-    document.getElementById("input10").value = predictionData.review.reviewTitle
-    document.getElementById("input11").value = predictionData.review.reviewText
-    let table = document.getElementById("tables")
-    table.innerHTML = ""
-    for (let i = 0; i < predictionData.predictions.length; i++) {
-        ogValues2.push(predictionData.predictions[i].title)
-        let label = document.createElement('label')
-        label.for = "input3" + i
-        label.appendChild(document.createTextNode('Title :'))
-        let title = document.createElement('textarea')
-        title.setAttribute("class", "form-control mb-3 hms")
-        title.id = "input3" + i
-        title.rows = "1"
-        title.appendChild(document.createTextNode(predictionData.predictions[i].title))
-        let div = document.createElement('div')
-        div.setAttribute("class", "row")
-        let div2 = document.createElement('div')
-        div2.classList.add("col-md-5")
-        let div3 = document.createElement('div')
-        div3.classList.add("col-md-5")
-        for (let j = 0; j < predictionData.predictions[i].data.length; j++) {
-            ogValues2.push(predictionData.predictions[i].data[j])
-            let label1 = document.createElement('label')
-            label1.for = "input3" + i + j
-            let data = document.createElement('textarea')
-            data.setAttribute("class", "form-control mb-3 hms")
-            data.style.maxWidth = "300px"
-            data.id = "input3" + i + j
-            data.rows = "1"
-            data.appendChild(document.createTextNode(predictionData.predictions[i].data[j]))
-            if (j <= 2) {
-                label1.appendChild(document.createTextNode('R' + (j + 1) + ' :'))
-                div2.appendChild(label1)
-                div2.appendChild(data)
+    socket.emit("predictiondata", o[n])
+    socket.on("predictiondata", data => {
+        predictionData = data
+        ogValues2 = []
+        ogValues2.push(predictionData.coin)
+        ogValues2.push(predictionData.review.reviewTitle)
+        ogValues2.push(predictionData.review.reviewText)
+        document.getElementById("coin").style.display = "block"
+        document.getElementById("coinName").innerHTML = "for " + predictionData.coin
+        document.getElementById("input10").value = predictionData.review.reviewTitle
+        document.getElementById("input11").value = predictionData.review.reviewText
+        let table = document.getElementById("tables")
+        table.innerHTML = ""
+        for (let i = 0; i < predictionData.predictions.length; i++) {
+            ogValues2.push(predictionData.predictions[i].title)
+            let label = document.createElement('label')
+            label.for = "input3" + i
+            label.appendChild(document.createTextNode('Title :'))
+            let title = document.createElement('textarea')
+            title.setAttribute("class", "form-control mb-3 hms")
+            title.id = "input3" + i
+            title.rows = "1"
+            title.appendChild(document.createTextNode(predictionData.predictions[i].title))
+            let div = document.createElement('div')
+            div.setAttribute("class", "row")
+            let div2 = document.createElement('div')
+            div2.classList.add("col-md-5")
+            let div3 = document.createElement('div')
+            div3.classList.add("col-md-5")
+            for (let j = 0; j < predictionData.predictions[i].data.length; j++) {
+                ogValues2.push(predictionData.predictions[i].data[j])
+                let label1 = document.createElement('label')
+                label1.for = "input3" + i + j
+                let data = document.createElement('textarea')
+                data.setAttribute("class", "form-control mb-3 hms")
+                data.style.maxWidth = "300px"
+                data.id = "input3" + i + j
+                data.rows = "1"
+                data.appendChild(document.createTextNode(predictionData.predictions[i].data[j]))
+                if (j <= 2) {
+                    label1.appendChild(document.createTextNode('R' + (j + 1) + ' :'))
+                    div2.appendChild(label1)
+                    div2.appendChild(data)
+                }
+                else {
+                    label1.appendChild(document.createTextNode('s' + (j - 2) + ' :'))
+                    div3.appendChild(label1)
+                    div3.appendChild(data)
+                }
             }
-            else {
-                label1.appendChild(document.createTextNode('s' + (j - 2) + ' :'))
-                div3.appendChild(label1)
-                div3.appendChild(data)
-            }
+            table.appendChild(label)
+            table.appendChild(title)
+            div.appendChild(div2)
+            div.appendChild(div3)
+            table.appendChild(div)
         }
-        table.appendChild(label)
-        table.appendChild(title)
-        div.appendChild(div2)
-        div.appendChild(div3)
-        table.appendChild(div)
-    }
+    })
 }
 
 function savePredictions(n) {
+    document.getElementById("modal-title").innerHTML = "wait";
+    let text = "saving changes please wait"
+    document.getElementById("modal-body").innerHTML = '<div class="d-flex inline-flex"><div><p class="display-4 mr-4" style="color: black; font-size:medium; margin-bottom:0; margin-top:0.1rem">'+text+'</p></div><div class="spinner-border" role="status"><span class="sr-only"></span></div></div>'
+    $('#modal').modal('toggle');
     let newValues = []
-    newValues.push(document.getElementById("coinName").innerHTML.slice(4))
+    newValues.push(o[n])
     newValues.push(document.getElementById("input10").value)
     newValues.push(document.getElementById("input11").value)
     for (let i = 0; i < predictionData.predictions.length; i++) {
@@ -169,7 +202,7 @@ function savePredictions(n) {
     }
     for (let i = 0; i < newValues.length; i++) {
         if (newValues[i] == ogValues2[i] && i != 0) {
-            newValues[i] = ""
+            newValues[i] = "-1"
         }
     }
     if (newValues.length < document.getElementsByClassName("hms").length) {
@@ -253,3 +286,66 @@ function addPredictions() {
     table.appendChild(div)
     i++
 }
+
+function loggedIn()
+{
+    location.replace("/admin%20success")
+    document.getElementById("welcome-msg").innerHTML = 'Welcome, Admin';
+}
+
+socket.on("adminLoggedIn", ()=>{
+    document.getElementById("input0").classList.remove("is-invalid");
+    document.getElementById("input0").classList.add("is-valid");
+    document.getElementById("input1").classList.remove("is-invalid");
+    document.getElementById("input1").classList.add("is-valid");
+    document.getElementById("invalid0").innerHTML = ""
+    document.getElementById("invalid1").innerHTML = ""
+    document.getElementById("modal-title").innerHTML = "Success";
+    document.getElementById("modal-body").innerHTML = "Successfully Logged In";
+    let timeOut = setTimeout(() => {
+        $('#modal').modal('toggle');
+        loggedIn()
+    }, 1000);
+    $('#modal').on('hidden.bs.modal', function (e) {
+        clearInterval(timeOut)
+        loggedIn()
+    })
+    
+
+
+    
+});
+
+socket.on("adminLogInFailed", (data)=>{
+    document.getElementById("modal-title").innerHTML = "Failed";
+    document.getElementById("modal-body").innerHTML = "Failed to login";
+    let timeOut = setTimeout(() => {
+        $('#modal').modal('toggle');
+    }, 2000);
+    $('#modal').on('hidden.bs.modal', function (e) {
+        clearInterval(timeOut)
+    })
+    if(data == "email")
+    {
+        document.getElementById("input0").classList.remove("is-valid");
+        document.getElementById("input0").classList.add("is-invalid");
+        document.getElementById("invalid0").innerHTML = "bad credentials"
+    }
+    else if(data == "password")
+    {
+        document.getElementById("input1").classList.remove("is-valid");
+        document.getElementById("input1").classList.add("is-invalid");
+        document.getElementById("invalid1").innerHTML = "bad credentials"
+    }
+})
+
+socket.on("savedPrediction", (d)=>{
+    document.getElementById("modal-title").innerHTML = "Success";
+    document.getElementById("modal-body").innerHTML = "Successfully " + d + " changes";
+    let timeOut = setTimeout(() => {
+        $('#modal').modal('toggle');
+    }, 2000);
+    $('#modal').on('hidden.bs.modal', function (e) {
+        clearInterval(timeOut)
+    })
+})
