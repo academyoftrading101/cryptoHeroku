@@ -224,9 +224,14 @@
     let once2 = true
     let i
     function addPridictions() {
-      if(once2)
+      if(once2 && Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length -1].id.slice(5,6)) == 3)
       {
         i = Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length -1].id.slice(6,7)) + 1
+        once2 = false
+      }
+      else if(once2 && Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length -1].id.slice(5,6)) == 1)
+      {
+        i = 0
         once2 = false
       }
       let table = document.getElementById("tables")
