@@ -97,13 +97,22 @@ let coinSrc = [
     "./data/doge.jpg",
 ]
 
+// let coinDetails = [
+//     "Bitcoin is a digital currency that was created in January 2009.Bitcoin offers the promise of lower transaction fees.",
+//     "Ethereum is a digital currency.It's a community-built technology behind the cryptocurrency ether (ETH).",
+//     "Litecoin is increasingly used in the same breath as Bitcoin, and it functions practically the same way.",
+//     "Cardano is a decentralized public blockchain and cryptocurrency project and is fully open source.",
+//     "XRP is a digital asset built for payments. It is the native digital asset on the XRP Ledger—an open-source, permissionless and decentralized.",
+//     "Dogecoin is a cryptocurrency invented by software engineers Billy Markus and Jackson Palmer, who decided to create a payment system that is instant, fun, and low fee"
+// ]
+
 let coinDetails = [
-    "Bitcoin is a digital currency that was created in January 2009.Bitcoin offers the promise of lower transaction fees.",
-    "Ethereum is a digital currency.It's a community-built technology behind the cryptocurrency ether (ETH).",
-    "Litecoin is increasingly used in the same breath as Bitcoin, and it functions practically the same way.",
-    "Cardano is a decentralized public blockchain and cryptocurrency project and is fully open source.",
-    "XRP is a digital asset built for payments. It is the native digital asset on the XRP Ledger—an open-source, permissionless and decentralized.",
-    "Dogecoin is a cryptocurrency invented by software engineers Billy Markus and Jackson Palmer, who decided to create a payment system that is instant, fun, and low fee"
+    "It was introduced by Santoshi Nakamoto in 2009. Digital currencies that are decentralize without Central Bank. Bitcoin is used to send money to someone like how normal currency works and it can only be manual. Bitcoin transaction process is slow, it can take 10 minutes to complete a transaction",
+    "While Ether currency is accepted only in Ethereum Network. It was launched by Vitalik Buterin in 2015.Ethereum is used only within the Ethereum Network. Though it can be used in Real-time transactions. It can be manual as well as automatic. Ether is going to be continous and but this also not expected to extend by 100 Million.",
+    "Created by Charlie Lee, It was released in 2011. It has limited supply of 84 Million only. Its blog creation time is 2.5 mins as compared to Bitcoin which is 10 mins. It is Accepted by many merchants world wide and total number of Litecoins supply is around 65 Million.",
+    "It is launched in September 2017, by Charles Hoskinson , it is build around Peer Reviewed Papers. It is better and improved Version of Bitcoin and Ethereum. Since it is based on Proof of Stake, transaction cost is very low. One of the most potential type of crypto currency which is likely to grow",
+    "It is introduced by Chris Larsen and Jed MC Caleb in 2013.Where Bitcoin transaction takes time, XRP takes only 4 seconds to complete a transaction. It is created so that Centralised Banks can also use it.It has also collaborated with Bank of America and American Express to transfer currency from one country to another.",
+    "It was launched in 2013 by Jackson Palmer with the help of Billy Markus who is an IBM Software Engineer. In the starting of 2017, its market value raised by $20 million which reached at $2 Billion by the end of the year. Reason behind its popularity in Elon Musk as he kept on talking about it on Twitter and Second is Reddit."
 ]
 
 function loaded2()
