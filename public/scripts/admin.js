@@ -12,6 +12,15 @@ function tryLogin(e, p, b)
     socket.emit("tryAdminLogin", e, p, b);
 }
 
+if (performance.navigation.type == performance.navigation.TYPE_RELOAD) 
+{
+    socket.emit("test")
+    setTimeout(() => {
+        location.href = "admin"
+    }, 500);
+    
+}
+
 
 
 function loaded() {
@@ -310,10 +319,6 @@ socket.on("adminLoggedIn", ()=>{
         clearInterval(timeOut)
         loggedIn()
     })
-    
-
-
-    
 });
 
 socket.on("adminLogInFailed", (data)=>{

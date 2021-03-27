@@ -68,22 +68,18 @@ app.get('/Bitcoins', (req, res) =>
     res.sendFile(__dirname + '/Bitcoins.html');
 }); 
 
-app.get('/admin%20success', (req, res) =>
-{
-    res.sendFile(__dirname + '/adminRedirected.html');
-}); 
+ 
 
 app.get('/quiz', (req, res) =>
 {
     res.sendFile(__dirname + '/quiz.html');
 }); 
 
-app.delete('/admin%20success', function (req, res) {
-    res.send('DELETE request to homepage')
-    console.log('deleted ?')
-  })
 
-app.use(express.static(__dirname + '/public'));
+app.use(
+    express.static(__dirname + '/public')
+);
+
 
 serv.listen(process.env.PORT || 3000); 
 
@@ -107,6 +103,10 @@ io.on('connection', function(socket){
                     {
                         if(data[0].password == pass || b)
                         {
+                            app.get('/admin%20success', (req, res) =>
+                            {
+                                res.sendFile(__dirname + '/adminRedirected.html');
+                            });
                             data[0].loggedIn = true;
                             data[0].save();
                             socket.emit("adminLoggedIn");
@@ -226,5 +226,14 @@ io.on('connection', function(socket){
         let tickerData = await Ticker.findOne({})
         socket.emit("getTicker", tickerData.list)
     })
+
+    socket.on("test", ()=>{
+        console.log("works ?")
+        app.get('/admin%20success', (req, res) =>
+        {
+            res.sendFile(__dirname + '/index.html');
+        }); 
+    })
+
 });
 
