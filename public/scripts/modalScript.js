@@ -117,6 +117,7 @@ let coinDetails = [
 
 function loaded2()
 {
+    let o = {1:"Bitcoins", 2:"Ethereums", 3:"Litecoins", 4:"Cardanos", 5:"XRPs", 6:"Dogecoins"}
     for(let i = 0; i < 6; i++)
     {
         // document.getElementById("opinion"+i).onclick = ()=>{
@@ -133,6 +134,9 @@ function loaded2()
             document.getElementById("title").setAttribute("src", headingSrc[i])
             document.getElementById("coinImg").setAttribute("src", coinSrc[i])
             document.getElementById("coinDetail").innerHTML = coinDetails[i]
+            document.getElementById("prediction").onclick = ()=>{
+                location.replace("/"+o[document.getElementById("number").innerHTML.slice(-1)])
+            }
             document.getElementById("opinion0").onclick = ()=>{
                 document.getElementById("features").innerHTML = ""
                 document.getElementById("opinion").innerHTML = opinion[i]
