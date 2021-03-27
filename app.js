@@ -6,6 +6,7 @@ const Predictions = require('./schemas/predictions')
 const Admin = require('./schemas/admin')
 
 
+
 const mongoose = require('mongoose');
 const { once } = require('./schemas/ticker');
 //const connectDB = require('./mongodbconnection/connection');
@@ -68,7 +69,10 @@ app.get('/Bitcoins', (req, res) =>
     res.sendFile(__dirname + '/Bitcoins.html');
 }); 
 
- 
+app.get('/q', (req, res) =>
+{
+    res.sendFile(__dirname + '/goalCalculator.html');
+}); 
 
 app.get('/quiz', (req, res) =>
 {
@@ -79,7 +83,6 @@ app.get('/quiz', (req, res) =>
 app.use(
     express.static(__dirname + '/public')
 );
-
 
 serv.listen(process.env.PORT || 3000); 
 
@@ -226,14 +229,5 @@ io.on('connection', function(socket){
         let tickerData = await Ticker.findOne({})
         socket.emit("getTicker", tickerData.list)
     })
-
-    socket.on("test", ()=>{
-        console.log("works ?")
-        app.get('/admin%20success', (req, res) =>
-        {
-            res.sendFile(__dirname + '/index.html');
-        }); 
-    })
-
 });
 

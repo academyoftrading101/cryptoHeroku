@@ -1,0 +1,609 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/5c50a4aeb8.js" crossorigin="anonymous"></script>
+<script>
+function loaded() 
+{
+    let slider2 =[]
+    let output1 = document.getElementById("input10")
+    let output2 = document.getElementById("input11")
+    for (let i = 0; i < 2; i++) {
+        slider2[i] = document.getElementById("slider" + i);
+    }
+
+    let val = [30, " - " , 50]
+
+    slider2[0].oninput = ()=>{
+        slider2[1].min = slider2[0].value
+        val[0] = slider2[0].value
+        output2.value = val[0]+" - "+val[2]
+        output1.value = val[2] - val[0]
+
+    }
+
+    slider2[1].oninput = ()=>{
+        slider2[0].max = slider2[1].value
+        val[2] = slider2[1].value
+        output2.value = val[0]+" - "+val[2]
+        output1.value = val[2] - val[0]
+    }
+
+
+    let slider = []
+    let output = []
+    for (let i = 2; i < 4; i++) {
+        slider[i] = document.getElementById("slider" + i);
+        output[i] = document.getElementById("input1" + i);
+        output[i].value = slider[i].value;
+        slider[i].oninput = function () {
+            output[i].value = slider[i].value;
+            calc()
+        }
+        output[i].oninput = () => {
+            slider[i].value = output[i].value
+        }
+    }
+
+    output1.oninput =()=>{
+        calc()
+    }
+
+    let nums = [0,1,2,3,4,5,6,7,8,9]
+    document.getElementById("input14").oninput = ()=>{
+        if(!Number.isInteger(Number(document.getElementById("input14").value[(document.getElementById("input14").value.length - 1)])))
+        {
+            document.getElementById("input14").value = document.getElementById("input14").value.slice(0,(document.getElementById("input14").value.length - 1))
+        }
+        document.getElementById("input14").value = addComas(removeComas(document.getElementById("input14").value))
+        calc()
+    }
+    document.getElementById("input15").oninput = ()=>{
+        if(!Number.isInteger(Number(document.getElementById("input15").value[(document.getElementById("input15").value.length - 1)])))
+        {
+            document.getElementById("input15").value = document.getElementById("input15").value.slice(0,(document.getElementById("input15").value.length - 1))
+        }
+        document.getElementById("input15").value = addComas(removeComas(document.getElementById("input15").value))
+        calc()
+    }
+
+}
+
+function addComas(y)
+{
+    let x = y.toString();
+    var lastThree = x.substring(x.length - 3);
+    var otherNumbers = x.substring(0, x.length - 3);
+    if (otherNumbers != '')
+        lastThree = ',' + lastThree;
+    return (otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree)
+}
+
+function removeComas(y)
+{
+    return y.replace(/\,/g, '')
+}
+
+function checkStep1()
+{
+    let diabledButtons = document.getElementById("diabledButtons")
+    let butName = {0:"Buying an Asset", 1:"Education", 2:"Marriage", 3:"Retirement", 4:"Others"}
+    let once = true
+    for(let i = 0; i < 5; i++)
+    {
+        if(document.getElementById("input0"+i).checked)
+        {
+            let but = document.createElement('button')
+            but.setAttribute("class", "btn ml-3")
+            if(once)
+            {
+                once = false
+                but.setAttribute("style", "background-color: gray; color:white")
+            }
+            but.disabled = true
+            but.innerHTML = butName[i]
+            diabledButtons.appendChild(but)
+        }
+    }
+    document.getElementById("step1").style.display = "none"
+    document.getElementById("allCalculatorNameBox").style.display = "block"
+    document.getElementById("calculatorBox").style.display = "block"
+    document.getElementById("result").style.display = "block"
+}
+
+</script>
+<style>
+.no_scroll {
+overflow-x: hidden;
+}
+
+.mb-10{
+    margin-bottom: 70px;
+}
+
+.mt-10{
+margin-top: 70px;
+}
+
+.mr-10{
+margin-right: 100px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.zoom {
+    transition: transform .2s;
+}
+
+.zoom:hover {
+    z-index: 1000;
+    -ms-transform: scale(1.1); /* IE 9 */
+    -webkit-transform: scale(1.1); /* Safari 3-8 */
+    transform: scale(1.1); 
+    border-width: 2px;
+    border-color: black;
+}
+.option_Style{
+    max-width: 250px !important; 
+    background-color: grey;
+}
+
+.hov:hover {
+z-index: 1000;
+-ms-transform: scale(1.1); /* IE 9 */
+-webkit-transform: scale(1.1); /* Safari 3-8 */
+transform: scale(1.1); 
+border-width: 1px;
+border-color: black;
+}
+
+
+@font-face {
+font-family: "Oswald"; 
+src: url("//db.onlinewebfonts.com/t/d40bbce8f4b00a569beac2454b69231e.eot");
+}
+
+@font-face {
+font-family: "Century Gothic"; 
+src: url("//db.onlinewebfonts.com/t/0d78b12d6be09203d1fbeb76871a369a.eot");
+}
+
+
+
+.heading {
+font-family: "Oswald";
+}
+
+
+
+
+input {
+background-color: transparent;
+background: transparent;
+}
+
+
+
+
+.transparent:focus {
+background-color: transparent;
+}
+
+.transparent {
+background-color: transparent;
+}
+
+.slidecontainer {
+width: 200px;
+}
+
+.slider {
+-webkit-appearance: none; 
+appearance: none;
+width: 100%;
+height: 5px;
+background: #d3d3d3; 
+outline: none; 
+opacity: 0.7;
+-webkit-transition: .2s; 
+transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+-webkit-appearance: none;
+appearance: none;
+width: 25px; 
+height: 45px;
+border-radius: 4rem;
+background: #4CAF50; 
+cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+width: 25px; 
+height: 25px; 
+border-radius: 4rem;
+background: #4CAF50; 
+cursor: pointer; 
+}
+
+
+.centered {
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+</style>
+<div id="content">
+<div class="container mt-10 mb-5">
+    <P class="display-4" id="demo">Financial Goal Calculator : </P>
+    <div id="step1">
+        <p class="mt-4 mb-4"><strong>STEP 1</strong>: Let us know your financial goal(s)</p>
+        <form>
+            <div class="form-group d-flex">
+                <label for="input00" style="font-size: medium;">Buying An Asset (Property, Vehicle etc) : </label>
+                <input type="checkbox" class="ml-5" id="input00" style="margin-top: 6px;">
+            </div>
+            <div class="form-group d-flex">
+                <label for="input01" style="font-size: medium;">Education for :</label>
+                <input type="checkbox" class="ml-5" id="input01" style="margin-top: 6px;">
+            </div>
+            <div class="form-group d-flex">
+                <label for="input02" style="font-size: medium;">Marriage : </label>
+                <input type="checkbox" class="ml-5" id="input02" style="margin-top: 6px;">
+            </div>
+            <div class="form-group d-flex">
+                <label for="input03" style="font-size: medium;">Retirement : </label>
+                <input type="checkbox" class="ml-5" id="input03" style="margin-top: 6px;">
+            </div>
+            <div class="form-group d-flex">
+                <label for="input04" style="font-size: medium;">Other Financial Goals : </label>
+                <input type="checkbox" class="ml-5" id="input04" style="margin-top: 6px;">
+            </div>
+            <div class="">
+                <button type="button" class="btn btn-outline-success" onclick="checkStep1()">Start</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="allCalculatorNameBox" style="display: none;">
+        <div class="mt-4 mb-4 d-flex" id="diabledButtons">
+            <p style="margin-top: 8px; margin-bottom: 0;"><strong>STEP 2 : </strong></p>
+        </div>
+    </div>
+
+    <div  class="row">
+        <div id="calculatorBox" style="display: none;" class="col-md-6">
+            <div class="form-group row">
+                <label for="input10" class="col-sm-6 form-label" style="font-size: medium; margin-bottom: 0; margin-top: 4px;"><strong>Time to Achieve :</strong></label>
+                <input type="number" class="col-sm-2 form-control" id="input10" style="font-size: medium;" value = "20">
+            </div>
+            <div class="form-group row">
+                <label for="input11" class="col-sm-2 col-form-label" style="font-size: xx-small;">PREFERRED AGE TO START SAVING</label>
+                <div class="slidecontainer col-sm-3" style="padding: 0;">
+                    <input type="range" min="1" max="40" value="30" class="slider" id="slider0" style="margin-top: 26px;">
+                </div>
+                <div class="slidecontainer col-sm-3" style="padding: 0;">
+                    <input type="range" min="40" max="100" value="50" class="slider" id="slider1" style="margin-top: 26px;">
+                </div>
+                <label for="input11" class="col-sm-2 col-form-label" style="font-size: xx-small;">EXPECTED AGE TO REACH YOUR GOAL</label>
+                <div class="col-sm-2" style="padding: 0;">
+                    <input type="text" class=" form-control" id="input11" style="font-size: medium;" value="30 - 50" readonly>
+                </div>
+            </div>
+            <div class="form-group row mt-5">
+                <label for="input12" class="col-sm-4 col-form-label" style="font-size: medium;">Expected Annual Rate of Inflation : </label>
+                <div class="slidecontainer  col-sm-6">
+                    <input type="range" min="1" max="10" value="3" class="slider" id="slider2" style="margin-top: 16px;">
+                </div>
+                <div class="col-sm-2 d-flex">
+                    <input type="number" class=" form-control" id="input12" style="font-size: medium; max-height: 38px;"><p style="margin-bottom: 0; margin-top: 6px;">%</p>
+                </div>
+            </div>
+            <div class="form-group row mt-5">
+                <label for="input13" class="col-sm-4 col-form-label" style="font-size: medium;">Expected Annual Rate of Return : </label>
+                <div class="slidecontainer col-sm-6">
+                    <input type="range" min="1" max="10" value="3" class="slider" id="slider3" style="margin-top: 16px;">
+                </div>
+                <div class="col-sm-2 d-flex">
+                    <input type="number" class=" form-control" id="input13" style="font-size: medium; max-height: 38px;"><p style="margin-bottom: 0; margin-top: 6px;">%</p>
+                </div>
+            </div>
+            <div class="form-group row mt-5">
+                <label for="input14" class="col-sm-4 col-form-label" style="font-size: medium;">How much have you saved</label>
+                <div class="offset-sm-3 col-sm-5 d-flex">
+                    <p style="margin-bottom: 0; margin-top: 6px;">Rs.</p> <input type="text" class=" form-control" id="input14" style="font-size: medium; max-height: 38px;">
+                </div>
+            </div>
+            <div class="form-group row mt-5">
+                <label for="input15" class="col-sm-4 col-form-label" style="font-size: medium;">How much do you need</label>
+                <div class="offset-sm-3 col-sm-5 d-flex">
+                    <p style="margin-bottom: 0; margin-top: 6px;">Rs.</p> <input type="text" class=" form-control" id="input15" style="font-size: medium; max-height: 38px;">
+                </div>
+            </div>
+        </div>
+        <div id="result" style="display: none;" class="col-md-6 mt-10">
+            <div class="mt-4 text-center">
+                <p>Savings Needed per Month :</p>
+                <P id="monthly" class="display-4">1235456</P>
+                <p>Final value of the asset :</p>
+                <p id="total" class="display-4"></p>
+            </div>
+        </div>
+    </div>
+    
+
+    <div id="calculatorBody" class="row mt-10" style="display: none;">
+        <div id="sliders" class="col-md-6">
+            <form>
+                <div class="form-group row">
+                    <label for="amount" class="col-sm-6 col-form-label" style="font-size: medium;">Loan Amount : </label>
+                    <div class="offset-sm-3 col-sm-3">
+                        <span class="d-flex"><i class=" fas fa-rupee-sign"
+                                style="padding-top: 11px;"></i><input type="number"
+                                class=" form-control" id="input0" placeholder="" style="font-size: medium;"></span>
+                    </div>
+                </div>
+                <div class="slidecontainer">
+                    <input type="range" min="1" max="100" value="1" class="slider" id="slider0">
+                </div>
+                <div class="form-group row mt-5">
+                    <label for="input1" class="col-sm-6 col-form-label" style="font-size: medium;">Rate of Interest (P.A, in %) : </label>
+                    <div class="offset-sm-4 col-sm-2">
+                        <input type="number" class=" form-control" id="input1"
+                            placeholder="" style="font-size: medium;">
+                    </div>
+                </div>
+                <div class="slidecontainer">
+                    <input type="range" min="1" max="30" value="10" class="slider" id="slider1">
+                </div>
+                <div class="form-group row mt-5">
+                    <label for="input2" class="col-sm-6 col-form-label" style="font-size: medium;">Loan Tenure (in Yrs) : </label>
+                    <div class="offset-sm-4 col-sm-2">
+                        <input type="number" class=" form-control" id="input2"
+                            placeholder="" style="font-size: medium;">
+                    </div>
+                </div>
+                <div class="slidecontainer">
+                    <input type="range" min="1" max="30" value="1" class="slider" id="slider2">
+                </div>
+            </form>
+            <div id="result" class="mt-10 row" style="display: none;">
+                <div class="col-sm-6" style="font-size: medium;">
+                    <p>Monthly EMI</p>
+                    <p><strong id="result0"></strong></p>
+                    <p>Total Interest</p>
+                    <p><strong id="result1"></strong></p>
+                </div>
+                <div class="col-sm-6" style="font-size: medium;">
+                    <p>Principal Amount</p>
+                    <p><strong id="result2"></strong></p>
+                    <p>Total Amount</p>
+                    <p><strong id="result3"></strong></p>
+                </div>
+            </div>
+            <button class="btn btn-success mt-10" onclick="calc()" style="font-size: medium;">Calculate</button>
+        </div>
+        <div id="pie" class="col-md-6 mt-10">
+            <canvas id="myChart"></canvas>
+            <script>
+                var ctx = document.getElementById('myChart').getContext('2d');
+                let data = {
+                    labels: ['Principal ', 'Interest '],
+                    datasets: [{
+                        data: [100000, 5504],
+                        backgroundColor: ["rgb(54, 162, 235)", "rgb(255, 99, 132)"]
+                    }]
+                };
+                var myPieChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: data,
+                    options: {
+                        legend: {
+                            labels: {
+                                fontColor: "black",
+                                fontSize: 18
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </div>
+    <div id="monthly" class="row mt-10" style="display: none;">
+        <table id="table" class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col" style="font-size: medium;">Month</th>
+                <th scope="col" style="font-size: medium;">Principal</th>
+                <th scope="col" style="font-size: medium;">Interest</th>
+                <th scope="col" style="font-size: medium;">Total Monthly</th>
+                <th scope="col" style="font-size: medium;">Balance</th>
+              </tr>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+crossorigin="anonymous"></script>
+<script>
+    loaded();
+    
+    function calc2() {
+        let p = Number(document.getElementById("input0").value)
+        let n = Number((document.getElementById("input2").value * 12))
+        let r2 = (Number(document.getElementById("input1").value) / (12 * 100))
+        let r = r2 + 1
+        let emi = Math.round(p * r2 * (Math.pow(r, n) / (Math.pow(r, n) - 1)))
+        document.getElementById("result").style.display = "flex"
+
+        let a = emi, b = -(p - (emi * n)), c = p, d = (emi * n)
+        document.getElementById("myChart").remove()
+        let canvas = document.createElement('canvas')
+        canvas.setAttribute("id", "myChart")
+        document.getElementById("pie").appendChild(canvas)
+        var ctx = document.getElementById('myChart').getContext('2d');
+        let data = {
+            labels: ['Principal ', 'Interest '],
+            datasets: [{
+                data: [c, b],
+                backgroundColor: ["rgb(54, 162, 235)", "rgb(255, 99, 132)"]
+            }]
+        };
+        var myPieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: data,
+            options: {
+                legend: {
+                    labels: {
+                        fontColor: "black",
+                        fontSize: 18
+                    }
+                }
+            }
+        });
+
+        let vars = [a, b, c, d]
+        for (let i = 0; i < 4; i++) {
+            x = vars[i].toString();
+            var lastThree = x.substring(x.length - 3);
+            var otherNumbers = x.substring(0, x.length - 3);
+            if (otherNumbers != '')
+                lastThree = ',' + lastThree;
+            vars[i] = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+            document.getElementById("result" + i).innerHTML = '<i class="fas fa-rupee-sign"> </i>' + vars[i]
+        }
+        let pr = [] ,int = [], rem = [p]
+        document.getElementById("tbody").innerHTML = ""
+        document.getElementById("monthly").style.display = "block"
+
+
+        let date = new Date()
+        monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        let j, yr
+        for (let i = 0; i < n; i++)
+        {
+            int.push(Math.round(rem[i]*r2))
+            pr.push(emi - int[i])
+            rem.push(rem[i] - pr[i])
+            if(i == n-1)
+            {
+             rem[n] = 0
+            }
+
+            let vars2 = [pr[i], int[i], emi, rem[i+1]]
+            let vars3 = []
+            for (let i = 0; i < 4; i++) {
+                x = vars2[i].toString();
+                var lastThree = x.substring(x.length - 3);
+                var otherNumbers = x.substring(0, x.length - 3);
+                if (otherNumbers != '')
+                    lastThree = ',' + lastThree;
+                vars3.push(otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree)
+            }
+            let tbody = document.getElementById("tbody")
+            let tr = document.createElement('tr')
+            let th = document.createElement('th')
+            th.scope = "row"
+            th.style.fontSize = "medium"
+            if(i == 0)
+            {
+                j = Number(date.getMonth()); 
+                yr = date.getFullYear()
+            }
+            th.appendChild(document.createTextNode(monthArray[j] + " " + yr))
+            j++
+            if(j == 12)
+            {
+                j = 0
+                yr = date.getFullYear() + Math.ceil(i/12)
+            }
+            let td0 = document.createElement('td')
+            td0.style.fontSize = "medium"
+            td0.innerHTML = '<i class="fas fa-rupee-sign" style="padding-top: 11px; color: gray;"></i>'
+            td0.appendChild(document.createTextNode(vars3[0]))
+            let td1 = document.createElement('td')
+            td1.style.fontSize = "medium"
+            td1.innerHTML = '<i class="fas fa-rupee-sign" style="padding-top: 11px; color: gray;"></i>'
+            td1.appendChild(document.createTextNode(vars3[1]))
+            let td2 = document.createElement('td')
+            td2.style.fontSize = "medium"
+            td2.innerHTML = '<i class="fas fa-rupee-sign" style="padding-top: 11px; color: gray;"></i>'
+            td2.appendChild(document.createTextNode(vars3[2]))
+            let td3 = document.createElement('td')
+            td3.style.fontSize = "medium"
+            td3.innerHTML = '<i class="fas fa-rupee-sign" style="padding-top: 11px; color: gray;"></i>'
+            if(rem[i+1] < 0)
+                td3.appendChild(document.createTextNode("0"))
+            else
+                td3.appendChild(document.createTextNode(vars3[3]))
+            tr.appendChild(th)
+            tr.appendChild(td0)
+            tr.appendChild(td1)
+            tr.appendChild(td2)
+            tr.appendChild(td3)
+            tbody.appendChild(tr)
+        }
+    
+    }
+    
+    function calc()
+    {
+        let timePeriod = Number(document.getElementById("input10").value)
+        let pv = Number(removeComas(document.getElementById("input15").value))
+        let infRate = Number(document.getElementById("input12").value)
+        let returnRate = Number(document.getElementById("input13").value)
+        let fv = Math.round(pv*(Math.pow((1+(infRate/100)), timePeriod)))
+        document.getElementById("total").innerHTML = addComas(fv)
+        CalcPMT(returnRate, fv, timePeriod)
+    }
+
+    function pmt(rate_per_period, number_of_payments, present_value, future_value, type) {
+        if (rate_per_period != 0.0) 
+        {
+            // Interest rate exists
+            var q = Math.pow(1 + rate_per_period, number_of_payments);
+            return -(rate_per_period * (future_value + (q * present_value))) / ((-1 + q) * (1 + rate_per_period * (type)));
+
+        } 
+        
+        else if (number_of_payments != 0.0) {
+            return -(future_value + present_value) / number_of_payments;
+        }
+
+        return 0;
+    }
+
+    function CalcPMT(RateReturn, ExpInflation, years) {
+        let i = RateReturn
+        let xi = ExpInflation
+        let n = years
+        var monthly = Math.round(pmt(i / 1200, n * 12, 0, -xi, 1));
+
+        document.getElementById("monthly").innerHTML = addComas(monthly)
+    }   
+
+
+</script>
