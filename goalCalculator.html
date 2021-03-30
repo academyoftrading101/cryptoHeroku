@@ -30,6 +30,21 @@ integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6J
             calc()
         }
 
+        output1.oninput = ()=>{
+           output1.max = 100 - val[0]
+            if(Number(output1.value) > Number(output1.max))
+                {
+                    output1.setAttribute("style", "background-color: red !important; font-size: medium; max-height: 38px;")
+                }
+                else
+                {
+                    output1.setAttribute("style", "background-color: none !important; font-size: medium; max-height: 38px;")
+                    calc()
+                    slider2[1].value = Number(output1.value) + Number(slider2[0].value)
+                    val[2] = slider2[1].value
+                    output2.value = val[0]+" - "+val[2]
+                }
+        }
 
         let slider = []
         let output = []
@@ -366,7 +381,7 @@ transform: translate(-50%, -50%);
         <div id="calculatorBox" style="display: none;" class="col-md-6">
             <div class="form-group row">
                 <label for="input10" class="col-sm-6 form-label" style="font-size: medium; margin-bottom: 0; margin-top: 4px;"><strong>Time to Achieve :</strong></label>
-                <input type="number" class="col-sm-2 form-control" id="input10" style="font-size: medium;" value = "20">
+                <input type="number" class="col-sm-2 form-control" id="input10" min="1" max="99" style="font-size: medium;" value = "20">
             </div>
             <div class="form-group row">
                 <label for="input11" class="col-sm-2 col-form-label" style="font-size: xx-small;">PREFERRED AGE TO START SAVING</label>
