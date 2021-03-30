@@ -5,121 +5,121 @@ crossorigin="anonymous"></script>
 integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://kit.fontawesome.com/5c50a4aeb8.js" crossorigin="anonymous"></script>
 <script>
-function loaded() 
-{
-    let slider2 =[]
-    let output1 = document.getElementById("input10")
-    let output2 = document.getElementById("input11")
-    for (let i = 0; i < 2; i++) {
-        slider2[i] = document.getElementById("slider" + i);
-    }
+    function loaded() 
+    {
+        let slider2 =[]
+        let output1 = document.getElementById("input10")
+        let output2 = document.getElementById("input11")
+        for (let i = 0; i < 2; i++) {
+            slider2[i] = document.getElementById("slider" + i);
+        }
 
-    let val = [30, " - " , 50]
+        let val = [30, " - " , 50]
 
-    slider2[0].oninput = ()=>{
-        val[0] = slider2[0].value
-        output2.value = val[0]+" - "+val[2]
-        output1.value = val[2] - val[0]
-        calc()
-    }
-
-    slider2[1].oninput = ()=>{
-        val[2] = slider2[1].value
-        output2.value = val[0]+" - "+val[2]
-        output1.value = val[2] - val[0]
-        calc()
-    }
-
-
-    let slider = []
-    let output = []
-    for (let i = 2; i < 4; i++) {
-        slider[i] = document.getElementById("slider" + i);
-        output[i] = document.getElementById("input1" + i);
-        output[i].value = slider[i].value;
-        slider[i].oninput = function () {
-            output[i].value = slider[i].value;
+        slider2[0].oninput = ()=>{
+            val[0] = slider2[0].value
+            output2.value = val[0]+" - "+val[2]
+            output1.value = val[2] - val[0]
             calc()
         }
-        output[i].oninput = () => {
-            slider[i].value = output[i].value
+
+        slider2[1].oninput = ()=>{
+            val[2] = slider2[1].value
+            output2.value = val[0]+" - "+val[2]
+            output1.value = val[2] - val[0]
+            calc()
         }
-    }
 
-    let nums = [0,1,2,3,4,5,6,7,8,9]
-    document.getElementById("input14").oninput = ()=>{
-        if(!Number.isInteger(Number(document.getElementById("input14").value[(document.getElementById("input14").value.length - 1)])))
-        {
-            document.getElementById("input14").value = document.getElementById("input14").value.slice(0,(document.getElementById("input14").value.length - 1))
-        }
-        document.getElementById("input14").value = addComas(removeComas(document.getElementById("input14").value))
-        calc()
-    }
-    document.getElementById("input15").oninput = ()=>{
-        if(!Number.isInteger(Number(document.getElementById("input15").value[(document.getElementById("input15").value.length - 1)])))
-        {
-            document.getElementById("input15").value = document.getElementById("input15").value.slice(0,(document.getElementById("input15").value.length - 1))
-        }
-        document.getElementById("input15").value = addComas(removeComas(document.getElementById("input15").value))
-        calc()
-    }
 
-}
-
-function addComas(y)
-{
-    let x = y.toString();
-    var lastThree = x.substring(x.length - 3);
-    var otherNumbers = x.substring(0, x.length - 3);
-    if (otherNumbers != '')
-        lastThree = ',' + lastThree;
-    return (otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree)
-}
-
-function removeComas(y)
-{
-    return y.replace(/\,/g, '')
-}
-
-let stepTwoButtons = 0
-let text2 = {0:["How much have you saved to buy an asset", "How much do you need to buy an asset?"], 1:["How much have you saved for your child's education?", "How much do you need for your child's education?"], 2:["How much have you saved for your marriage?", "How much do you need for your marriage?"], 3:["How much have you saved for your retirement?", "How much do you need for your retirement?"], 4:["How much have you saved for this financial goal?", "How much do you need for this financial goal?"]}
-let text = {}
-
-function checkStep1()
-{
-    let diabledButtons = document.getElementById("diabledButtons")
-    let butName = {0:"Buying an Asset", 1:"Education", 2:"Marriage", 3:"Retirement", 4:"Others"}
-    let once = true
-
-    for(let i = 0; i < 5; i++)
-    {
-        if(document.getElementById("input0"+i).checked)
-        {
-            let but = document.createElement('button')
-            but.id = "stepTwoButtons"+stepTwoButtons
-            text[stepTwoButtons] = [text2[i][0], text2[i][1]]
-            but.setAttribute("class", "btn ml-3")
-            if(once)
-            {
-                once = false
-                but.setAttribute("style", "background-color: gray; color:white")
-                //document.getElementById("input14a").innerHTML = text[i][0]
-                document.getElementById("input15a").innerHTML = text[stepTwoButtons][1]
+        let slider = []
+        let output = []
+        for (let i = 2; i < 4; i++) {
+            slider[i] = document.getElementById("slider" + i);
+            output[i] = document.getElementById("input1" + i);
+            output[i].value = slider[i].value;
+            slider[i].oninput = function () {
+                output[i].value = slider[i].value;
+                calc()
             }
-            but.disabled = true
-            but.innerHTML = butName[i]
-            diabledButtons.appendChild(but)
-            stepTwoButtons++
+            output[i].oninput = () => {
+                slider[i].value = output[i].value
+            }
         }
-        
+
+        let nums = [0,1,2,3,4,5,6,7,8,9]
+        document.getElementById("input14").oninput = ()=>{
+            if(!Number.isInteger(Number(document.getElementById("input14").value[(document.getElementById("input14").value.length - 1)])))
+            {
+                document.getElementById("input14").value = document.getElementById("input14").value.slice(0,(document.getElementById("input14").value.length - 1))
+            }
+            document.getElementById("input14").value = addComas(removeComas(document.getElementById("input14").value))
+            calc()
+        }
+        document.getElementById("input15").oninput = ()=>{
+            if(!Number.isInteger(Number(document.getElementById("input15").value[(document.getElementById("input15").value.length - 1)])))
+            {
+                document.getElementById("input15").value = document.getElementById("input15").value.slice(0,(document.getElementById("input15").value.length - 1))
+            }
+            document.getElementById("input15").value = addComas(removeComas(document.getElementById("input15").value))
+            calc()
+        }
+
     }
-    stepTwoButtons = 0
-    document.getElementById("step1").style.display = "none"
-    document.getElementById("allCalculatorNameBox").style.display = "block"
-    document.getElementById("calculatorBox").style.display = "block"
-    document.getElementById("result").style.display = "block"
-    calc()
-}
+
+    function addComas(y)
+    {
+        let x = y.toString();
+        var lastThree = x.substring(x.length - 3);
+        var otherNumbers = x.substring(0, x.length - 3);
+        if (otherNumbers != '')
+            lastThree = ',' + lastThree;
+        return (otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree)
+    }
+
+    function removeComas(y)
+    {
+        return y.replace(/\,/g, '')
+    }
+
+    let stepTwoButtons = 0
+    let text2 = {0:["How much have you saved to buy an asset", "How much do you need to buy an asset?"], 1:["How much have you saved for your child's education?", "How much do you need for your child's education?"], 2:["How much have you saved for your marriage?", "How much do you need for your marriage?"], 3:["How much have you saved for your retirement?", "How much do you need for your retirement?"], 4:["How much have you saved for this financial goal?", "How much do you need for this financial goal?"]}
+    let text = {}
+
+    function checkStep1()
+    {
+        let diabledButtons = document.getElementById("diabledButtons")
+        let butName = {0:"Buying an Asset", 1:"Education", 2:"Marriage", 3:"Retirement", 4:"Others"}
+        let once = true
+
+        for(let i = 0; i < 5; i++)
+        {
+            if(document.getElementById("input0"+i).checked)
+            {
+                let but = document.createElement('button')
+                but.id = "stepTwoButtons"+stepTwoButtons
+                text[stepTwoButtons] = [text2[i][0], text2[i][1]]
+                but.setAttribute("class", "btn ml-3")
+                if(once)
+                {
+                    once = false
+                    but.setAttribute("style", "background-color: gray; color:white")
+                    //document.getElementById("input14a").innerHTML = text[i][0]
+                    document.getElementById("input15a").innerHTML = text[stepTwoButtons][1]
+                }
+                but.disabled = true
+                but.innerHTML = butName[i]
+                diabledButtons.appendChild(but)
+                stepTwoButtons++
+            }
+            
+        }
+        stepTwoButtons = 0
+        document.getElementById("step1").style.display = "none"
+        document.getElementById("allCalculatorNameBox").style.display = "block"
+        document.getElementById("calculatorBox").style.display = "block"
+        document.getElementById("result").style.display = "block"
+        calc()
+    }
 
 </script>
 <script>
@@ -379,16 +379,16 @@ transform: translate(-50%, -50%);
                     <input type="range" min="1" max="10" value="3" class="slider" id="slider2" style="margin-top: 16px;">
                 </div>
                 <div class="col-sm-2 d-flex">
-                    <input type="number" class=" form-control pr-0" id="input12" style="font-size: medium; max-height: 38px;"><p style="margin-bottom: 0; margin-top: 6px;">%</p>
+                    <input type="number" class=" form-control pr-0" id="input12" min="1" max="10" style="font-size: medium; max-height: 38px;"><p style="margin-bottom: 0; margin-top: 6px;">%</p>
                 </div>
             </div>
             <div class="form-group row mt-5">
                 <label for="input13" class="col-sm-4 col-form-label" style="font-size: medium;">Expected Annual Rate of Return : </label>
                 <div class="slidecontainer col-sm-6">
-                    <input type="range" min="1" max="10" value="3" class="slider" id="slider3" style="margin-top: 16px;">
+                    <input type="range" min="1" max="30" value="3" class="slider" id="slider3" style="margin-top: 16px;">
                 </div>
                 <div class="col-sm-2 d-flex">
-                    <input type="number" class=" form-control pr-0" id="input13" style="font-size: medium; max-height: 38px;"><p style="margin-bottom: 0; margin-top: 6px;">%</p>
+                    <input type="number" class=" form-control pr-0" id="input13" min="1" max="30" style="font-size: medium; max-height: 38px;"><p style="margin-bottom: 0; margin-top: 6px;">%</p>
                 </div>
             </div>
             <div style="display: none;" class="form-group row mt-5">

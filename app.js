@@ -72,7 +72,7 @@ app.get('/Bitcoins', (req, res) =>
 app.get('/q', (req, res) =>
 {
     res.sendFile(__dirname + '/goalCalculator.html');
-}); 
+});
 
 app.get('/quiz', (req, res) =>
 {
