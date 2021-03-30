@@ -43,6 +43,15 @@ integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6J
             }
             output[i].oninput = () => {
                 slider[i].value = output[i].value
+                if(Number(output[i].value) > Number(output[i].max))
+                {
+                    output[i].setAttribute("style", "background-color: red !important; font-size: medium; max-height: 38px;")
+                }
+                else
+                {
+                    output[i].setAttribute("style", "background-color: none !important; font-size: medium; max-height: 38px;")
+                    calc()
+                }
             }
         }
 
