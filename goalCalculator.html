@@ -97,21 +97,19 @@ function checkStep1()
         {
             let but = document.createElement('button')
             but.id = "stepTwoButtons"+stepTwoButtons
-            
             text[stepTwoButtons] = [text2[i][0], text2[i][1]]
-            stepTwoButtons++
-            
             but.setAttribute("class", "btn ml-3")
             if(once)
             {
                 once = false
                 but.setAttribute("style", "background-color: gray; color:white")
-                document.getElementById("input14a").innerHTML = text[i][0]
-                document.getElementById("input15a").innerHTML = text[i][1]
+                //document.getElementById("input14a").innerHTML = text[i][0]
+                document.getElementById("input15a").innerHTML = text[stepTwoButtons][1]
             }
             but.disabled = true
             but.innerHTML = butName[i]
             diabledButtons.appendChild(but)
+            stepTwoButtons++
         }
         
     }
@@ -136,11 +134,11 @@ function checkStep1()
                     document.getElementById("stepTwoButtons"+i).style.color = "black"
                     try{document.getElementById("stepTwoButtons"+(i+n)).style.backgroundColor = "gray"
                     document.getElementById("stepTwoButtons"+(i+n)).style.color = "white"
-                    document.getElementById("input14a").innerHTML = text[(i+n)][0]
+                    //document.getElementById("input14a").innerHTML = text[(i+n)][0]
                     document.getElementById("input15a").innerHTML = text[(i+n)][1]}
                     catch{document.getElementById("stepTwoButtons"+i).style.backgroundColor = "gray"
                     document.getElementById("stepTwoButtons"+i).style.color = "white"
-                    document.getElementById("input14a").innerHTML = text[i][0]
+                    //document.getElementById("input14a").innerHTML = text[i][0]
                     document.getElementById("input15a").innerHTML = text[i][1]}
                     return
                 }
@@ -371,7 +369,7 @@ transform: translate(-50%, -50%);
                     <input type="range" min="1" max="100" value="50" class="slider" id="slider1" style="margin-top: 26px;">
                 </div>
                 <div class="col-sm-2" style="padding: 0;">
-                    <input type="text" class="ml-2 form-control" id="input11" style="font-size: medium;" value="30 - 50" readonly>
+                    <input type="text" class="ml-2 form-control pr-0" id="input11" style="font-size: medium;" value="30 - 50" readonly>
                 </div>
                 
             </div>
@@ -381,7 +379,7 @@ transform: translate(-50%, -50%);
                     <input type="range" min="1" max="10" value="3" class="slider" id="slider2" style="margin-top: 16px;">
                 </div>
                 <div class="col-sm-2 d-flex">
-                    <input type="number" class=" form-control" id="input12" style="font-size: medium; max-height: 38px;"><p style="margin-bottom: 0; margin-top: 6px;">%</p>
+                    <input type="number" class=" form-control pr-0" id="input12" style="font-size: medium; max-height: 38px;"><p style="margin-bottom: 0; margin-top: 6px;">%</p>
                 </div>
             </div>
             <div class="form-group row mt-5">
@@ -390,7 +388,7 @@ transform: translate(-50%, -50%);
                     <input type="range" min="1" max="10" value="3" class="slider" id="slider3" style="margin-top: 16px;">
                 </div>
                 <div class="col-sm-2 d-flex">
-                    <input type="number" class=" form-control" id="input13" style="font-size: medium; max-height: 38px;"><p style="margin-bottom: 0; margin-top: 6px;">%</p>
+                    <input type="number" class=" form-control pr-0" id="input13" style="font-size: medium; max-height: 38px;"><p style="margin-bottom: 0; margin-top: 6px;">%</p>
                 </div>
             </div>
             <div style="display: none;" class="form-group row mt-5">
