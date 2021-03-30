@@ -82,8 +82,8 @@ function removeComas(y)
 }
 
 let stepTwoButtons = 0
-let text = {0:["How much have you saved to buy an asset", "How much do you need to buy an asset?"], 1:["How much have you saved for your child's education?", "How much do you need for your child's education?"], 2:["How much have you saved for your marriage?", "How much do you need for your marriage?"], 3:["How much have you saved for your retirement?", "How much do you need for your retirement?"], 4:["How much have you saved for this financial goal?", "How much do you need for this financial goal?"]}
-
+let text2 = {0:["How much have you saved to buy an asset", "How much do you need to buy an asset?"], 1:["How much have you saved for your child's education?", "How much do you need for your child's education?"], 2:["How much have you saved for your marriage?", "How much do you need for your marriage?"], 3:["How much have you saved for your retirement?", "How much do you need for your retirement?"], 4:["How much have you saved for this financial goal?", "How much do you need for this financial goal?"]}
+let text = {}
 
 function checkStep1()
 {
@@ -97,7 +97,10 @@ function checkStep1()
         {
             let but = document.createElement('button')
             but.id = "stepTwoButtons"+stepTwoButtons
+            
+            text[stepTwoButtons] = [text2[i][0], text2[i][1]]
             stepTwoButtons++
+            
             but.setAttribute("class", "btn ml-3")
             if(once)
             {
@@ -110,6 +113,7 @@ function checkStep1()
             but.innerHTML = butName[i]
             diabledButtons.appendChild(but)
         }
+        
     }
     stepTwoButtons = 0
     document.getElementById("step1").style.display = "none"
