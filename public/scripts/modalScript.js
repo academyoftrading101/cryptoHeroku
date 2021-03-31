@@ -135,7 +135,7 @@ function loaded2()
             document.getElementById("coinImg").setAttribute("src", coinSrc[i])
             document.getElementById("coinDetail").innerHTML = coinDetails[i]
             document.getElementById("prediction").onclick = ()=>{
-                location.replace("/"+o[document.getElementById("number").innerHTML.slice(-1)])
+                location.href = "/"+o[document.getElementById("number").innerHTML.slice(-1)]
             }
             document.getElementById("opinion0").onclick = ()=>{
                 document.getElementById("features").innerHTML = ""

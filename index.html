@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous" async ></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
@@ -232,7 +232,7 @@
           <img id="coinImg" class="mt-5 col-md-7" src="/data/bitcoin.jpg" style="border-radius: 2rem; max-height: 600px; max-width: 600px; height: auto; width: auto;">
         </div>
         <div class="row mt-10"> 
-          <button id="prediction" class="hov mb-5" style="background: transparent; border: 0; outline: 0;" onclick="location.replace('/Bitcoins')"><img src="/data/newBG/button.svg"></button>
+          <button id="prediction" class="hov mb-5" style="background: transparent; border: 0; outline: 0;" onclick="location.href = '/Bitcoins'"><img src="/data/newBG/button.svg"></button>
           <button id="opinion0" class="hov mb-5" style="background: transparent; border: 0; outline: 0;" onclick="first(1)"><img src="/data/newBG/our opinion button.svg"></button>
           <button id="features0" class="hov mb-5" style="background: transparent; border: 0; outline: 0;" onclick="first(0)"><img src="/data/newBG/features button.svg"></button>
         </div>
