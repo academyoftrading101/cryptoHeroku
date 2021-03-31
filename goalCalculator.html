@@ -135,7 +135,7 @@ crossorigin="anonymous"></script>
                 let but = document.createElement('button')
                 but.id = "stepTwoButtons"+stepTwoButtons
                 text[stepTwoButtons] = [text2[i][0], text2[i][1]]
-                savings[stepTwoButtons] = new Array(9)
+                savings[stepTwoButtons] = new Array(10)
                 savings[stepTwoButtons][0] = "Rs. 1,80,611"
                 savings[stepTwoButtons][1] = "Rs. 549"
                 savings[stepTwoButtons][2] = document.getElementById('input10').value
@@ -145,6 +145,7 @@ crossorigin="anonymous"></script>
                 savings[stepTwoButtons][6] = document.getElementById('input12').value
                 savings[stepTwoButtons][7] = document.getElementById('input13').value
                 savings[stepTwoButtons][8] = removeComas(document.getElementById('input06').value)
+                savings[stepTwoButtons][9] = "for <strong>" + butName[i] + "</strong>, you need to save <strong>" + savings[stepTwoButtons][1] + "</strong> monthly"
                 but.setAttribute("class", "btn ml-3")
                 if(once)
                 {
@@ -163,6 +164,7 @@ crossorigin="anonymous"></script>
         }
         if(stepTwoButtons == 1)
         {
+            
             document.getElementById("nextButton").innerHTML = "Finish"
                             document.getElementById("nextButton").onclick = ()=>{
                                 document.getElementById("allCalculatorNameBox").style.display = "none"
@@ -177,7 +179,7 @@ crossorigin="anonymous"></script>
                                         backgroundColor: []
                                     }]
                                 };
-                                let colors = ["rgb(204, 51, 255)", "rgb(255, 102, 0)", "rgb(0, 153, 255)", "rgb(102, 255, 102)", "rgb(204, 0, 0)", "rgb(255, 255, 102)"]
+                                let colors = ["rgb(204, 51, 255)", "rgb(255, 102, 0)", "rgb(0, 153, 255)", "rgb(204, 0, 0)", "rgb(255, 255, 102)", "rgb(204, 255, 153)"]
                                 for(let j = 0; j < document.querySelectorAll('[id^="stepTwoButtons"]').length; j++)
                                 {
                                     data.labels.push(document.getElementById("stepTwoButtons"+j).innerHTML)
@@ -192,6 +194,7 @@ crossorigin="anonymous"></script>
                                     remainingMoney -= data.datasets[0].data[j]
                                 }
                                 data.datasets[0].data.push(remainingMoney)
+                                data.datasets[0].backgroundColor.push(colors[5])
                                 var myPieChart = new Chart(ctx, {
                                     type: 'doughnut',
                                     data: data,
@@ -204,8 +207,15 @@ crossorigin="anonymous"></script>
                                         }
                                     }
                                 });
-                            }
-                        
+                                let finalText = document.getElementById("finalResultText")
+                                for(let j = 0; j < document.querySelectorAll('[id^="stepTwoButtons"]').length; j++)
+                                {
+                                    let p = document.createElement('p')
+                                    p.style.fontSize = "18px"
+                                    p.innerHTML = savings[j][9]
+                                    finalText.appendChild(p)
+                                }
+                            }           
         }
         stepTwoButtons = 0
         document.getElementById("step1").style.display = "none"
@@ -278,6 +288,47 @@ crossorigin="anonymous"></script>
                                         }
                                     }
                                 });
+                                let finalText = document.getElementById("finalResultText")
+                                for(let j = 0; j < document.querySelectorAll('[id^="stepTwoButtons"]').length; j++)
+                                {
+                                    let p = document.createElement('p')
+                                    p.style.fontSize = "18px"
+                                    p.innerHTML = savings[j][9]
+                                    finalText.appendChild(p)
+                                }
+                                var ctx2 = document.getElementById('myChart2').getContext('2d');
+                                let data2 = {
+                                    labels: [],
+                                    datasets: [{
+                                        data: [],
+                                        backgroundColor: []
+                                    }]
+                                };
+                                for(let j = 0; j < document.querySelectorAll('[id^="stepTwoButtons"]').length; j++)
+                                {
+                                    data2.labels.push(document.getElementById("stepTwoButtons"+j).innerHTML)
+                                    let s = Number(removeComas(savings[j][1].slice(3)))
+                                    data2.datasets[0].data.push(s)
+                                    data2.datasets[0].backgroundColor.push(colors[j])
+                                }
+                                for(let j = 0; j < data2.datasets[0].data.length; j++)
+                                {
+                                    remainingMoney -= data2.datasets[0].data[j]
+                                }
+                                var myPieChart2 = new Chart(ctx2, {
+                                    type: 'doughnut',
+                                    data: data2,
+                                    options: {
+                                        legend: {
+                                            labels: {
+                                                fontColor: "Black",
+                                                fontSize: 20
+                                            }
+                                        }
+                                    }
+                                });
+                                
+                                
                             }
                         
                         }
@@ -373,6 +424,13 @@ crossorigin="anonymous"></script>
         //console.log(savings)
     }   
 
+    function goBack()
+    {
+        document.getElementById("allCalculatorNameBox").style.display = "block"
+        document.getElementById("calculatorBox").style.display = "block"
+        document.getElementById("result").style.display = "block"
+        document.getElementById("FinalPie").style.display = "none"
+    }
 
 </script>
 <style>
@@ -613,8 +671,20 @@ transform: translate(-50%, -50%);
         </div>
     </div>
     <div id="FinalPie" style="display: none;">
-        <p class="display-4 mt-5 mb-5">Final Result :</p>
-        <canvas id="myChart"></canvas>
+        <div class="row mt-5 mb-5">
+            <p class="col-md-6 display-4">Final Result :</p>
+            <button class="offset-md-5 col-md-1 btn btn-outline-success float-right" style="max-height: 32px !important; margin-top: 17px;" onclick="goBack()">Back</button>
+        </div>
+        <div class="row">
+            <canvas class="col-md-8" id="myChart"></canvas>
+            <div id="finalResultText" class="col-md-4">
+
+            </div>
+        </div>
+        <p class="display-4 mt-5 mb-5">distribution of all the savings required :</p>
+        <div class="row">
+            <canvas class="col-md-8" id="myChart2"></canvas>
+        </div>
     </div>
 </div>
 </div>
