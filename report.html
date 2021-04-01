@@ -5,6 +5,26 @@
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://kit.fontawesome.com/5c50a4aeb8.js" crossorigin="anonymous"></script>
 <script>
+    function nextStep()
+    {
+        let n = document.querySelectorAll('[id^="step"]').length
+        for(let i = 0; i < n; i++)
+        {
+            if(document.querySelectorAll('[id^="step"]')[i].style.display == "block")
+            {
+                document.querySelectorAll('[id^="step"]')[i].style.display = "none"
+                try
+                {
+                    document.querySelectorAll('[id^="step"]')[(i+1)].style.display = "block"
+                    break
+                }
+                catch
+                {
+
+                }
+            }
+        }
+    }
 </script>
 <style>
     .no_scroll {
@@ -136,16 +156,185 @@
         cursor: pointer;
     }
 
-
-    .centered {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+    .display-6 {
+        font-size: 22px;
     }
 </style>
 <div id="content" class="container">
-    
+    <div id="mainBox" class="row">
+        <div class="offset-md-1 mt-10 p-0 col-md-10 mb-10 border border-round">
+            <div style="height: 100px; background-color: orange; padding: 0;">
+                <P class="ml-5 display-4">Report Generator</P>
+            </div>
+            <div id="steps" class="ml-5" >
+                <div id="step0" style="display: block;">
+                    <P class="display-6 strong mt-3">The reason I trade</P>
+                    <p>Everyone has some purpose in life. Yes, I too have and that is trading. The reason why I chose trading as a career as it helps me realize and makes me understand my “Why”. </p>
+                    <p>Reasons why I trade. Noting them down so that every day I remind myself why I chose to trade and some of them are - </p>
+                    <form>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input00" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input00" style="font-size: medium;">To enjoy my life and provide beautiful life to my loved ones.</label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input01" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input01" style="font-size: medium;">To spend quality time with my family </label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input02" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input02" style="font-size: medium;">To have the freedom to choose where I wish to live </label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input03" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input03" style="font-size: medium;">To work from anywhere in the world </label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input04" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input04" style="font-size: medium;">To be my own boss </label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input05" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input05" style="font-size: medium;">To travel across the World </label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input06" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input06" style="font-size: medium;">To buy everything I need/want</label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input07" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input07" style="font-size: medium;">And very important to share my experience and talent with my community which means a lot to me. </label>
+                        </div>
+                    </form>
+                </div>
+                <div id="step1" style="display: none;">
+                    <P class="display-6 strong mt-3">My Traits</P>
+                    <p>Being a trader is not an easy job as it comes with huge responsibilities. Certain character traits are key to being a successful trader. I believe those traits in me which are my biggest Strengths. I I'll use these strengths  to aid me in my trading, and I'll continue to hone these skills by reading my trade journal and recognizing when I've used one of these Strengths. I will continue to evaluate my strengths and gain feedback from my community of fellow, like-minded traders and mentors in my life. My strengths are </p>
+                    <form>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input10" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input10" style="font-size: medium;">Discipline </label>
+                        </div>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input11" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input11" style="font-size: medium;">Patience</label>
+                        </div>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input12" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input12" style="font-size: medium;">Leadership skills</label>
+                        </div>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input13" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input13" style="font-size: medium;">Decisiveness</label>
+                        </div>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input14" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input14" style="font-size: medium;">Flexibility</label>
+                        </div>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input15" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input15" style="font-size: medium;">Committed</label>
+                        </div>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input16" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input16" style="font-size: medium;">Organized</label>
+                        </div>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input17" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input17" style="font-size: medium;">Goal Oriented</label>
+                        </div>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input18" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input18" style="font-size: medium;">Planner</label>
+                        </div>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input19" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input19" style="font-size: medium;">Emotionally Stable</label>
+                        </div>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input110" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input110" style="font-size: medium;">Ability to Focus</label>
+                        </div>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input111" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input111" style="font-size: medium;">Ability to survive in hardest of times </label>
+                        </div>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input112" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input112" style="font-size: medium;">Self-starter </label>
+                        </div>
+                        <div class="form-group row p-0">
+                            <input type="checkbox" class="col-sm-1" id="input113" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input113" style="font-size: medium;">Quick Learner</label>
+                        </div>
+                    </form>
+                </div>
+                <div id="step2" style="display: none;">
+                    <P class="display-6 strong mt-3">My Areas of Improvement</P>
+                    <p>Every strong person has some drawbacks. As the saying goes- Nobody is perfect. And the best part knowing them makes it more perfect to rectify that. So there are some areas which I need to work upon. </p>
+                    <p>I will continue to evaluate areas I need to improve upon and gain feedback from my community of fellow, like-minded traders and mentors in my life. My areas to improve upon are </p>
+                    <form>
+                        <div class="form-group row mb-0 p-0">
+                            <input type="checkbox" class="col-sm-1" id="input20" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input20" style="font-size: medium;">At times  I feel Lack of Discipline</label>
+                        </div>
+                        <div class="form-group row mb-0 p-0">
+                            <input type="checkbox" class="col-sm-1" id="input21" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input21" style="font-size: medium;">Impatient</label>
+                        </div>
+                        <div class="form-group row mb-0 p-0">
+                            <input type="checkbox" class="col-sm-1" id="input22" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input22" style="font-size: medium;">Indecisiveness</label>
+                        </div>
+                        <div class="form-group row mb-0 p-0">
+                            <input type="checkbox" class="col-sm-1" id="input23" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input23" style="font-size: medium;">Inflexibility</label>
+                        </div>
+                        <div class="form-group row mb-0 p-0">
+                            <input type="checkbox" class="col-sm-1" id="input24" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input24" style="font-size: medium;">Noncommittal</label>
+                        </div>
+                        <div class="form-group row mb-0 p-0">
+                            <input type="checkbox" class="col-sm-1" id="input25" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input25" style="font-size: medium;">Disorganized</label>
+                        </div>
+                        <div class="form-group row mb-0 p-0">
+                            <input type="checkbox" class="col-sm-1" id="input26" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input26" style="font-size: medium;">Impulsive</label>
+                        </div>
+                        <div class="form-group row mb-0 p-0">
+                            <input type="checkbox" class="col-sm-1" id="input27" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input27" style="font-size: medium;">Emotional</label>
+                        </div>
+                        <div class="form-group row mb-0 p-0">
+                            <input type="checkbox" class="col-sm-1" id="input28" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input28" style="font-size: medium;">At time Difficulty in Focusing </label>
+                        </div>
+                        <div class="form-group row mb-0 p-0">
+                            <input type="checkbox" class="col-sm-1" id="input29" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input29" style="font-size: medium;">Get easily discouraged </label>
+                        </div>
+                        <div class="form-group row mb-0 p-0">
+                            <input type="checkbox" class="col-sm-1" id="input210" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input210" style="font-size: medium;">Procrastinator</label>
+                        </div>
+                        <div class="form-group row mb-0 p-0">
+                            <input type="checkbox" class="col-sm-1" id="input211" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input211" style="font-size: medium;">Slow Learner</label>
+                        </div>
+                    </form>
+                </div>
+                <div id="step2" style="display: none;">
+                    <P class="display-6 strong mt-3">Markets I Trade</P>
+                    <p>I truly want to diversify my trading activities and be purposeful about the markets I trade in.  The strengths in me makes me try a hand on trading hence I continue to do so. My focus would be on- </p>
+                    <form>
+                <div id="buttons" class="row ml-0 mb-4">
+                    <button class="btn btn-outline-danger col-sm-2">Previous</button>
+                    <button class="btn btn-outline-success offset-sm-7 col-sm-2" onclick="nextStep()">Next Step</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -156,3 +345,11 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
     integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
     crossorigin="anonymous"></script>
+
+<script>
+    for(let i = 0; i < document.getElementsByTagName('form')[1].children.length; i++)
+    {
+        document.getElementsByTagName('form')[1].children[i].classList.add("mb-0")
+        console.log(document.getElementsByTagName('form')[1].children[i].children[0].checked)
+    }
+</script>
