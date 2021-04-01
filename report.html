@@ -5,17 +5,17 @@
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://kit.fontawesome.com/5c50a4aeb8.js" crossorigin="anonymous"></script>
 <script>
-    function nextStep()
+    function nextStep(n)
     {
-        let n = document.querySelectorAll('[id^="step"]').length
-        for(let i = 0; i < n; i++)
+        let n2 = document.querySelectorAll('[id^="step"]').length
+        for(let i = 0; i < n2; i++)
         {
             if(document.querySelectorAll('[id^="step"]')[i].style.display == "block")
             {
-                document.querySelectorAll('[id^="step"]')[i].style.display = "none"
                 try
                 {
-                    document.querySelectorAll('[id^="step"]')[(i+1)].style.display = "block"
+                    document.querySelectorAll('[id^="step"]')[(i+n)].style.display = "block"
+                    document.querySelectorAll('[id^="step"]')[i].style.display = "none"
                     break
                 }
                 catch
@@ -25,6 +25,66 @@
             }
         }
     }
+
+
+    function clone(id, id2)
+    {
+        let clone = document.getElementById(id).cloneNode(true)
+        document.getElementById(id).id = ""
+        let newId = clone.children[0].children[0].children[0].id.slice(0, (clone.children[0].children[0].children[0].id.length - 1)) + (Number(clone.children[0].children[0].children[0].id.slice(-1)) + 1)
+        clone.children[0].children[0].children[0].id = newId
+        clone.children[0].children[0].children[0].innerHTML = "choose a option"
+        let n = clone.children[0].children[0].children[1].children.length
+        let a = clone.children[0].children[0].children[1].children
+        for(let i = 0; i < n; i++)
+        {
+            
+            a[i].onclick = ()=>{
+                document.getElementById(newId).innerHTML = a[i].innerHTML
+            }
+        }
+        clone.children[1].children[0].value = ""
+        let addButton = document.getElementById("addButton")
+        document.getElementById("addButton").remove()
+        document.getElementById(id2).appendChild(clone)
+        document.getElementById(id2).appendChild(addButton)
+    }
+
+    function clone2(id, id2, j)
+    {
+        let clone = document.getElementById(id).cloneNode(true)
+        document.getElementById(id).id = ""
+        let newId = clone.children[3].children[0].children[0].id.slice(0, (clone.children[3].children[0].children[0].id.length - 1)) + (Number(clone.children[3].children[0].children[0].id.slice(-1)) + 1)
+        clone.children[3].children[0].children[0].id = newId
+        clone.children[3].children[0].children[0].innerHTML = "choose"
+        let n = clone.children[3].children[0].children[1].children.length
+        let a = clone.children[3].children[0].children[1].children
+        for(let i = 0; i < n; i++)
+        {
+            
+            a[i].onclick = ()=>{
+                document.getElementById(newId).innerHTML = a[i].innerHTML
+            }
+        }
+        let newId2 = clone.children[5].children[0].children[0].id.slice(0, (clone.children[5].children[0].children[0].id.length - 1)) + (Number(clone.children[5].children[0].children[0].id.slice(-1)) + 1)
+        clone.children[5].children[0].children[0].id = newId2
+        clone.children[5].children[0].children[0].innerHTML = "choose"
+        let n2 = clone.children[5].children[0].children[1].children.length
+        let a2 = clone.children[5].children[0].children[1].children
+        for(let i = 0; i < n2; i++)
+        {
+            
+            a2[i].onclick = ()=>{
+                document.getElementById(newId2).innerHTML = a2[i].innerHTML
+            }
+        }
+        clone.children[0].value = ""
+        let addButton = document.getElementById("addButton"+j)
+        document.getElementById("addButton"+j).remove()
+        document.getElementById(id2).appendChild(clone)
+        document.getElementById(id2).appendChild(addButton)
+    }
+
 </script>
 <style>
     .no_scroll {
@@ -167,7 +227,7 @@
                 <P class="ml-5 display-4">Report Generator</P>
             </div>
             <div id="steps" class="ml-5" >
-                <div id="step0" style="display: block;">
+                <div id="step0" style="display: none;">
                     <P class="display-6 strong mt-3">The reason I trade</P>
                     <p>Everyone has some purpose in life. Yes, I too have and that is trading. The reason why I chose trading as a career as it helps me realize and makes me understand my “Why”. </p>
                     <p>Reasons why I trade. Noting them down so that every day I remind myself why I chose to trade and some of them are - </p>
@@ -323,13 +383,133 @@
                         </div>
                     </form>
                 </div>
-                <div id="step2" style="display: none;">
+                <div id="step3" style="display: none;">
                     <P class="display-6 strong mt-3">Markets I Trade</P>
                     <p>I truly want to diversify my trading activities and be purposeful about the markets I trade in.  The strengths in me makes me try a hand on trading hence I continue to do so. My focus would be on- </p>
-                    <form>
+                    <div class="row"> 
+                        <div class="col-md-3">
+                            <h3>Assets</h3>
+                        </div>
+                        <div class="offset-md-1 col-md-8">
+                            <h3>Market Rules</h3>
+                        </div>
+                    </div>
+                    <div id="clonethis" class="row mb-3"> 
+                        <div class="col-md-3">
+                            <div class="dropdown">
+                                <button id="ddb000" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    choose a option
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb000').innerHTML = this.innerHTML">Stocks</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb000').innerHTML = this.innerHTML">ETFs</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb000').innerHTML = this.innerHTML">Futures</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb000').innerHTML = this.innerHTML">Forex</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb000').innerHTML = this.innerHTML">options (Directionals)</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb000').innerHTML = this.innerHTML">options (Non-Directionals)</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb000').innerHTML = this.innerHTML">ProActive Investor</a>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="offset-md-1 col-md-7">
+                            <textarea rows="2" class="w-100"></textarea>
+                        </div>
+                        <div class="col-md-1 p-0">
+                            <span onclick="this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id; this.parentNode.parentNode.remove();"><i class="fas fa-trash-alt fa-2x" style="margin-top: 10px;"></i></span>
+                        </div>
+                        
+                    </div>
+                    <button id="addButton" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone('clonethis', 'step3')">Add</button>
+                </div>
+                <div id="step4" style="display: none;">
+                    <P class="display-6 strong mt-3">My Income Goals</P>
+                    <p>My aim is to be realistic on how much money I can make from trading and investing. This goal is meant to inspire me while also assisting me in staying focused on risk and reward management.  My Income goals are- </p>
+                    <div id="clonethis2" class="row mb-3"> 
+                        <input class="form-control col-md-1 p-0" type="number">
+                        <p class="col-md-1 p-0" style="margin-top: 6px; margin-bottom: 0;">%</p>
+                        <p class="col-md-2 p-0"> Increase for </p>
+                        <div class="col-md-2 p-0">
+                            <div class="dropdown">
+                                <button id="ddb010" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    choose
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb010').innerHTML = this.innerHTML">Day</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb010').innerHTML = this.innerHTML">Week</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb010').innerHTML = this.innerHTML">Month</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb010').innerHTML = this.innerHTML">Year</a>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="col-md-2 p-0">Trading - </p>
+                        <div class="col-md-3 p-0">
+                            <div class="dropdown">
+                                <button id="ddb020" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    choose
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb020').innerHTML = this.innerHTML">Stocks</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb020').innerHTML = this.innerHTML">ETFs</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb020').innerHTML = this.innerHTML">Futures</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb020').innerHTML = this.innerHTML">Forex</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb020').innerHTML = this.innerHTML">options (Directionals)</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb020').innerHTML = this.innerHTML">options (Non-Directionals)</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb020').innerHTML = this.innerHTML">ProActive Investor</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1 p-0">
+                            <span onclick="this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id; this.parentNode.parentNode.remove();"><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
+                        </div>
+                    </div>
+                    <button id="addButton2" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone2('clonethis2', 'step4', 2)">Add</button>
+                </div>
+                <div id="step5" style="display: block;">
+                    <P class="display-6 strong mt-3">My Wealth Goals</P>
+                    <p>Purpose is to learn and  grow everyday as a trader, objective is to be  hopeful with how much money I make with my trading and investing skills and to protect my wealth account. Some of my wealth goals are-</p>
+                    <div id="clonethis3" class="row mb-3"> 
+                        <input class="form-control col-md-1 p-0" type="number">
+                        <p class="col-md-1 p-0" style="margin-top: 6px; margin-bottom: 0;">%</p>
+                        <p class="col-md-2 p-0"> Increase for </p>
+                        <div class="col-md-2 p-0">
+                            <div class="dropdown">
+                                <button id="ddb030" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    choose
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb030').innerHTML = this.innerHTML">Day</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb030').innerHTML = this.innerHTML">Week</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb030').innerHTML = this.innerHTML">Month</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb030').innerHTML = this.innerHTML">Year</a>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="col-md-2 p-0">Trading - </p>
+                        <div class="col-md-3 p-0">
+                            <div class="dropdown">
+                                <button id="ddb040" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    choose
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb040').innerHTML = this.innerHTML">Stocks</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb040').innerHTML = this.innerHTML">ETFs</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb040').innerHTML = this.innerHTML">Futures</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb040').innerHTML = this.innerHTML">Forex</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb040').innerHTML = this.innerHTML">options (Directionals)</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb040').innerHTML = this.innerHTML">options (Non-Directionals)</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb040').innerHTML = this.innerHTML">ProActive Investor</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1 p-0">
+                            <span onclick="this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id; this.parentNode.parentNode.remove();"><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
+                        </div>
+                    </div>
+                    <button id="addButton3" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone2('clonethis3', 'step5', 3)">Add</button>
+                </div>
                 <div id="buttons" class="row ml-0 mb-4">
-                    <button class="btn btn-outline-danger col-sm-2">Previous</button>
-                    <button class="btn btn-outline-success offset-sm-7 col-sm-2" onclick="nextStep()">Next Step</button>
+                    <button class="btn btn-outline-danger col-sm-2" onclick="nextStep(-1)">Previous</button>
+                    <button class="btn btn-outline-success offset-sm-7 col-sm-2" onclick="nextStep(1)">Next Step</button>
                 </div>
             </div>
         </div>
