@@ -4,6 +4,8 @@ const resourcesToPrecache = [
     '/index',
     '/contact',
     '/quiz',
+    '/admin',
+    '/Bitcoins',
     '/style/style.css',
     '/data/bitcoin.jpg',
     'data/Cardano.jpg',
@@ -31,7 +33,11 @@ const resourcesToPrecache = [
     'data/newBG/Rectangle last page footer.svg',
     'data/newBG/toggle rectangle green.svg',
     'data/newBG/XRP.svg',
-    
+    'scripts/admin.js',
+    'scripts/login.js',
+    'scripts/modalScript.js',
+    'scripts/prediction.js',
+    'scripts/script.js'
 ]
 
 self.addEventListener('install', event => {
