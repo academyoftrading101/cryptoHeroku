@@ -26,6 +26,30 @@
         }
     }
 
+    let nums = [0,1,2,3,4,5,6,7,8,9]
+    function onlyNumber(t)
+    {
+            if(!Number.isInteger(Number(document.getElementById("amount"+t).value[(document.getElementById("amount"+t).value.length - 1)])))
+            {
+                document.getElementById("amount"+t).value = document.getElementById("amount"+t).value.slice(0,(document.getElementById("amount"+t).value.length - 1))
+            }
+            document.getElementById("amount"+t).value = addComas(removeComas(document.getElementById("amount"+t).value))
+        }
+
+    function removeComas(y)
+    {
+        return y.replace(/\,/g, '')
+    }
+
+    function addComas(y)
+    {
+        let x = y.toString();
+        var lastThree = x.substring(x.length - 3);
+        var otherNumbers = x.substring(0, x.length - 3);
+        if (otherNumbers != '')
+            lastThree = ',' + lastThree;
+        return (otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree)
+    }
 
     function clone(id, id2)
     {
@@ -50,15 +74,15 @@
         document.getElementById(id2).appendChild(addButton)
     }
 
-    function clone2(id, id2, j)
+    function clone2(id, id2, j, k, l, m)
     {
         let clone = document.getElementById(id).cloneNode(true)
         document.getElementById(id).id = ""
-        let newId = clone.children[3].children[0].children[0].id.slice(0, (clone.children[3].children[0].children[0].id.length - 1)) + (Number(clone.children[3].children[0].children[0].id.slice(-1)) + 1)
-        clone.children[3].children[0].children[0].id = newId
-        clone.children[3].children[0].children[0].innerHTML = "choose"
-        let n = clone.children[3].children[0].children[1].children.length
-        let a = clone.children[3].children[0].children[1].children
+        let newId = clone.children[k].children[0].children[0].id.slice(0, (clone.children[k].children[0].children[0].id.length - 1)) + (Number(clone.children[k].children[0].children[0].id.slice(-1)) + 1)
+        clone.children[k].children[0].children[0].id = newId
+        clone.children[k].children[0].children[0].innerHTML = "choose"
+        let n = clone.children[k].children[0].children[1].children.length
+        let a = clone.children[k].children[0].children[1].children
         for(let i = 0; i < n; i++)
         {
             
@@ -66,11 +90,11 @@
                 document.getElementById(newId).innerHTML = a[i].innerHTML
             }
         }
-        let newId2 = clone.children[5].children[0].children[0].id.slice(0, (clone.children[5].children[0].children[0].id.length - 1)) + (Number(clone.children[5].children[0].children[0].id.slice(-1)) + 1)
-        clone.children[5].children[0].children[0].id = newId2
-        clone.children[5].children[0].children[0].innerHTML = "choose"
-        let n2 = clone.children[5].children[0].children[1].children.length
-        let a2 = clone.children[5].children[0].children[1].children
+        let newId2 = clone.children[l].children[0].children[0].id.slice(0, (clone.children[l].children[0].children[0].id.length - 1)) + (Number(clone.children[l].children[0].children[0].id.slice(-1)) + 1)
+        clone.children[l].children[0].children[0].id = newId2
+        clone.children[l].children[0].children[0].innerHTML = "choose"
+        let n2 = clone.children[l].children[0].children[1].children.length
+        let a2 = clone.children[l].children[0].children[1].children
         for(let i = 0; i < n2; i++)
         {
             
@@ -78,15 +102,91 @@
                 document.getElementById(newId2).innerHTML = a2[i].innerHTML
             }
         }
-        clone.children[0].value = ""
+        clone.children[m].value = ""
+        clone.children[m].id = clone.children[m].id.slice(0, (clone.children[m].id.length - 1)) + (Number(clone.children[m].id.slice(-1)) + 1)
+        clone.children[m].oninput = ()=>
+        {
+            if(clone.children[m].id.length > 7)
+            onlyNumber(clone.children[m].id.slice(-2))
+            else
+            onlyNumber(clone.children[m].id.slice(-1))
+        }
         let addButton = document.getElementById("addButton"+j)
         document.getElementById("addButton"+j).remove()
         document.getElementById(id2).appendChild(clone)
         document.getElementById(id2).appendChild(addButton)
     }
 
+    function appendTime(select)
+    {
+        select.innerHTML = ""
+        let option = document.createElement('option')
+            option.classList.add('option')
+            option.innerHTML = ""
+            select.appendChild(option)
+        for(let i = 0; i < 12; i++)
+        {
+            let option = document.createElement('option')
+            option.classList.add('option')
+            option.innerHTML = i<10? "0"+i +":00 AM":""+i +":00 AM"
+            select.appendChild(option)
+            option.parentNode.onclick = null
+        }
+        for(let i = 0; i < 12; i++)
+        {
+            let option = document.createElement('option')
+            option.classList.add('option')
+            option.innerHTML = i<10? "0"+i +":00 PM":""+i +":00 PM"
+            select.appendChild(option)
+            option.parentNode.onclick = null
+        }
+    }
+
+    function clone3(id, id2, j)
+    {
+        let clone = document.getElementById(id).cloneNode(true)
+        document.getElementById(id).id = ""
+        clone.children[0].children[0].value = ""
+        let addButton = document.getElementById("addButton"+j)
+        document.getElementById("addButton"+j).remove()
+        document.getElementById(id2).appendChild(clone)
+        document.getElementById(id2).appendChild(addButton)
+    }
+
+    function updateDay(n)
+    {
+        let i = Math.floor(n/10)
+        let j = n%10
+        let k = removeComas(document.getElementById("amount"+(i-1)+j).value)
+        document.getElementById("amount"+(i+1)+j).value = (document.getElementById("amount"+n).value*5)
+        document.getElementById("amount"+(i+2)+j).value = (document.getElementById("amount"+n).value*5*4)
+        document.getElementById("amount"+(i+3)+j).value = addComas(k*document.getElementById("amount"+n).value)
+        document.getElementById("amount"+(i+4)+j).value = addComas(k*document.getElementById("amount"+n).value*5)
+        document.getElementById("amount"+(i+5)+j).value = addComas(k*document.getElementById("amount"+n).value*5*4)
+    }
+
+    function updateWeekly(n)
+    {
+        let i = Math.floor(n/10)
+        let j = n%10
+        document.getElementById("amount"+(i+3)+j).value = document.getElementById("amount"+n).value*document.getElementById("amount3"+j).value
+    }
+
 </script>
+
+
+
+
+
+
+
 <style>
+    .option {
+        background-color: white;
+        color: black;
+        padding: 0.25rem;
+    }
+
     .no_scroll {
         overflow-x: hidden;
     }
@@ -122,11 +222,6 @@
         transform: scale(1.1);
         border-width: 2px;
         border-color: black;
-    }
-
-    .option_Style {
-        max-width: 250px !important;
-        background-color: grey;
     }
 
     .hov:hover {
@@ -218,6 +313,14 @@
 
     .display-6 {
         font-size: 22px;
+    }
+
+    .select {
+        background-color: #6c757d; 
+        color: white;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        outline: none;
     }
 </style>
 <div id="content" class="container">
@@ -407,7 +510,6 @@
                                   <a class="dropdown-item dd000" onclick="document.getElementById('ddb000').innerHTML = this.innerHTML">Forex</a>
                                   <a class="dropdown-item dd000" onclick="document.getElementById('ddb000').innerHTML = this.innerHTML">options (Directionals)</a>
                                   <a class="dropdown-item dd000" onclick="document.getElementById('ddb000').innerHTML = this.innerHTML">options (Non-Directionals)</a>
-                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb000').innerHTML = this.innerHTML">ProActive Investor</a>
                                 </div>
                               </div>
                         </div>
@@ -416,9 +518,10 @@
                         </div>
                         <div class="col-md-1 p-0">
                             <span onclick="
-                            if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2] || this.parentNode.parentNode.parentNode.children.length > 4)
+                            console.log(this.parentNode.parentNode.parentNode.children)
+                            if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3] || this.parentNode.parentNode.parentNode.children.length > 5)
                             {
-                                if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2])
+                                if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3])
                                 {
                                     this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id;
                                 }
@@ -464,7 +567,6 @@
                                   <a class="dropdown-item dd000" onclick="document.getElementById('ddb020').innerHTML = this.innerHTML">Forex</a>
                                   <a class="dropdown-item dd000" onclick="document.getElementById('ddb020').innerHTML = this.innerHTML">options (Directionals)</a>
                                   <a class="dropdown-item dd000" onclick="document.getElementById('ddb020').innerHTML = this.innerHTML">options (Non-Directionals)</a>
-                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb020').innerHTML = this.innerHTML">ProActive Investor</a>
                                 </div>
                             </div>
                         </div>
@@ -482,9 +584,9 @@
                             "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>    
                         </div>
                     </div>
-                    <button id="addButton2" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone2('clonethis2', 'step4', 2)">Add</button>
+                    <button id="addButton2" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone2('clonethis2', 'step4', 2, 3, 5, 0)">Add</button>
                 </div>
-                <div id="step5" style="display: block;">
+                <div id="step5" style="display: none;">
                     <P class="display-6 strong mt-3">My Wealth Goals</P>
                     <p>Purpose is to learn and  grow everyday as a trader, objective is to be  hopeful with how much money I make with my trading and investing skills and to protect my wealth account. Some of my wealth goals are-</p>
                     <div id="clonethis3" class="row mb-3"> 
@@ -517,7 +619,6 @@
                                   <a class="dropdown-item dd000" onclick="document.getElementById('ddb040').innerHTML = this.innerHTML">Forex</a>
                                   <a class="dropdown-item dd000" onclick="document.getElementById('ddb040').innerHTML = this.innerHTML">options (Directionals)</a>
                                   <a class="dropdown-item dd000" onclick="document.getElementById('ddb040').innerHTML = this.innerHTML">options (Non-Directionals)</a>
-                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb040').innerHTML = this.innerHTML">ProActive Investor</a>
                                 </div>
                             </div>
                         </div>
@@ -535,13 +636,537 @@
                             "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
                         </div>
                     </div>
-                    <button id="addButton3" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone2('clonethis3', 'step5', 3)">Add</button>
+                    <button id="addButton3" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone2('clonethis3', 'step5', 3, 3, 5, 0)">Add</button>
+                </div>
+                <div id="step6" style="display: none;">
+                    <P class="display-6 strong mt-3">My Trading and Investing Accounts</P>
+                    <p>This portion of my trading plan lists all of my accounts and the initial capital I have in each of them.</p>
+                    <div id="clonethis4" class="row mb-3">
+                        <div class="col-md-2 p-0">
+                            <div class="dropdown">
+                                <button id="ddb050" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    choose
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb050').innerHTML = this.innerHTML">Stock</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb050').innerHTML = this.innerHTML">Stock/Options</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb050').innerHTML = this.innerHTML">Futures</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb050').innerHTML = this.innerHTML">Futures/Options</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb050').innerHTML = this.innerHTML">Forex</a>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="col-md-2 p-0">account with</p>
+                        <div class="col-md-2 p-0">
+                            <div class="dropdown">
+                                <button id="ddb060" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    choose
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb060').innerHTML = this.innerHTML">Zerodha</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb060').innerHTML = this.innerHTML">Upstox</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb060').innerHTML = this.innerHTML">5Paise</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb060').innerHTML = this.innerHTML">Fyers</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb060').innerHTML = this.innerHTML">Sharekhan</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb060').innerHTML = this.innerHTML">Angel</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb060').innerHTML = this.innerHTML">Motilal Oswal</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb060').innerHTML = this.innerHTML">SMC Securities</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb060').innerHTML = this.innerHTML">IIFL</a>
+                                  <a class="dropdown-item dd000" onclick="document.getElementById('ddb060').innerHTML = this.innerHTML">others</a>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="col-md-2 p-0">containing</p>
+                        <p class="p-0" style="margin-top: 6px; margin-bottom: 0;">Rs.</p>
+                        <input id="amount1" class="form-control col-md-2 p-0" style="max-height: 34px;" type="text" oninput="onlyNumber(1);">
+                        <div class="col-md-1 p-0 ml-4">
+                            <span onclick="
+                            if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2] || this.parentNode.parentNode.parentNode.children.length > 4)
+                            {
+                                if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2])
+                                {
+                                    this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id;
+                                }
+                                this.parentNode.parentNode.remove();
+                            }
+                                
+                            "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
+                        </div>
+                    </div>
+                    <button id="addButton4" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone2('clonethis4', 'step6', 4, 0, 2, 5);">Add</button>
+                </div>
+                <div id="step7" style="display: none;">
+                    <P class="display-6 strong mt-3">My Trading Schedule and Time Commitment</P>
+                    <p>Following a time table and hours of working commitments  helps me plan out my “day-in-the-life” or week or month of my time as a trader/investor.  I wouls surely treat my schedule regimen as a work day and commit to consistently executing my plan on a regular basis</p>
+                    <div id="clonethis5" class="mb-3">
+                        <div class="row">
+                            <input class="form-control" type="number" style="max-height: 38px; width: 50px;">
+                            <div class="col-md-3 p-0 ml-3">    
+                                <label class="ml-2">hours per</label>
+                                <select class="select ml-2">
+                                    <option class="option" value=""></option>
+                                    <option class="option">day</option>
+                                    <option class="option">week</option>
+                                    <option class="option">month</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 p-0">    
+                                <label fo>from</label>
+                                <select class="select" onclick="appendTime(this)">
+                                    <option class="option"></option>
+                                    <option class="option">00:00 AM</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 p-0">    
+                                <label class="ml-2">to</label>
+                                <select class="select ml-2" onclick="appendTime(this)">
+                                    <option class="option"></option>
+                                    <option class="option">00:00 AM</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <span onclick="
+                                if(this.parentNode.parentNode.parentNode != this.parentNode.parentNode.parentNode.parentNode.children[2] || this.parentNode.parentNode.parentNode.parentNode.children.length > 4)
+                                {
+                                    if(this.parentNode.parentNode.parentNode != this.parentNode.parentNode.parentNode.parentNode.children[2])
+                                    {
+                                        this.parentNode.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.parentNode.id;
+                                    }
+                                    this.parentNode.parentNode.parentNode.remove();
+                                }
+                                    
+                                "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-5 p-0">    
+                                <label class="ml-2">to trade</label>
+                                <select class="select ml-2">
+                                    <option class="option" value=""></option>
+                                    <option class="option">Stocks</option>
+                                    <option class="option">ETFs</option>
+                                    <option class="option">Futures</option>
+                                    <option class="option">Forex</option>
+                                    <option class="option">options (PAI)</option>
+                                    <option class="option">options (Directionals)</option>
+                                    <option class="option">options (Non-Directionals)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 p-0 ml-3">    
+                                <label class="ml-2">for</label>
+                                <select class="select ml-2">
+                                    <option class="option" value=""></option>
+                                    <option class="option">Income</option>
+                                    <option class="option">Wealth</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    <button id="addButton5" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone3('clonethis5', 'step7', 5)">Add</button>
+                </div>
+                <div id="step8" style="display: none;">
+                    <P class="display-6 strong mt-3">My Risk Management Rules (Part 1)</P>
+                    <p>It's important to make a list of the principles I'll adhere to when it comes to risk management. I use Core Strategy to identify low-cost, high-reward, high-probability opportunities while controlling my risk and emotions with a rule-based strategy that I adhere to diligently</p>
+                    <form>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input30" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input30" style="font-size: medium;">I always use Stop Orders.</label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input31" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input31" style="font-size: medium;">I cut my losses short and I let my profits run.</label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input32" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input020" style="font-size: medium;">I never open a position in the market without knowing my initial risk</label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input33" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input33" style="font-size: medium;">I define my profit and loss as some multiple of my initial risk.</label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input34" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input34" style="font-size: medium;">I limit my losses to 1:1 or less.</label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input35" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input35" style="font-size: medium;">I only take opportunities with a Reward vs. Ratio >= 
+                                <select class="">
+                                    <option class="option"></option>
+                                    <option class="option">10:1</option>
+                                    <option class="option">9:1</option>
+                                    <option class="option">8:1</option>
+                                    <option class="option">7:1</option>
+                                    <option class="option">6:1</option>
+                                    <option class="option">5:1</option>
+                                    <option class="option">4:1</option>
+                                    <option class="option">3:1</option>
+                                    <option class="option">2:1</option>
+                                    <option class="option">1:1</option>
+                                </select> to my 1st target.</label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input36" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input36" style="font-size: medium;">I never risk more than 
+                                <input type="number" id="input38" style="margin-top: 6px; width: 50px;">
+                                % of my trading account for any single trade.</label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input37" style="margin-top: 6px;">
+                            <label class="col-sm-11 p-0" for="input37" style="font-size: medium;">With multiple trades in the market (positions) at the same time, I never risk more than 
+                                <input type="number" id="input39" style="margin-top: 6px; width: 50px;">
+                                % of my account.</label>
+                        </div>
+                    </form>
+                </div>
+                <div id="step9" style="display: none;">
+                    <P class="display-6 strong mt-3">My Risk Management Rules (Part 2)</P>
+                    <p>It is critical to list the rules that I will actively follow in managing my risk.</p>
+                    <form>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input40" style="margin-top: 6px;">
+                            <label class="col-sm-11 " for="input40" style="font-size: medium;">I use appropriate entry orders to enter my positions. That way I remove my emotions out of the trade</label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input40" style="margin-top: 6px;">
+                            <label class="col-sm-11 " for="input40" style="font-size: medium;">I am always properly diversified; therefore I don’t take correlated trades in the same markets (for example Long the EURUSD and Short the USDCHF). If I set up several trades that are correlated, when the first opportunity is filled, the other orders are cancelled</label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input40" style="margin-top: 6px;">
+                            <label class="col-sm-11 " for="input40" style="font-size: medium;">I only use brokers that hold my orders in their servers so in a situation of a power outage or an Internet drop, I will remain protected (Stop Order in place) at all times</label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input40" style="margin-top: 6px;">
+                            <label class="col-sm-11 " for="input40" style="font-size: medium;">I backup my trading platform every day and I backup my trading computer on a cloud drive</label>
+                        </div>
+                        <div class="form-group row">
+                            <input type="checkbox" class="col-sm-1" id="input40" style="margin-top: 6px;">
+                            <label class="col-sm-11 " for="input40" style="font-size: medium;">I log my trades, I review my results and I learn from my mistakes</label>
+                        </div>
+                    </form>
+                </div>
+                <div id="step10" style="display: block;">
+                    <P class="display-6 strong mt-3">My Risk Management Rules (Part 3)</P>
+                    <p>It is critical that I list the rules that I will actively follow to manage my risk.</p>
+                    <div class="row pb-3 mb-3" style="border-bottom: 2px solid gray; width: 96%;"> 
+                        <div class="col-md-4">
+                            <h4>RISK PARAMETERS</h4>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>STOCKS</h4>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>FUTURES</h4>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>FOREX</h4>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>OPTIONS</h4>
+                        </div>
+                    </div>
+                    <div class="row mt-4" style="width: 96%;">
+                        <div class="col-md-4">
+                            <h5>Account Size</h5>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" id="amount20" type="text" oninput="onlyNumber(20)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" id="amount21" type="text" oninput="onlyNumber(21)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" id="amount22" type="text" oninput="onlyNumber(22)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" id="amount23" type="text" oninput="onlyNumber(23)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4" style="width: 96%;">
+                        <div class="col-md-4">
+                            <h5>Maximum Risk Per Trade</h5>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" id="amount30" type="text" oninput="onlyNumber(30)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" id="amount31" type="text" oninput="onlyNumber(31)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" id="amount32" type="text" oninput="onlyNumber(32)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" id="amount33" type="text" oninput="onlyNumber(33)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4" style="width: 96%;">
+                        <div class="col-md-4">
+                            <h5>Maximum Opened Trades Per Day</h5>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <input class="form-control w-100" id="amount40" type="number" oninput="updateDay(40)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <input class="form-control w-100" id="amount41" type="number" oninput="updateDay(41)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <input class="form-control w-100" id="amount42" type="number" oninput="updateDay(42)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <input class="form-control w-100" id="amount43" type="number" oninput="updateDay(43)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4" style="width: 96%;">
+                        <div class="col-md-4">
+                            <h5>Maximum Opened Trades Per Week</h5>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <input class="form-control w-100" id="amount50" type="number" oninput="updateWeekly(50)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <input class="form-control w-100" id="amount51" type="number" oninput="updateWeekly(51)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <input class="form-control w-100" id="amount52" type="number" oninput="updateWeekly(52)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <input class="form-control w-100" id="amount53" type="number" oninput="updateWeekly(53)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4" style="width: 96%;">
+                        <div class="col-md-4">
+                            <h5>Maximum Opened Trades Per Month</h5>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <input class="form-control w-100" id="amount60" type="number" oninput="updateWeekly(60)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <input class="form-control w-100" id="amount61" type="number" oninput="updateWeekly(61)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <input class="form-control w-100" id="amount62" type="number" oninput="updateWeekly(62)">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <input class="form-control w-100" id="amount63" type="number" oninput="updateWeekly(63)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4" style="width: 96%;">
+                        <div class="col-md-4">
+                            <h5>Maximum Daily Loss</h5>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" id="amount70" type="text" oninput="onlyNumber(70);">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" id="amount71" type="text" oninput="onlyNumber(71);">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" id="amount72" type="text" oninput="onlyNumber(72);">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" id="amount73" type="text" oninput="onlyNumber(73);">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4" style="width: 96%;">
+                        <div class="col-md-4">
+                            <h5>Maximum Weekly Loss</h5>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" readonly id="amount80" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" readonly id="amount81" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" readonly id="amount82" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" readonly id="amount83" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4" style="width: 96%;">
+                        <div class="col-md-4">
+                            <h5>Maximum Monthly Loss</h5>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" readonly id="amount90" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" readonly id="amount91" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" readonly id="amount92" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-2 pl-0">
+                            <div class="input-group">
+                                <div class="input-group-prepend" style="background-color: transparent; border-right: none;">
+                                  <span class="input-group-text pr-0 pl-0" id="inputGroup-sizing-default" style="background-color: transparent !important; border-right: none;">Rs.</span>
+                                </div>
+                                <input class="form-control w-90" readonly id="amount93" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4 mb-5" style="width: 96%;">
+                        <div class="col-md-4">
+                            <h5>Can Hold Trades Over the Weekend</h5>
+                        </div>
+                        <div class="col-md-2 pl-5">
+                            <select>
+                                <option></option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 pl-5">
+                            <select>
+                                <option></option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 pl-5">
+                            <select>
+                                <option></option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 pl-5">
+                            <select>
+                                <option></option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div id="buttons" class="row ml-0 mb-4">
                     <button class="btn btn-outline-danger col-sm-2" onclick="nextStep(-1)">Previous</button>
-                    <button class="btn btn-outline-success offset-sm-7 col-sm-2" onclick="nextStep(1)">Next Step</button>
+                     <button class="btn btn-outline-success offset-sm-7 col-sm-2" onclick="nextStep(1)">Next Step</button>
                 </div>
             </div>
+
         </div>
 
     </div>
