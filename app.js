@@ -48,15 +48,15 @@ app.get('/admin', (req, res) =>
     
 }); 
 
-app.get('/calculator', (req, res) =>
-{
-    res.sendFile(__dirname + '/calculator.html');
-}); 
+// app.get('/calculator', (req, res) =>
+// {
+//     res.sendFile(__dirname + '/calculator.html');
+// }); 
 
-app.get('/calculator2', (req, res) =>
-{
-    res.sendFile(__dirname + '/calculator2.html');
-}); 
+// app.get('/calculator2', (req, res) =>
+// {
+//     res.sendFile(__dirname + '/calculator2.html');
+// }); 
 
 app.get('/contact', (req, res) =>
 {
@@ -78,6 +78,11 @@ app.get('/quiz', (req, res) =>
 {
     res.sendFile(__dirname + '/quiz.html');
 }); 
+
+app.get('/sw.js', (req, res) =>
+{
+    res.sendFile(__dirname + '/sw.js');
+});
 
 
 app.use(

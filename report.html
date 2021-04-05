@@ -415,7 +415,17 @@
                             <textarea rows="2" class="w-100"></textarea>
                         </div>
                         <div class="col-md-1 p-0">
-                            <span onclick="this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id; this.parentNode.parentNode.remove();"><i class="fas fa-trash-alt fa-2x" style="margin-top: 10px;"></i></span>
+                            <span onclick="
+                            if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2] || this.parentNode.parentNode.parentNode.children.length > 4)
+                            {
+                                if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2])
+                                {
+                                    this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id;
+                                }
+                                this.parentNode.parentNode.remove();
+                            }
+                                
+                            "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>    
                         </div>
                         
                     </div>
@@ -459,7 +469,17 @@
                             </div>
                         </div>
                         <div class="col-md-1 p-0">
-                            <span onclick="this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id; this.parentNode.parentNode.remove();"><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
+                            <span onclick="
+                            if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2] || this.parentNode.parentNode.parentNode.children.length > 4)
+                            {
+                                if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2])
+                                {
+                                    this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id;
+                                }
+                                this.parentNode.parentNode.remove();
+                            }
+                                
+                            "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>    
                         </div>
                     </div>
                     <button id="addButton2" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone2('clonethis2', 'step4', 2)">Add</button>
@@ -502,7 +522,17 @@
                             </div>
                         </div>
                         <div class="col-md-1 p-0">
-                            <span onclick="this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id; this.parentNode.parentNode.remove();"><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
+                            <span onclick="
+                            if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2] || this.parentNode.parentNode.parentNode.children.length > 4)
+                            {
+                                if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2])
+                                {
+                                    this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id;
+                                }
+                                this.parentNode.parentNode.remove();
+                            }
+                                
+                            "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
                         </div>
                     </div>
                     <button id="addButton3" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone2('clonethis3', 'step5', 3)">Add</button>
@@ -530,6 +560,6 @@
     for(let i = 0; i < document.getElementsByTagName('form')[1].children.length; i++)
     {
         document.getElementsByTagName('form')[1].children[i].classList.add("mb-0")
-        console.log(document.getElementsByTagName('form')[1].children[i].children[0].checked)
+        //console.log(document.getElementsByTagName('form')[1].children[i].children[0].checked)
     }
 </script>
