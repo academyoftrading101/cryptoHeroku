@@ -69,10 +69,31 @@ app.get('/Bitcoins', (req, res) =>
     res.sendFile(__dirname + '/Bitcoins.html');
 }); 
 
-app.get('/q', (req, res) =>
+app.get('/Litecoins', (req, res) =>
 {
-    res.sendFile(__dirname + '/goalCalculator.html');
-});
+    res.sendFile(__dirname + '/Litecoins.html');
+}); 
+
+app.get('/XRPs', (req, res) =>
+{
+    res.sendFile(__dirname + '/XRPs.html');
+}); 
+
+app.get('/Cardanos', (req, res) =>
+{
+    res.sendFile(__dirname + '/Cardanos.html');
+}); 
+
+app.get('/Dogecoins', (req, res) =>
+{
+    res.sendFile(__dirname + '/Dogecoins.html');
+}); 
+
+app.get('/Ethereums', (req, res) =>
+{
+    res.sendFile(__dirname + '/Ethereums.html');
+}); 
+
 
 app.get('/quiz', (req, res) =>
 {
