@@ -100,6 +100,10 @@ app.get('/quiz', (req, res) =>
     res.sendFile(__dirname + '/quiz.html');
 }); 
 
+app.get('/admin%20success', (req, res) =>
+{
+    res.sendFile(__dirname + '/adminRedirected.html');
+}); 
 
 app.use(
     express.static(__dirname + '/public')

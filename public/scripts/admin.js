@@ -81,8 +81,8 @@ function placeTicker(obj) {
 
 function addticker() {
     let obj = {}
-    obj.id = "input" + (document.getElementsByTagName('li').length - 6)
-    obj.label = "Ticker " + ((document.getElementsByTagName('li').length - 6) + 1) + " :"
+    obj.id = "input" + (document.getElementsByTagName('li').length - 12)
+    obj.label = "Ticker " + ((document.getElementsByTagName('li').length - 12) + 1) + " :"
     obj.value = ""
     ogValue.push("")
     placeTicker(obj)
@@ -95,7 +95,11 @@ function save() {
     document.getElementById("modal-body").innerHTML = '<div class="d-flex inline-flex"><div><p class="display-4 mr-4" style="color: black; font-size:medium; margin-bottom:0; margin-top:0.1rem">'+text+'</p></div><div class="spinner-border" role="status"><span class="sr-only"></span></div></div>'
     $('#modal').modal('toggle');
     let newValues = []
-    for (let i = 0; i < ((document.getElementsByTagName('li').length - 6)); i++) {
+    for(let i = 0; i < document.getElementsByTagName('li').length; i++)
+    {
+        console.log(document.getElementsByTagName('li')[i])
+    }
+    for (let i = 0; i < ((document.getElementsByTagName('li').length - 12)); i++) {
         if (document.getElementById("input" + i).value == ogValue[i]) {
             newValues.push("")
         }
@@ -242,11 +246,13 @@ function savePredictions(n) {
 let once2 = true
 let i
 function addPredictions() {
-    if (once2 && Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length - 1].id.slice(5, 6)) == 3) {
+    if (once2 && Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length - 1].id.slice(5, 6)) == 3) 
+    {
         i = Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length - 1].id.slice(6, 7)) + 1
         once2 = false
     }
-    else if (once2 && Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length - 1].id.slice(5, 6)) == 1) {
+    else if (once2 && Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length - 1].id.slice(5, 6)) == 1) 
+    {
         i = 0
         once2 = false
     }

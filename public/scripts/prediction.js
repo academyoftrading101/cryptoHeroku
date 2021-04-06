@@ -30,19 +30,28 @@ function loaded(n) {
     socket.on("predictiondata", (data) => {
         //document.getElementById("reviewTitle").innerHTML = data.review.reviewTitle
         //document.getElementById("reviewText").innerHTML = data.review.reviewText
-        for (let i = 0; i < data.predictions.length; i++) {
+        for (let i =  (data.predictions.length - 1); i > -1; i--) {
             placeTable(data.predictions[i])
         }
     })
 }
 
 function placeTable(obj) {
-    let box = document.getElementById("predictionBox")
+    let box
+    if(obj.title.toLowerCase().includes('week') || obj.title.toLowerCase().includes('weekly'))
+    {
+        box = document.getElementById("predictionBoxWeekly")
+    }
+    else if(obj.title.toLowerCase().includes('month') || obj.title.toLowerCase().includes('monthly'))
+    {
+        box = document.getElementById("predictionBoxMonthly")
+    }
+    
     let title = document.createElement("h3")
     title.setAttribute("class", "display-5 mt-5")
     title.innerHTML = obj.title
     let table = document.createElement('table')
-    table.setAttribute("class", "mt-2 text-center d-flex justify-content-center")
+    table.setAttribute("class", "mt-2 text-center")
     table.setAttribute("style", "color: #ffffff;")
     let tbody = document.createElement('tbody')
     for (let i = 0; i < 3; i++) {
