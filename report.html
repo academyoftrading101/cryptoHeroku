@@ -5,23 +5,56 @@
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://kit.fontawesome.com/5c50a4aeb8.js" crossorigin="anonymous"></script>
 <script>
+
+    let data = new Array(19)
+
     function nextStep(n)
     {
-        let n2 = document.querySelectorAll('[id^="step"]').length
-        for(let i = 0; i < n2; i++)
+        //saveData()
+        if(document.getElementById('buttons').children[1].innerHTML != "finish and download")
         {
-            if(document.querySelectorAll('[id^="step"]')[i].style.display == "block")
+            let n2 = document.querySelectorAll('[id^="step"]').length
+            for(let i = 1; i < n2; i++)
             {
-                try
+                if(document.querySelectorAll('[id^="step"]')[i].style.display == "block")
                 {
-                    document.querySelectorAll('[id^="step"]')[(i+n)].style.display = "block"
-                    document.querySelectorAll('[id^="step"]')[i].style.display = "none"
-                    break
-                }
-                catch
-                {
+                    try
+                    {
+                        if(i == 18)
+                        {
+                            document.getElementById('buttons').children[1].innerHTML = "finish and download"
+                            document.getElementById('buttons').children[1].setAttribute('class', 'btn btn-outline-success offset-sm-6 col-sm-3')
+                        }
+                        else
+                        {
+                            document.getElementById('buttons').children[1].innerHTML = "Next Step"
+                            document.getElementById('buttons').children[1].setAttribute('class', 'btn btn-outline-success offset-sm-7 col-sm-2')
+                        }
+                        document.querySelectorAll('[id^="step"]')[(i+n)].style.display = "block"
+                        document.querySelectorAll('[id^="step"]')[i].style.display = "none"
+                        break
+                    }
+                    catch
+                    {
 
+                    }
                 }
+            }
+    
+        }
+        
+        else
+        {
+            if(n == 1)
+            {
+                saveData()
+            }
+            else
+            {
+                document.getElementById('step17').style.display = "block"
+                document.getElementById('step18').style.display = "none"
+                document.getElementById('buttons').children[1].innerHTML = "Next Step"
+                document.getElementById('buttons').children[1].setAttribute('class', 'btn btn-outline-success offset-sm-7 col-sm-2')
             }
         }
     }
@@ -142,11 +175,30 @@
         }
     }
 
-    function clone3(id, id2, j)
+    function clone3(id, id2, j, k)
     {
         let clone = document.getElementById(id).cloneNode(true)
         document.getElementById(id).id = ""
-        clone.children[0].children[0].value = ""
+        clone.children[k].children[0].value = ""
+        let addButton = document.getElementById("addButton"+j)
+        document.getElementById("addButton"+j).remove()
+        document.getElementById(id2).appendChild(clone)
+        document.getElementById(id2).appendChild(addButton)
+    }
+
+    function clone4(id, id2, j)
+    {
+        let clone = document.getElementById(id).cloneNode(true)
+        document.getElementById(id).id = ""
+        if(j == 8)
+        {
+            clone.children[1].children[1].value = ""
+            clone.children[2].children[1].value = ""
+        }
+        else
+        {
+            clone.children[0].children[0].value = ""
+        }
         let addButton = document.getElementById("addButton"+j)
         document.getElementById("addButton"+j).remove()
         document.getElementById(id2).appendChild(clone)
@@ -170,6 +222,192 @@
         let i = Math.floor(n/10)
         let j = n%10
         document.getElementById("amount"+(i+3)+j).value = document.getElementById("amount"+n).value*document.getElementById("amount3"+j).value
+    }
+
+    function saveData()
+    {
+
+        //steps 0, 1, 2
+
+        for(let i = 0; i < 3; i++)
+        {            
+            let step = document.getElementById('step'+i)
+            let n = step.getElementsByTagName('input')
+            data[i] = []
+            for(j = 0; j < n.length; j++)
+            {
+                if(n[j].checked)
+                {
+                    data[i].push(n[j].nextElementSibling.innerHTML)
+                }
+            }
+        }
+    
+        //step 3
+        
+        data[3] = []
+        let step = document.getElementById('step3')
+        let select = step.getElementsByTagName('button')
+        let textArea = step.getElementsByTagName('textarea')
+        for(let i = 0; i < textArea.length; i++)
+        {
+            if(select[i].innerHTML != "choose a option" && textArea[i].value != "")
+            {
+                data[3].push(select[i].innerHTML + " - " + textArea[i].value)
+            }
+        }
+
+        //step 4, 5, 6
+
+        for(let i = 4; i < 7; i++)
+        {
+            data[i] = []
+            let step = document.getElementById('step'+i)
+            let select = step.getElementsByTagName('button')
+            let percent = step.getElementsByTagName('input')
+            for(let j = 0; j < percent.length; j++)
+            {
+                if(percent[j].value != "" && select[(j * 2)].innerHTML != "choose" && select[((j * 2) + 1)].innerHTML != "choose")
+                {
+                    if(i != 6)
+                    {
+                        data[i].push(percent[j].value + "% increase per " + select[(j * 2)].innerHTML + " trading " + select[((j * 2) + 1)].innerHTML)
+                    }
+                    else
+                    {
+                        data[i].push(select[(j * 2)].innerHTML + " account with " + select[((j * 2) + 1)].innerHTML + " containing ₹" + percent[j].value)
+                    }
+                        
+                }
+            }
+        }
+        
+        // step 7
+
+        //•	I will devote 6 hours per Day from 9:30am to 3:30pm to trade Stocks for Income
+        let step2 = document.getElementById('step7')
+        let select2 = step2.getElementsByTagName('select')
+        let input2 = step2.getElementsByTagName('input')
+        data[7] = []
+        for(let i = 0; i < input2.length; i++)
+        {
+            if(input2[i].value != "" && select2[(i * 5)].value != "" && select2[((i * 5) + 1)].value != "" && select2[((i * 5) + 2)].value != "" && select2[((i * 5) + 3)].value != "" && select2[((i * 5) + 4)].value != "")
+            data[7].push("I will devote " + input2[i].value + " hours per " + select2[(i * 5)].value + " from " + select2[((i * 5) + 1)].value + " to " + select2[((i * 5) + 2)].value + " to trade " + select2[((i * 5) + 3)].value + " for " + select2[((i * 5) + 4)].value)
+        }
+
+
+        //step 8
+        let step3 = document.getElementById('step8')
+        let select3 = step3.getElementsByTagName('select')
+        let label3 = step3.getElementsByTagName('label')
+        data[8] = []
+        for(let i = 0; i < label3.length; i++)
+        {
+            if(label3[i].previousElementSibling.checked)
+            {
+                if(i != 5 && i != 6 && i != 7)
+                {
+                    data[8].push(label3[i].innerHTML)
+                }
+                else if(i == 5)
+                {
+                    data[8].push("I only take opportunities with a Reward vs. Ratio >= " + select3[0].value + " to my 1st target.")
+                }
+                else if(i == 6)
+                {
+                    data[8].push("I never risk more than " + step3.getElementsByTagName('input')[(i + 1)].value + "% of my trading account for any single trade.")
+                }
+                else if(i == 7)
+                {
+                    data[8].push("With multiple trades in the market (positions) at the same time, I never risk more than " + step3.getElementsByTagName('input')[(i + 2)].value + "% of my account.")
+                }
+            }
+        }
+
+
+        //step 9
+
+        let step4 = document.getElementById('step9')
+        let input4 = step4.getElementsByTagName('input')
+        data[9] = []
+        for(let i = 0; i < input4.length; i++)
+        {
+            if(input4[i].checked)
+            {
+                data[9].push(input4[i].nextElementSibling.innerHTML)
+            }
+        }
+
+
+        //step 10
+        let step5 = document.getElementById('step10')
+        let input5 = step5.getElementsByTagName('input')
+        //let valueArray = ["my account size is ₹", " with maximum risk per trade being ₹", " when i open ", " maximum trade per day"]
+        data[10] = []
+        for(let j = 0; j < 4; j++)
+        {
+            data[10][j] = []
+            for(let i = 0; i < 8; i++)
+            {
+                data[10][j].push(input5[((i * 4) + j)].value)
+            }
+            data[10][j].push(step5.getElementsByTagName('select')[j].value)
+        }
+
+
+        //step 11
+        let step6 = document.getElementById('step11')
+        let select6 = step6.getElementsByTagName('select')
+        //let valueArray = ["my account size is ₹", " with maximum risk per trade being ₹", " when i open ", " maximum trade per day"]
+        data[11] = []
+        for(let j = 0; j < 2; j++)
+        {
+            data[11][j] = []
+            for(let i = 0; i < 3; i++)
+            {
+                data[11][j].push(select6[((i * 2) + j)].value)
+            }
+        }
+
+        //step 12, 13
+        for(let i = 12; i < 14; i++)
+        {
+            let step = document.getElementById("step"+i)
+            data[i] = []
+            let select = step.getElementsByTagName('select')
+            let textArea = step.getElementsByTagName('textarea')
+            for(let j = 0; j < select.length; j++)
+            {
+                data[i].push([select[j].value, textArea[j].value])
+            }
+        } 
+
+        //step 14
+        let step7 = document.getElementById('step14')
+        let select7 = step7.getElementsByTagName('select')
+        let input7 = step7.getElementsByTagName('input')
+        data[14] = []
+        for(let i = 0; i < select7.length; i++)
+        {
+            data[14].push(select7[i].value + " target is placed " + input7[(i*2)].value + " before the first opposing " + input7[((i * 2) + 1)])
+        }
+
+
+        //step 15
+        let step8 = document.getElementById('step15')
+        let input8 = step8.getElementsByTagName('input')
+        data[15] = []
+        for(let i = 0; i < input8.length; i++)
+        {
+            data[15].push(input8[i].value)
+        }
+
+        //step 16
+        data[16] = "Move the stop to BREAK EVEN once the trade has reached " + document.getElementById('step16').getElementsByTagName('select')[0].value + "in my favor"
+    
+    
+        //step 17 
+        data[17] = ["Every closed trade will be logged in " + document.getElementById('step17').getElementsByTagName('select')[0].value, "Trades will be logged " + document.getElementById('step17').getElementsByTagName('select')[1].value + "after the trade has closed."]
     }
 
 </script>
@@ -764,7 +1002,7 @@
                         </div>
                         
                     </div>
-                    <button id="addButton5" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone3('clonethis5', 'step7', 5)">Add</button>
+                    <button id="addButton5" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone3('clonethis5', 'step7', 5, 0)">Add</button>
                 </div>
                 <div id="step8" style="display: none;">
                     <P class="display-6 strong mt-3">My Risk Management Rules (Part 1)</P>
@@ -847,7 +1085,7 @@
                         </div>
                     </form>
                 </div>
-                <div id="step10" style="display: block;">
+                <div id="step10" style="display: none;">
                     <P class="display-6 strong mt-3">My Risk Management Rules (Part 3)</P>
                     <p>It is critical that I list the rules that I will actively follow to manage my risk.</p>
                     <div class="row pb-3 mb-3" style="border-bottom: 2px solid gray; width: 96%;"> 
@@ -1160,6 +1398,280 @@
                             </select>
                         </div>
                     </div>
+                </div>
+                <div id="step11" style="display: none;">
+                    <P class="display-6 strong mt-3">Multiple Timeframe Analysis</P>
+                    <p>Multiple timeframe analysis is critical for navigating through the Blueprint steps when planning and executing trades.</p>
+                    <div class="row pb-3 mb-3" style="border-bottom: 2px solid gray; width: 96%;"> 
+                        <div class="col-md-4">
+                            <h4>TRADING PURPOSE</h4>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>LOWER</h4>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>HIGHER</h4>
+                        </div>
+                    </div>
+                    <div class="row mt-4" style="width: 96%;">
+                        <div class="col-md-4">
+                            <h5>Intraday Trading</h5>
+                        </div>
+                        <div class="col-md-2 pl-5">
+                            <select>
+                                <option></option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 pl-5">
+                            <select>
+                                <option></option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-4" style="width: 96%;">
+                        <div class="col-md-4">
+                            <h5>Swing Trading</h5>
+                        </div>
+                        <div class="col-md-2 pl-5">
+                            <select>
+                                <option></option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 pl-5">
+                            <select>
+                                <option></option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-4 mb-4" style="width: 96%;">
+                        <div class="col-md-4">
+                            <h5>Positonal Trading</h5>
+                        </div>
+                        <div class="col-md-2 pl-5">
+                            <select>
+                                <option></option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 pl-5">
+                            <select>
+                                <option></option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary mb-5">Add</button>
+                    </div>
+                </div>
+                <div id="step12" style="display: none;">
+                    <P class="display-6 strong mt-3">My Trading Execution – Checking Reports</P>
+                    <p>Being aware of when market reports are published is critical to timing the markets and being prepared for possible shifts in price action.</p>
+                    <div class="row pb-3 mb-3" style="border-bottom: 2px solid gray; width: 96%;"> 
+                        <div class="col-md-5">
+                            <h4>REPORT NAME</h4>
+                        </div>
+                        <div class="col-md-7">
+                            <h4>REPORT NOTES AND PURPOSE</h4>
+                        </div>
+                    </div>
+                    <div id="clonestep12" class="row mt-4" style="width: 96%;">
+                        <div class="col-md-4">
+                            <select class="select">
+                                <option class="option"></option>
+                                <option class="option">www.moneycontrol.com</option>
+                                <option class="option">economictime.indiatime.com</option>
+                                <option class="option">investment.com</option>
+                            </select>
+                        </div>
+                        <div class="offset-md-1 col-md-5">
+                            <textarea rows="2" class="form-control"></textarea>
+                        </div>
+                        <div class="col-md-1">
+                            <span onclick="
+                            if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3] || this.parentNode.parentNode.parentNode.children.length > 5)
+                            {
+                                if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3])
+                                {
+                                    this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id;
+                                }
+                                this.parentNode.parentNode.remove();
+                            }
+                                
+                            "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
+                        </div>
+                    </div>
+                    <button id="addButton6" class="btn btn-primary mb-5" onclick="clone3('clonestep12', 'step12', 6, 1);">Add</button>
+                </div>
+                <div id="step13" style="display: none;">
+                    <P class="display-6 strong mt-3">My Trading Execution – Rules for Entry</P>
+                    <p>Having defined rules for entering a trade helps to keep my trading rule-based and unemotional. Following contains the rules and conditions for each type of entry I will use when trading.</p>
+                    <div class="row pb-3 mb-3" style="border-bottom: 2px solid gray; width: 96%;"> 
+                        <div class="col-md-5">
+                            <h4>TRADE TYPE</h4>
+                        </div>
+                        <div class="col-md-7">
+                            <h4>ENTRY RULES</h4>
+                        </div>
+                    </div>
+                    <div id="clonestep13" class="row mt-4" style="width: 96%;">
+                        <div class="col-md-4">
+                            <select class="select">
+                                <option class="option"></option>
+                                <option class="option">Intraday Trading</option>
+                                <option class="option">Swing Trding</option>
+                                <option class="option">Positional Trading</option>
+                            </select>
+                        </div>
+                        <div class="offset-md-1 col-md-5">
+                            <textarea rows="2" class="form-control"></textarea>
+                        </div>
+                        <div class="col-md-1">
+                            <span onclick="
+                            if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3] || this.parentNode.parentNode.parentNode.children.length > 5)
+                            {
+                                if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3])
+                                {
+                                    this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id;
+                                }
+                                this.parentNode.parentNode.remove();
+                            }
+                                
+                            "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
+                        </div>
+                    </div>
+                    <button id="addButton7" class="btn btn-primary mb-5" onclick="clone3('clonestep13', 'step13', 7, 1);">Add</button>
+                </div>
+                <div id="step14" style="display: block;">
+                    <P class="display-6 strong mt-3">My Trading Execution – Rules for Target(s) (Profit Exit)</P>
+                    <p>Knowing when to exit a trade is directly related to whether the trade will be profitable or not. The following are my rules for profitably exiting a trade.</p>
+                    <div class="row pb-3 mb-3" style="border-bottom: 2px solid gray; width: 96%;"> 
+                        <div class="col-md-5">
+                            <h4>TRADING PURPOSE</h4>
+                        </div>
+                        <div class="col-md-7">
+                            <h4>TARGET RULE</h4>
+                        </div>
+                    </div>
+                    <div id="clonestep14" class="row mt-4" style="width: 96%;">
+                        <div class="col-md-3">
+                            <select class="select">
+                                <option class="option"></option>
+                                <option class="option">Intraday Trading</option>
+                                <option class="option">Swing Trding</option>
+                                <option class="option">Positional Trading</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 p-0 d-inline-flex">
+                            <label>Target is placed</label>
+                            <input type="text" class="form-control ml-1" style="width: 40px;">
+                        </div>
+                        <div class="col-md-5 p-0 d-inline-flex">
+                            <label>before the first opposing</label>
+                            <input type="text" class="form-control ml-3" style="width: 70px;">
+                        </div>
+                        <div class="col-md-1">
+                            <span onclick="
+                            if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3] || this.parentNode.parentNode.parentNode.children.length > 5)
+                            {
+                                if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3])
+                                {
+                                    this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id;
+                                }
+                                this.parentNode.parentNode.remove();
+                            }
+                                
+                            "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
+                        </div>
+                    </div>
+                    <button id="addButton8" class="btn btn-primary mt-3 mb-5" onclick="clone4('clonestep14', 'step14', 8);">Add</button>
+                </div>
+                <div id="step15" style="display: none;">
+                    <P class="display-6 strong mt-3">My Trading Execution – Placing the Order</P>
+                    <p>Placing the order of a trade must be checked and double checked. There is a set process I go through when placing a trade.</p>
+                    <div class="row pb-3 mb-3" style="border-bottom: 2px solid gray; width: 96%;"> 
+                        <div class="text-center">
+                            <h4>PLACING ORDER RULES</h4>
+                        </div>
+                    </div>
+                    <div id="clonestep15" class="row mt-4" style="width: 96%;">
+                        <div class="col-md-8">
+                            <textarea class="w-100" rows="2"></textarea>
+                        </div>
+                        <div class="offset-md-1 col-md-1">
+                            <span onclick="
+                            if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3] || this.parentNode.parentNode.parentNode.children.length > 5)
+                            {
+                                if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3])
+                                {
+                                    this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id;
+                                }
+                                this.parentNode.parentNode.remove();
+                            }
+                                
+                            "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
+                        </div>
+                    </div>
+                    <button id="addButton9" class="btn btn-primary mt-3 mb-5" onclick="clone4('clonestep15', 'step15', 9);">Add</button>
+                </div>
+                <div id="step16" style="display: none;">
+                    <P class="display-6 strong mt-3">My Trading Execution – Managing the Trade</P>
+                    <p>Once my trade has met entry and begins to move in my favor I will begin moving my Stop Loss Order to lock in profits.</p>
+                    <div class="row mt-4" style="width: 96%;">
+                        <p class="mt-5 mb-5">Move the stop to BREAK EVEN once the trade has reached 
+                            <select class="">
+                                <option class="option"></option>
+                                <option class="option">10:1</option>
+                                <option class="option">9:1</option>
+                                <option class="option">8:1</option>
+                                <option class="option">7:1</option>
+                                <option class="option">6:1</option>
+                                <option class="option">5:1</option>
+                                <option class="option">4:1</option>
+                                <option class="option">3:1</option>
+                                <option class="option">2:1</option>
+                                <option class="option">1:1</option>
+                            </select>
+                        in my favor</p>
+                    </div>
+                </div>
+                <div id="step17" style="display: none;">
+                    <P class="display-6 strong mt-3">My Trading Execution – Logging the Trade</P>
+                    <p>Logging Trades is critical to helping me stay disciplined with my trading and help me learn from my mistakes and identify what helps me to be successful with my trades.</p>
+                    <div class="row mt-4" style="width: 96%;">
+                        <p class="mt-5">Every closed trade will be logged in
+                            <select class="select">
+                                <option class="option"></option>
+                                <option class="option">My trade logs using the Trade Tracker in MyOTA</option>
+                                <option class="option">My personal trade log</option>
+                            </select>
+                        .</p>
+                    </div>
+                    <div class="row mt-4" style="width: 96%;">
+                        <p class="mt-2 mb-5">Trades will be logged
+                            <select class="select">
+                                <option class="option"></option>
+                                <option class="option">Immediately</option>
+                                <option class="option">Twice a day</option>
+                                <option class="option">At the end of the day</option>
+                                <option class="option">At the end of the week</option>
+                            </select>
+                            after the trade has closed.</p>
+                    </div>
+                </div>
+                <div id="step18" style="display: none">
+                    <P class="display-6 strong mt-3">My Trading Execution – Reviewing Results</P>
+                    <p>I will make sure to not only keep the data results of each trade, but I will also take screen shots with notes. In addition I commit to keeping notes on each trade regarding my feelings, impressions and what I learned from the trade.</p>
                 </div>
                 <div id="buttons" class="row ml-0 mb-4">
                     <button class="btn btn-outline-danger col-sm-2" onclick="nextStep(-1)">Previous</button>
