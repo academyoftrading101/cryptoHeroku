@@ -25,9 +25,9 @@
               if(once[i])
               {
                 if(i != 2)
-                document.getElementById("navButtons"+i).innerHTML += '<br><img style="width: 40px;" src="/data/newBG/toggle rectangle green.svg">'
+                document.getElementById("navButtons"+i).innerHTML += ''
                 else
-                document.getElementById("navButtons"+i).innerHTML += '<br><img style="width: 100px; height: 6px" src="/data/newBG/toggle rectangle green.svg">'
+                document.getElementById("navButtons"+i).innerHTML += ''
                 once[i] = false
               }
               for(let j = 0; j < 4; j++)
@@ -39,7 +39,8 @@
                 }
               }
             });
-          }
+            
+        }
         }
       </script>
 </head>
@@ -67,7 +68,7 @@
                 <!-- <li class="nav-item active">
                       <a class="nav-link text-white heading" style="width: 120px !important; font-size: larger" href="/Bitcoins" ><strong id="navButtons2" >Predictions</strong></a>
                   </li> -->
-                <li class="nav-item dropdown">
+                <li class="nav-item active hoverPointer dropdown">
                   <a class="nav-link text-white heading dropdown-toggle"  id="navbarDropdown" style="width: 150px !important; font-size: larger" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <strong id="navButtons2" >Predictions</strong>
                   </a>

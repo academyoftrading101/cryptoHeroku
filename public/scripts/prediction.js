@@ -13,9 +13,9 @@ function loaded(n) {
         $("#navButtons" + i).on('mouseover', function () {
             if (once[i]) {
                 if (i != 2 || i != 3)
-                    document.getElementById("navButtons" + i).innerHTML += '<br><img style="width: 40px;" src="/data/newBG/toggle rectangle green.svg">'
+                    document.getElementById("navButtons" + i).innerHTML += ''
                 else
-                    document.getElementById("navButtons" + i).innerHTML += '<br><img style="width: 100px; height: 6px" src="/data/newBG/toggle rectangle green.svg">'
+                    document.getElementById("navButtons" + i).innerHTML += ''
                 once[i] = false
             }
             for (let j = 0; j < 5; j++) {
