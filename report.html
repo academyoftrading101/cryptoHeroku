@@ -507,7 +507,11 @@ const { jsPDF } = window.jspdf;
         doc.text(xPos, yPos, data[20], {align:"center"})
         yPos += doc.getLineHeight(data[20])-10
         doc.text(xPos, yPos, data[22], {align:"center"})
-        yPos += doc.getLineHeight(data[22])-10
+        yPos += doc.getLineHeight(data[22])+30
+        doc.setFontSize(25)
+        doc.text(xPos - 50, yPos, "prepaired at")
+        doc.textWithLink('academyoftrading.in', xPos, yPos, { url: 'http://academyoftrading.in' });
+        yPos += doc.getLineHeight("prepaired at academyoftrading.in")-10
         doc.addPage('a4', "portrait")
         yPos = 10
         xPos = 10
