@@ -14,7 +14,7 @@ const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
     
-    let data = new Array(19)
+    let data = new Array(23)
 
     function nextStep(n)
     {
@@ -26,13 +26,13 @@ const { jsPDF } = window.jspdf;
                 if(document.querySelectorAll('[id^="step"]')[i].style.display == "block")
                 {
                     if(n == -1 && i != 1){
-                    document.getElementById('stCount').innerHTML = "step "+ (i-1) + "/19"}
+                    document.getElementById('stCount').innerHTML = "step "+ (i-1) + "/20"}
                     else if(n == 1){
-                    document.getElementById('stCount').innerHTML = "step "+ (i+1) + "/19"
+                    document.getElementById('stCount').innerHTML = "step "+ (i+1) + "/20"
                     }
                     try
                     {
-                        if(i == 18 && n == 1)
+                        if(i == 19 && n == 1)
                         {
                             document.getElementById('buttons').children[2].innerHTML = "finish and download"
                             document.getElementById('buttons').children[2].setAttribute('class', 'btn btn-outline-success col-sm-3')
@@ -74,7 +74,7 @@ const { jsPDF } = window.jspdf;
             }
             else
             {
-                document.getElementById('stCount').innerHTML = "step 18/19"
+                document.getElementById('stCount').innerHTML = "step 19/20"
                 document.getElementById('step17').style.display = "block"
                 document.getElementById('step18').style.display = "none"
                 document.getElementById('buttons').children[2].innerHTML = "Next Step"
@@ -294,9 +294,13 @@ const { jsPDF } = window.jspdf;
             {
                 if(percent[j].value != "" && select[(j * 2)].innerHTML != "choose" && select[((j * 2) + 1)].innerHTML != "choose")
                 {
-                    if(i != 6)
+                    if(i == 4)
                     {
-                        data[i].push(percent[j].value + "% increase per " + select[(j * 2)].innerHTML + " trading " + select[((j * 2) + 1)].innerHTML)
+                        data[i].push(percent[j].value + "% increase per " + select[(j * 2)].innerHTML + " Trading " + select[((j * 2) + 1)].innerHTML)
+                    }
+                    else if(i == 5)
+                    {
+                        data[i].push(percent[j].value + "% increase per " + select[(j * 2)].innerHTML + " " + step.getElementsByTagName('select')[0].value + " " + select[((j * 2) + 1)].innerHTML)
                     }
                     else
                     {
@@ -458,8 +462,12 @@ const { jsPDF } = window.jspdf;
     
         //step 17 
         if(document.getElementById('step17').getElementsByTagName('select')[0].value != "" && document.getElementById('step17').getElementsByTagName('select')[1].value != "")
-        data[17] = ["Every closed trade will be logged in " + document.getElementById('step17').getElementsByTagName('select')[0].value, "Trades will be logged " + document.getElementById('step17').getElementsByTagName('select')[1].value + "after the trade has closed."]
+        data[17] = ["Every closed trade will be logged in My personal trade log.", "Trades will be logged " + document.getElementById('step17').getElementsByTagName('select')[1].value + "after the trade has closed."]
         data[18] = ""
+        data[19] = document.getElementById('inputName').value
+        data[20] = document.getElementById('inputMobile').value
+        data[21] = document.getElementById('inputTitle').value
+        data[22] = document.getElementById('inputEmail').value
         let stepHeadings = new Array(18)
         let subHeadings = new Array(18)
         stepHeadings = ["The reason I trade", "My Traits", "My Areas of Improvement", "Markets I Trade", "My Income Goals", "My Wealth Goals", "My Trading and Investing Accounts", "My Trading Schedule and Time Commitment", "My Risk Management Rules (Includes Part 1 and 2)", "", "My Risk Management Rules – Parameter Table (Part 3)",
@@ -486,10 +494,23 @@ const { jsPDF } = window.jspdf;
                         "Logging Trades is critical to helping me stay disciplined with my trading and help me learn from my mistakes and identify what helps me to be successful with my trades.",
                         "I will make sure to not only keep the data results of each trade, but I will also take screen shots with notes. In addition I commit to keeping notes on each trade regarding my feelings, impressions and what I learned from the trade."
                     ]
-        var yPos = 10
-        var xPos = 10
+        var yPos = 40
+        var xPos = doc.getPageWidth()/2
         let yPosT1 = 0
         let yPosT2 = 0
+        doc.setFontSize(25)
+        doc.text(xPos, yPos, data[21], {align:"center"})
+        yPos += doc.getLineHeight(data[21]) + 100
+        doc.text(xPos, yPos, data[19], {align:"center"})
+        yPos += doc.getLineHeight(data[19])-15
+        doc.setFontSize(12)
+        doc.text(xPos, yPos, data[20], {align:"center"})
+        yPos += doc.getLineHeight(data[20])-10
+        doc.text(xPos, yPos, data[22], {align:"center"})
+        yPos += doc.getLineHeight(data[22])-10
+        doc.addPage('a4', "portrait")
+        yPos = 10
+        xPos = 10
         for(let i = 0; i < 19; i++)
         {
             doc.setFontSize(22)
@@ -547,7 +568,7 @@ const { jsPDF } = window.jspdf;
         }
         
         
-        doc.save("Trading Report.pdf");
+        doc.save(data[21] + ".pdf");
         
     }
 
@@ -735,6 +756,26 @@ const { jsPDF } = window.jspdf;
                 <P class="ml-5 display-4">Report Generator</P>
             </div>
             <div id="steps" class="ml-5" >
+                <div id="step-1" style="display: block;">
+                    <P class="display-6 strong mt-3">Enter your Details</P><form>
+                        <div class="form-group row">
+                            <label class="col-sm-4" for="inputName" style="font-size: medium; margin-top: 8px;">Name</label>
+                            <input type="text" class="offset-sm-2 col-sm-4" id="inputName" >
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4" for="inputMobile" style="font-size: medium; margin-top: 8px;">Mobile Number</label>
+                            <input type="number" class="offset-sm-2 col-sm-4" id="inputMobile" >
+                        </div> 
+                        <div class="form-group row">
+                            <label class="col-sm-4" for="inputEmail" style="font-size: medium; margin-top: 8px;">Email</label>
+                            <input type="email" class="offset-sm-2 col-sm-4" id="inputEmail" >
+                        </div>                        
+                        <div class="form-group row">
+                            <label class="col-sm-4" for="inputTitle" style="font-size: medium; margin-top: 8px;">Report Title</label>
+                            <input type="text" class="offset-sm-2 col-sm-4" id="inputTitle" >
+                        </div>
+                    </form>
+                </div>
                 <div id="step0" style="display: none;">
                     <P class="display-6 strong mt-3">The reason I trade</P>
                     <p>Everyone has some purpose in life. Yes, I too have and that is trading. The reason why I chose trading as a career as it helps me realize and makes me understand my “Why”. </p>
@@ -1011,8 +1052,12 @@ const { jsPDF } = window.jspdf;
                                 </div>
                             </div>
                         </div>
-                        <p class="col-md-2 p-0">Trading - </p>
-                        <div class="col-md-3 p-0">
+                        <select class="select">
+                            <option class="option">choose</option>
+                            <option class="option">Trading</option>
+                            <option class="option">Investing</option>
+                        </select>
+                        <div class="col-md-3">
                             <div class="dropdown">
                                 <button id="ddb040" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                     choose
@@ -1160,9 +1205,9 @@ const { jsPDF } = window.jspdf;
                             <div class="col-md-3 p-0 ml-3">    
                                 <label class="ml-2">for</label>
                                 <select class="select ml-2">
-                                    <option class="option" value=""></option>
-                                    <option class="option">Income</option>
-                                    <option class="option">Wealth</option>
+                                    <option class="option" ></option>
+                                    <option class="option">Trading</option>
+                                    <option class="option">Investing</option>
                                 </select>
                             </div>
                             
@@ -1692,7 +1737,7 @@ const { jsPDF } = window.jspdf;
                     </div>
                     <button id="addButton7" class="btn btn-primary mb-5" onclick="clone3('clonestep13', 'step13', 7, 1);">Add</button>
                 </div>
-                <div id="step14" style="display: block;">
+                <div id="step14" style="display: none;">
                     <P class="display-6 strong mt-3">My Trading Execution – Rules for Target(s) (Profit Exit)</P>
                     <p>Knowing when to exit a trade is directly related to whether the trade will be profitable or not. The following are my rules for profitably exiting a trade.</p>
                     <div class="row pb-3 mb-3" style="border-bottom: 2px solid gray; width: 96%;"> 
@@ -1790,13 +1835,7 @@ const { jsPDF } = window.jspdf;
                     <P class="display-6 strong mt-3">My Trading Execution – Logging the Trade</P>
                     <p>Logging Trades is critical to helping me stay disciplined with my trading and help me learn from my mistakes and identify what helps me to be successful with my trades.</p>
                     <div class="row mt-4" style="width: 96%;">
-                        <p class="mt-5">Every closed trade will be logged in
-                            <select class="select">
-                                <option class="option"></option>
-                                <option class="option">My trade logs using the Trade Tracker in MyOTA</option>
-                                <option class="option">My personal trade log</option>
-                            </select>
-                        .</p>
+                        <p class="mt-5">Every closed trade will be logged in My personal trade log.</p>
                     </div>
                     <div class="row mt-4" style="width: 96%;">
                         <p class="mt-2 mb-5">Trades will be logged
@@ -1816,7 +1855,7 @@ const { jsPDF } = window.jspdf;
                 </div>
                 <div id="buttons" class="row ml-0 mb-4">
                     <button class="btn btn-outline-danger col-sm-2" onclick="nextStep(-1)">Previous</button>
-                    <p class="offset-sm-5 col-sm-2 mb-0" style="margin-top: 8px;" id="stCount">step 1/19</p>
+                    <p class="offset-sm-5 col-sm-2 mb-0" style="margin-top: 8px;" id="stCount">step 1/20</p>
                     <button class="btn btn-outline-success col-sm-2" onclick="nextStep(1)">Next Step</button>
                 </div>
             </div>
