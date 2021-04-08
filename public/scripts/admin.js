@@ -261,7 +261,7 @@ function savePredictions(n) {
     {
         if (newValues[i] == ogValues2[i] && i != 0 && ogValues2[i] != "") 
         {
-            console.log("test ", i)
+            //console.log("test ", i)
             newValues[i] = "-1"
         }
         if(newValues[i] != "-1" && newValues[i] != "")
@@ -311,19 +311,8 @@ function savePredictions(n) {
         //console.log(newValues)
         //console.log(newValues2)
         socket.emit("newPrediction", newValues2)
-        socket.on("savedPrediction", (d)=>{
-            if(d == "added")
-            {
-                socket.emit("updatePredictions", newValues)
-            }
-            document.getElementById("modal-title").innerHTML = "Success";
-            document.getElementById("modal-body").innerHTML = "Successfully " + d + " changes";
-            let timeOut = setTimeout(() => {
-                $('#modal').modal('toggle');
-            }, 2000);
-            $('#modal').on('hidden.bs.modal', function (e) {
-                clearInterval(timeOut)
-            })
+        socket.on("addedPrediction", ()=>{
+            socket.emit("updatePredictions", newValues)
         })
     }
     else 
@@ -443,7 +432,16 @@ socket.on("adminLogInFailed", (data)=>{
     }
 })
 
-
+socket.on("savedPrediction", (d)=>{
+    document.getElementById("modal-title").innerHTML = "Success";
+    document.getElementById("modal-body").innerHTML = "Successfully " + d + " changes";
+    let timeOut = setTimeout(() => {
+        $('#modal').modal('toggle');
+    }, 2000);
+    $('#modal').on('hidden.bs.modal', function (e) {
+        clearInterval(timeOut)
+    })
+})
 
 socket.on('deleted', ()=>{
     location.replace('/admin success')

@@ -214,25 +214,25 @@ io.on('connection', function(socket){
                     test2.markModified('data')
                 }
             }
-            else if(d[i] == "")
-            {
-                if(i <= 2)
-                {
+            // else if(d[i] == "")
+            // {
+            //     if(i <= 2)
+            //     {
                     
-                }
-                else
-                {
-                    console.log("yolo ?")
-                    if((((i-3)%7)-1) == -1)
-                    {
-                        console.log("yolo ? " + Math.floor((i-3)/7))
-                        test2["predictions"].splice(Math.floor((i-3)/7), 1)
-                        //console.log(String(Math.floor((i-3)/7)) + "   " + test[(i - ((Math.floor((i-3)/7))*7))] + "   " + (((i-3)%7)-1))
-                        test2.markModified('predictions')
-                        test2.markModified('data')
-                    }
-                }
-            }
+            //     }
+            //     else
+            //     {
+            //         console.log("yolo ?")
+            //         if((((i-3)%7)-1) == -1)
+            //         {
+            //             console.log("yolo ? " + Math.floor((i-3)/7))
+            //             test2["predictions"].splice(Math.floor((i-3)/7), 1)
+            //             //console.log(String(Math.floor((i-3)/7)) + "   " + test[(i - ((Math.floor((i-3)/7))*7))] + "   " + (((i-3)%7)-1))
+            //             test2.markModified('predictions')
+            //             test2.markModified('data')
+            //         }
+            //     }
+            // }
         }
         await test2.save()
         socket.emit("savedPrediction", "updated")
@@ -250,7 +250,7 @@ io.on('connection', function(socket){
         }
         
         await test2.save()
-        socket.emit("savedPrediction", "added")
+        socket.emit("addedPrediction")
     })
     
     socket.on("deleteTable", async (deleteTable)=>{
