@@ -115,6 +115,14 @@ let coinDetails = [
     "It was launched in 2013 by Jackson Palmer with the help of Billy Markus who is an IBM Software Engineer. In the starting of 2017, its market value raised by $20 million which reached at $2 Billion by the end of the year. Reason behind its popularity in Elon Musk as he kept on talking about it on Twitter and Second is Reddit."
 ]
 
+let tickers = [ '<div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>{"symbol": "BITSTAMP:BTCUSD","width": "100%","colorTheme": "dark","isTransparent": false,"locale": "in"}</script></div>',
+                '',
+                '',
+                '',
+                '',
+                ''
+]
+
 function loaded2()
 {
     let o = {1:"Bitcoins", 2:"Ethereums", 3:"Litecoins", 4:"Cardanos", 5:"XRPs", 6:"Dogecoins"}
@@ -131,6 +139,11 @@ function loaded2()
             document.getElementById("features").innerHTML = ""
             document.getElementById("opinion").innerHTML = ""
             document.getElementById("number").innerHTML = "#"+(i+1)
+            for(let j = 0; j < 6; j++)
+            {
+                document.getElementById("ticker"+j).style.display = "none"
+            }
+            document.getElementById("ticker"+i).style.display = "block"
             document.getElementById("title").setAttribute("src", headingSrc[i])
             document.getElementById("coinImg").setAttribute("src", coinSrc[i])
             document.getElementById("coinDetail").innerHTML = coinDetails[i]
