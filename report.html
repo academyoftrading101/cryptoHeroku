@@ -462,7 +462,7 @@ const { jsPDF } = window.jspdf;
     
         //step 17 
         if(document.getElementById('step17').getElementsByTagName('select')[0].value != "")
-        data[17] = ["Every closed trade will be logged in My personal trade log.", "Trades will be logged " + document.getElementById('step17').getElementsByTagName('select')[1].value + "after the trade has closed."]
+        data[17] = ["Every closed trade will be logged in My personal trade log.", "Trades will be logged " + document.getElementById('step17').getElementsByTagName('select')[0].value + "after the trade has closed."]
         data[18] = ""
         data[19] = document.getElementById('inputName').value
         data[20] = document.getElementById('inputMobile').value
