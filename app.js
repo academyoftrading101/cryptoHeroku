@@ -194,6 +194,7 @@ io.on('connection', function(socket){
         let test = ["review", "reviewTitle", "reviewText", "title", "data", "data", "data", "data", "data", "data"]
         let test2 = await Predictions.findOne({"coin":d[0]})
         let once = true
+        //console.log(d[1])
         for(let i = 1; i < d.length; i++)
         {
             if(d[i] != "-1")
@@ -204,6 +205,7 @@ io.on('connection', function(socket){
                 }
                 else
                 {
+                    //console.log(((i-3)%7)-1, "   " , i, "   " , d[i])
                     if((((i-3)%7)-1) == -1)
                         test2["predictions"][Number(Math.floor((i-3)/7))][test[(i - ((Math.floor((i-3)/7))*7))]] = d[i]
                     else
@@ -220,10 +222,11 @@ io.on('connection', function(socket){
                 }
                 else
                 {
-                    if(once)
+                    console.log("yolo ?")
+                    if((((i-3)%7)-1) == -1)
                     {
-                        once = false
-                        test2["predictions"].splice(String(Math.floor((i-3)/7)), 1)
+                        console.log("yolo ? " + Math.floor((i-3)/7))
+                        test2["predictions"].splice(Math.floor((i-3)/7), 1)
                         //console.log(String(Math.floor((i-3)/7)) + "   " + test[(i - ((Math.floor((i-3)/7))*7))] + "   " + (((i-3)%7)-1))
                         test2.markModified('predictions')
                         test2.markModified('data')
@@ -250,6 +253,20 @@ io.on('connection', function(socket){
         socket.emit("savedPrediction", "added")
     })
     
+    socket.on("deleteTable", async (deleteTable)=>{
+        if(deleteTable.length > 1)
+        {
+            let coin = await Predictions.findOne({"coin":deleteTable[0]})
+            for(let i = (deleteTable.length - 1); i > 0; i--)
+            {
+                coin.predictions.splice(deleteTable[i], 1)
+                coin.markModified('predictions')
+            }
+            await coin.save()
+            socket.emit('deleted')
+        }
+    })
+
     socket.on("getTicker", async ()=>{
         let tickerData = await Ticker.findOne({})
         socket.emit("getTicker", tickerData.list)

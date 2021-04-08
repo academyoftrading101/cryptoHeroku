@@ -103,32 +103,32 @@
                     <li class="nav-item active col-md-2 text-center" style="padding: 0; margin: 0;">
                       <button id="banner20" class="btn btn-info col-md-12"
                         style="background: transparent; outline: none; border: 0;"
-                        onclick="loaddata(0); document.getElementById('save').onclick = ()=>{savePredictions(0)}">Bitcoin</button>
+                        onclick="loaddata(0); document.getElementById('save').onclick = ()=>{savePredictions(0)}; document.getElementById('buttons').style.display = 'block';">Bitcoin</button>
                     </li>
                     <li class="nav-item active col-md-2 text-center" style="padding: 0; margin: 0;">
                       <button id="banner21" class="btn btn-info col-md-12"
                         style="background: transparent; outline: none; border: 0;"
-                        onclick="loaddata(1); document.getElementById('save').onclick = ()=>{savePredictions(1)}">Ethereum</button>
+                        onclick="loaddata(1); document.getElementById('save').onclick = ()=>{savePredictions(1)}; document.getElementById('buttons').style.display = 'block';">Ethereum</button>
                     </li>
                     <li class="nav-item active col-md-2 text-center" style="padding: 0; margin: 0;">
                       <button id="banner22" class="btn btn-info col-md-12"
                         style="background: transparent; outline: none; border: 0;"
-                        onclick="loaddata(2); document.getElementById('save').onclick = ()=>{savePredictions(2)}">Litecoin</button>
+                        onclick="loaddata(2); document.getElementById('save').onclick = ()=>{savePredictions(2)}; document.getElementById('buttons').style.display = 'block';">Litecoin</button>
                     </li>
                     <li class="nav-item active col-md-2 text-center" style="padding: 0; margin: 0;">
                       <button id="banner23" class="btn btn-info col-md-12"
                         style="background: transparent; outline: none; border: 0;"
-                        onclick="loaddata(3); document.getElementById('save').onclick = ()=>{savePredictions(3)}">Cardano</button>
+                        onclick="loaddata(3); document.getElementById('save').onclick = ()=>{savePredictions(3)}; document.getElementById('buttons').style.display = 'block';">Cardano</button>
                     </li>
                     <li class="nav-item active col-md-2 text-center" style="padding: 0; margin: 0;">
                       <button id="banner24" class="btn btn-info col-md-12"
                         style="background: transparent; outline: none; border: 0;"
-                        onclick="loaddata(4); document.getElementById('save').onclick = ()=>{savePredictions(4)}">XRP</button>
+                        onclick="loaddata(4); document.getElementById('save').onclick = ()=>{savePredictions(4)}; document.getElementById('buttons').style.display = 'block';">XRP</button>
                     </li>
                     <li class="nav-item active col-md-2 text-center" style="padding: 0; margin: 0;">
                       <button id="banner25" class="btn btn-info col-md-12"
                         style="background: transparent; outline: none; border: 0;"
-                        onclick="loaddata(5); document.getElementById('save').onclick = ()=>{savePredictions(5)}">Dogecoin</button>
+                        onclick="loaddata(5); document.getElementById('save').onclick = ()=>{savePredictions(5)}; document.getElementById('buttons').style.display = 'block';">Dogecoin</button>
                     </li>
                   </ul>
                 </div>
@@ -144,8 +144,11 @@
               <div id="tables">
               </div>
             </div>
-            <button id="addTable" class="btn btn-success mt-3" onclick="addPredictions()">Add</button>
-            <button id="save" class="btn btn-success mt-3 float-right" >Save</button>
+            <div id="buttons" style="display: none;">
+              <button id="addTable" class="btn btn-success mt-3" onclick="addPredictions()" >Add</button>
+              <button id="save" class="btn btn-success mt-3 float-right">Save</button>
+            </div>
+            
           </div>
         </div>
       </div>

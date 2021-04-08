@@ -147,49 +147,92 @@ function loaddata(n) {
         document.getElementById("input11").value = predictionData.review.reviewText
         let table = document.getElementById("tables")
         table.innerHTML = ""
-        for (let i = 0; i < predictionData.predictions.length; i++) {
-            ogValues2.push(predictionData.predictions[i].title)
-            let label = document.createElement('label')
-            label.for = "input3" + i
-            label.appendChild(document.createTextNode('Title :'))
-            let title = document.createElement('textarea')
-            title.setAttribute("class", "form-control mb-3 hms")
-            title.id = "input3" + i
-            title.rows = "1"
-            title.appendChild(document.createTextNode(predictionData.predictions[i].title))
-            let div = document.createElement('div')
-            div.setAttribute("class", "row")
-            let div2 = document.createElement('div')
-            div2.classList.add("col-md-5")
-            let div3 = document.createElement('div')
-            div3.classList.add("col-md-5")
-            for (let j = 0; j < predictionData.predictions[i].data.length; j++) {
-                ogValues2.push(predictionData.predictions[i].data[j])
-                let label1 = document.createElement('label')
-                label1.for = "input3" + i + j
-                let data = document.createElement('textarea')
-                data.setAttribute("class", "form-control mb-3 hms")
-                data.style.maxWidth = "300px"
-                data.id = "input3" + i + j
-                data.rows = "1"
-                data.appendChild(document.createTextNode(predictionData.predictions[i].data[j]))
-                if (j <= 2) {
-                    label1.appendChild(document.createTextNode('R' + (j + 1) + ' :'))
-                    div2.appendChild(label1)
-                    div2.appendChild(data)
+        let deleteTable = [predictionData.coin]
+        for (let i = 0; i < predictionData.predictions.length; i++) 
+        {
+            if(predictionData.predictions[i].title != "")
+            {
+                ogValues2.push(predictionData.predictions[i].title)
+                let label = document.createElement('label')
+                label.for = "input3" + i
+                label.appendChild(document.createTextNode('Title :'))
+                let title = document.createElement('textarea')
+                title.setAttribute("class", "form-control mb-3 hms")
+                title.id = "input3" + i
+                title.rows = "1"
+                title.appendChild(document.createTextNode(predictionData.predictions[i].title))
+                let div = document.createElement('div')
+                div.setAttribute("class", "row")
+                let div2 = document.createElement('div')
+                div2.classList.add("col-md-5")
+                let div3 = document.createElement('div')
+                div3.classList.add("col-md-5")
+                //console.log(predictionData.predictions[i].data)
+                for (let j = 0; j < predictionData.predictions[i].data.length; j++) {
+                    ogValues2.push(predictionData.predictions[i].data[j])
+                    let label1 = document.createElement('label')
+                    let data = document.createElement('textarea')
+                    data.setAttribute("class", "form-control mb-3 hms")
+                    data.style.maxWidth = "300px"
+                    
+                    data.rows = "1"
+                    
+                    if (j % 2 == 0) 
+                    {
+                        if (j == 0) 
+                        {
+                            label1.appendChild(document.createTextNode('R1 :'))
+                            div2.appendChild(label1)
+                        }
+                        else if (j == 2) 
+                        {
+                            label1.appendChild(document.createTextNode('R2 :'))
+                            div2.appendChild(label1)
+                        }else if (j == 4) 
+                        {
+                            label1.appendChild(document.createTextNode('R3 :'))
+                            div2.appendChild(label1)
+                        }
+                        if(predictionData.predictions[i].data[j] == "")
+                        data.classList.remove("hms")     
+                        data.id = "input3" + i + j
+                        data.appendChild(document.createTextNode(predictionData.predictions[i].data[j]))
+                        div2.appendChild(data)
+                    }
+                    else
+                    {
+                        if (j == 1) 
+                        {
+                            label1.appendChild(document.createTextNode('S1 :'))
+                            div3.appendChild(label1)
+                        }
+                        else if (j == 3) 
+                        {
+                            label1.appendChild(document.createTextNode('S2 :'))
+                            div3.appendChild(label1)
+                        }else if (j == 5) 
+                        {
+                            label1.appendChild(document.createTextNode('S3 :'))
+                            div3.appendChild(label1)
+                        }         
+                        if(predictionData.predictions[i].data[j] == "")
+                        data.classList.remove("hms")           
+                        data.id = "input3" + i + j
+                        data.appendChild(document.createTextNode(predictionData.predictions[i].data[j]))
+                        div3.appendChild(data)
+                    }
                 }
-                else {
-                    label1.appendChild(document.createTextNode('s' + (j - 2) + ' :'))
-                    div3.appendChild(label1)
-                    div3.appendChild(data)
-                }
+                table.appendChild(label)
+                table.appendChild(title)
+                div.appendChild(div2)
+                div.appendChild(div3)
+                table.appendChild(div)
             }
-            table.appendChild(label)
-            table.appendChild(title)
-            div.appendChild(div2)
-            div.appendChild(div3)
-            table.appendChild(div)
+            else{
+                deleteTable.push(i)
+            }
         }
+        socket.emit("deleteTable", deleteTable)
     })
 }
 
@@ -202,42 +245,90 @@ function savePredictions(n) {
     newValues.push(o[n])
     newValues.push(document.getElementById("input10").value)
     newValues.push(document.getElementById("input11").value)
-    for (let i = 0; i < predictionData.predictions.length; i++) {
+    //console.log(predictionData.predictions.length)
+    for (let i = 0; i < predictionData.predictions.length; i++)
+    {
         newValues.push(document.getElementById("input3" + i).value)
-        for (let j = 0; j < predictionData.predictions[i].data.length; j++) {
+        let j = 0
+        while (j < 6) 
+        {
             newValues.push(document.getElementById("input3" + i + j).value)
+            j++
         }
     }
-    for (let i = 0; i < newValues.length; i++) {
-        if (newValues[i] == ogValues2[i] && i != 0) {
+    let count = 0
+    for (let i = 0; i < newValues.length; i++) 
+    {
+        if (newValues[i] == ogValues2[i] && i != 0 && ogValues2[i] != "") 
+        {
+            console.log("test ", i)
             newValues[i] = "-1"
         }
+        if(newValues[i] != "-1" && newValues[i] != "")
+        {
+            count++;
+        }
+
     }
+    //console.log(count, "   ", newValues.length, "   ", document.getElementsByClassName("hms").length)
     if (newValues.length < document.getElementsByClassName("hms").length) {
         let i = (newValues.length - 3) / 7
         let f = ((document.getElementsByClassName("hms").length - 2) / 7)
         let newValues2 = [newValues[0]]
         for (i; i < f; i++) {
-            if (document.getElementById("input3" + i).value != "") {
+            if (document.getElementById("input3" + i).value != "") 
+            {
                 newValues2.push(document.getElementById("input3" + i).value)
-                for (let j = 0; j < 6; j++) {
-                    if (document.getElementById("input3" + i + j).value != "")
+                let flip = true
+                let j = 0
+                while (j < 6) 
+                {
+                    //console.log(j)
+                    if(flip)
+                    {
                         newValues2.push(document.getElementById("input3" + i + j).value)
-                    else {
-                        alert("please fill all values")
-                        return
+                        j += 3
+                        flip = false
+                    }
+                    else
+                    {
+                        newValues2.push(document.getElementById("input3" + i + j).value)
+                        j -= 2
+                        flip = true
+                    }
+                    if(j == 5)
+                    {
+                        newValues2.push(document.getElementById("input3" + i + j).value)
+                        break
                     }
                 }
             }
-            else {
-                alert("please fill all values")
-                return
-            }
+            // else {
+            //     alert("please fill all values")
+            //     return
+            // }
         }
+        //console.log(newValues)
+        //console.log(newValues2)
         socket.emit("newPrediction", newValues2)
-        socket.emit("updatePredictions", newValues)
+        socket.on("savedPrediction", (d)=>{
+            if(d == "added")
+            {
+                socket.emit("updatePredictions", newValues)
+            }
+            document.getElementById("modal-title").innerHTML = "Success";
+            document.getElementById("modal-body").innerHTML = "Successfully " + d + " changes";
+            let timeOut = setTimeout(() => {
+                $('#modal').modal('toggle');
+            }, 2000);
+            $('#modal').on('hidden.bs.modal', function (e) {
+                clearInterval(timeOut)
+            })
+        })
     }
-    else {
+    else 
+    {
+        //console.log(newValues)
         socket.emit("updatePredictions", newValues)
     }
 
@@ -260,11 +351,15 @@ function addPredictions() {
     let label = document.createElement('label')
     label.for = "input3" + i
     label.appendChild(document.createTextNode('Title :'))
+    let dltButton = document.createElement('button')
+    dltButton.setAttribute('class', "btn btn-danger float-right dltButton")
+    dltButton.innerHTML = "delete this"
     let title = document.createElement('textarea')
     title.setAttribute("class", "form-control mb-3 hms")
     title.id = "input3" + i
     title.rows = "1"
     let div = document.createElement('div')
+    div.id = "divId" + i
     div.setAttribute("class", "row")
     let div2 = document.createElement('div')
     div2.classList.add("col-md-5")
@@ -289,11 +384,14 @@ function addPredictions() {
             div3.appendChild(data)
         }
     }
+    dltButton.setAttribute("onclick", "{let n = (i - document.getElementsByClassName('dltButton').length); document.getElementById('input3' + n).previousElementSibling.previousElementSibling.remove(); document.getElementById('input3' + n).previousElementSibling.remove(); document.getElementById('input3' + n).remove(); document.getElementById('divId' + n).remove();  }")
     table.appendChild(label)
+    table.appendChild(dltButton)
     table.appendChild(title)
     div.appendChild(div2)
     div.appendChild(div3)
     table.appendChild(div)
+    
     i++
 }
 
@@ -345,13 +443,8 @@ socket.on("adminLogInFailed", (data)=>{
     }
 })
 
-socket.on("savedPrediction", (d)=>{
-    document.getElementById("modal-title").innerHTML = "Success";
-    document.getElementById("modal-body").innerHTML = "Successfully " + d + " changes";
-    let timeOut = setTimeout(() => {
-        $('#modal').modal('toggle');
-    }, 2000);
-    $('#modal').on('hidden.bs.modal', function (e) {
-        clearInterval(timeOut)
-    })
+
+
+socket.on('deleted', ()=>{
+    location.replace('/admin success')
 })

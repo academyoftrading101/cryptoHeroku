@@ -54,24 +54,27 @@ function placeTable(obj) {
     table.setAttribute("class", "mt-2 text-center")
     table.setAttribute("style", "color: #ffffff;")
     let tbody = document.createElement('tbody')
-    for (let i = 0; i < 3; i++) {
+    let count = 0
+    for(let i = 0; i < 6; i++)
+    {
+        if(obj.data[i] != 0)
+        count++
+    }
+    for (let i = 0; i < (count / 2); i++) 
+    {
         let tr = document.createElement('tr')
         let td0 = document.createElement('td')
         td0.classList.add("td")
-        td0.align = "center"
         td0.innerHTML = "R" + (i + 1)
         let td1 = document.createElement('td')
         td1.classList.add("td")
-        td1.align = "center"
-        td1.innerHTML = obj.data[i]
+        td1.innerHTML = obj.data[(i*2)]
         let td2 = document.createElement('td')
         td2.classList.add("td")
-        td2.align = "center"
         td2.innerHTML = "S" + (i + 1)
         let td3 = document.createElement('td')
         td3.classList.add("td")
-        td3.align = "center"
-        td3.innerHTML = obj.data[i + 3]
+        td3.innerHTML = obj.data[(i*2) + 1]
         tr.appendChild(td0)
         tr.appendChild(td1)
         tr.appendChild(td2)
