@@ -11,7 +11,7 @@
 const { jsPDF } = window.jspdf;
 
     // Default export is a4 paper, portrait, using millimeters for units
-    const doc = new jsPDF();
+    let doc = null
 
     
     let data = new Array(23)
@@ -253,7 +253,7 @@ const { jsPDF } = window.jspdf;
     {
 
         //steps 0, 1, 2
-
+        doc = new jsPDF();
         for(let i = 0; i < 3; i++)
         {            
             let step = document.getElementById('step'+i)
@@ -509,10 +509,12 @@ const { jsPDF } = window.jspdf;
         doc.text(xPos, yPos, data[22], {align:"center"})
         yPos += doc.getLineHeight(data[22])+30
         doc.setFontSize(25)
-        doc.text(xPos - 50, yPos, "prepaired at")
-        doc.textWithLink('academyoftrading.in', xPos, yPos, { url: 'http://academyoftrading.in' });
-        yPos += doc.getLineHeight("prepaired at academyoftrading.in")-10
+        doc.text(xPos - 60, yPos, "prepared at")
+        doc.setTextColor(0, 0, 255)
+        doc.textWithLink('academyoftrading.in', xPos - 10, yPos, { url: 'http://academyoftrading.in' });
+        yPos += doc.getLineHeight("prepared at academyoftrading.in")-10
         doc.addPage('a4', "portrait")
+        doc.setTextColor(0, 0, 0)
         yPos = 10
         xPos = 10
         for(let i = 0; i < 19; i++)
@@ -571,6 +573,16 @@ const { jsPDF } = window.jspdf;
             }
         }
         
+        var totalPages = doc.internal.getNumberOfPages();
+
+        for (i = 1; i <= totalPages; i++) {
+            doc.setPage(i);
+            //doc.addImage(imgData, 'PNG', 40, 40, 75, 75);
+            doc.setTextColor(162,205,210);
+            doc.setFontSize(50)
+            doc.text(50, 180, 'Academy of Trading', 45);
+            doc.setTextColor(0, 0, 0)
+        }
         
         doc.save(data[21] + ".pdf");
         
