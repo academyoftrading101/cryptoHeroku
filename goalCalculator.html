@@ -135,7 +135,7 @@ crossorigin="anonymous"></script>
                 let but = document.createElement('button')
                 but.id = "stepTwoButtons"+stepTwoButtons
                 text[stepTwoButtons] = [text2[i][0], text2[i][1]]
-                savings[stepTwoButtons] = new Array(10)
+                savings[stepTwoButtons] = new Array(11)
                 savings[stepTwoButtons][0] = "Rs. 1,80,611"
                 savings[stepTwoButtons][1] = "Rs. 549"
                 savings[stepTwoButtons][2] = document.getElementById('input10').value
@@ -145,7 +145,8 @@ crossorigin="anonymous"></script>
                 savings[stepTwoButtons][6] = document.getElementById('input12').value
                 savings[stepTwoButtons][7] = document.getElementById('input13').value
                 savings[stepTwoButtons][8] = removeComas(document.getElementById('input06').value)
-                savings[stepTwoButtons][9] = "for <strong>" + butName[i] + "</strong>, you need to save <strong>" + savings[stepTwoButtons][1] + "</strong> monthly"
+                savings[stepTwoButtons][9] = "for <strong>" + butName[i] + "</strong>, you need to save <strong>"
+                savings[stepTwoButtons][10] = "</strong> monthly"
                 but.setAttribute("class", "btn ml-3")
                 if(once)
                 {
@@ -225,8 +226,6 @@ crossorigin="anonymous"></script>
         calc(document.getElementsByClassName('stepTwoButtons')[0].id.slice(-1))
     }
 
-</script>
-<script>
 
     function switchStepTwoButton(n)
     {
@@ -293,7 +292,7 @@ crossorigin="anonymous"></script>
                                 {
                                     let p = document.createElement('p')
                                     p.style.fontSize = "18px"
-                                    p.innerHTML = savings[j][9]
+                                    p.innerHTML = savings[j][9] + savings[j][1] + savings[j][10]
                                     finalText.appendChild(p)
                                 }
                                 var ctx2 = document.getElementById('myChart2').getContext('2d');
@@ -428,6 +427,7 @@ crossorigin="anonymous"></script>
     {
         document.getElementById("allCalculatorNameBox").style.display = "block"
         document.getElementById("calculatorBox").style.display = "block"
+        document.getElementById("finalResultText").innerHTML = ""
         document.getElementById("result").style.display = "block"
         document.getElementById("FinalPie").style.display = "none"
     }
