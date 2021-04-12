@@ -35,14 +35,14 @@ const { jsPDF } = window.jspdf;
                         if(i == 19 && n == 1)
                         {
                             document.getElementById('buttons').children[2].innerHTML = "finish and download"
-                            document.getElementById('buttons').children[2].setAttribute('class', 'btn btn-outline-success col-sm-3')
-                            document.getElementById('stCount').setAttribute('class',"offset-sm-4 col-sm-2 mb-0")
+                            //document.getElementById('buttons').children[2].setAttribute('class', 'btn btn-outline-success d-inline-flex')
+                            //document.getElementById('stCount').setAttribute('class',"offset-sm-4 col-sm-2 mb-0")
                         }
                         else
                         {
                             document.getElementById('buttons').children[2].innerHTML = "Next Step"
-                            document.getElementById('buttons').children[2].setAttribute('class', 'btn btn-outline-success col-sm-2')
-                            document.getElementById('stCount').setAttribute('class',"offset-sm-5 col-sm-2 mb-0")
+                            //document.getElementById('buttons').children[2].setAttribute('class', 'btn btn-outline-success d-inline-flex')
+                            //document.getElementById('stCount').setAttribute('class',"offset-sm-5 col-sm-2 mb-0")
                         }
                         if(i != 1 && n == -1)
                         {
@@ -78,8 +78,7 @@ const { jsPDF } = window.jspdf;
                 document.getElementById('step17').style.display = "block"
                 document.getElementById('step18').style.display = "none"
                 document.getElementById('buttons').children[2].innerHTML = "Next Step"
-                document.getElementById('buttons').children[2].setAttribute('class', 'btn btn-outline-success col-sm-2')
-                document.getElementById('stCount').setAttribute('class',"offset-sm-5 col-sm-2 mb-0")
+                //document.getElementById('buttons').children[2].setAttribute('class', 'btn btn-outline-success d-inline-flex')document.getElementById('stCount').setAttribute('class',"offset-sm-5 col-sm-2 mb-0")
             }
         }
     }
@@ -777,7 +776,7 @@ const { jsPDF } = window.jspdf;
     <div id="mainBox" class="row">
         <div class="offset-md-1 mt-10 p-0 col-md-10 mb-10 border border-round">
             <div style="height: fit-content; background-color: orange; padding: 20px;">
-                <P class="ml-5 display-4">Make Your Own Trading Plan</P>
+                <P class="text-center display-4">Make Your Own Trading Plan</P>
             </div>
             <div id="steps" class="p-3" >
                 <div id="step-1" style="display: block;">
@@ -989,16 +988,16 @@ const { jsPDF } = window.jspdf;
                         </div>
                         
                     </div>
-                    <button id="addButton" class="btn btn-primary mt-3 ml-3 mb-5" onclick="clone('clonethis', 'step3')">Add</button>
+                    <button id="addButton" class="btn btn-primary mt-5 mb-5" onclick="clone('clonethis', 'step3')">Add</button>
                 </div>
                 <div id="step4" style="display: none;">
                     <P class="display-6 strong mt-3">My Income Goals</P>
                     <p>My aim is to be realistic on how much money I can make from trading and investing. This goal is meant to inspire me while also assisting me in staying focused on risk and reward management.  My Income goals are- </p>
                     <div id="clonethis2" class="row mb-3"> 
                         <input class="form-control col-md-1 p-0" type="number">
-                        <p class="col-md-1 p-0" style="margin-top: 6px; margin-bottom: 0;">%</p>
-                        <p class="col-md-2 p-0"> Increase for </p>
-                        <div class="col-md-2 p-0">
+                        <p class="col-md-1" style="margin-top: 6px; margin-bottom: 0;">%</p>
+                        <p class="col-md-2"> Increase for </p>
+                        <div class="col-md-2">
                             <div class="dropdown">
                                 <button id="ddb010" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                     choose
@@ -1011,8 +1010,8 @@ const { jsPDF } = window.jspdf;
                                 </div>
                             </div>
                         </div>
-                        <p class="col-md-2 p-0">Trading - </p>
-                        <div class="col-md-3 p-0">
+                        <p class="col-md-2">Trading - </p>
+                        <div class="col-md-3">
                             <div class="dropdown">
                                 <button id="ddb020" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                     choose
@@ -1027,7 +1026,7 @@ const { jsPDF } = window.jspdf;
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-1 p-0">
+                        <div class="col-md-1">
                             <span onclick="
                             if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2] || this.parentNode.parentNode.parentNode.children.length > 4)
                             {
@@ -1041,7 +1040,7 @@ const { jsPDF } = window.jspdf;
                             "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>    
                         </div>
                     </div>
-                    <button id="addButton2" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone2('clonethis2', 'step4', 2, 3, 5, 0)">Add</button>
+                    <button id="addButton2" class="btn btn-primary mt-5 mb-5" onclick="clone2('clonethis2', 'step4', 2, 3, 5, 0)">Add</button>
                 </div>
                 <div id="step5" style="display: none;">
                     <P class="display-6 strong mt-3">My Wealth Goals</P>
@@ -1050,7 +1049,7 @@ const { jsPDF } = window.jspdf;
                         <input class="form-control col-md-1 p-0" type="number">
                         <p class="col-md-1" style="margin-top: 6px; margin-bottom: 0;">%</p>
                         <p class="col-md-2"> Increase for </p>
-                        <div class="col-md-2">
+                        <div class="col-md-2 mb-4">
                             <div class="dropdown">
                                 <button id="ddb030" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                     choose
@@ -1063,12 +1062,12 @@ const { jsPDF } = window.jspdf;
                                 </div>
                             </div>
                         </div>
-                        <select class="select" style="margin-left: 15px;">
+                        <select class="select mb-4" style="margin-left: 15px;">
                             <option class="option">choose</option>
                             <option class="option">Trading</option>
                             <option class="option">Investing</option>
                         </select>
-                        <div class="col-md-3">
+                        <div class="col-md-3 mb-4">
                             <div class="dropdown">
                                 <button id="ddb040" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                     choose
@@ -1083,7 +1082,7 @@ const { jsPDF } = window.jspdf;
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-1 mb-4">
                             <span onclick="
                             if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2] || this.parentNode.parentNode.parentNode.children.length > 4)
                             {
@@ -1097,7 +1096,7 @@ const { jsPDF } = window.jspdf;
                             "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
                         </div>
                     </div>
-                    <button id="addButton3" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone2('clonethis3', 'step5', 3, 3, 5, 0)">Add</button>
+                    <button id="addButton3" class="btn btn-primary mt-5 mb-5" onclick="clone2('clonethis3', 'step5', 3, 3, 5, 0)">Add</button>
                 </div>
                 <div id="step6" style="display: none;">
                     <P class="display-6 strong mt-3">My Trading and Investing Accounts</P>
@@ -1154,7 +1153,7 @@ const { jsPDF } = window.jspdf;
                             "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
                         </div>
                     </div>
-                    <button id="addButton4" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone2('clonethis4', 'step6', 4, 0, 2, 5);">Add</button>
+                    <button id="addButton4" class="btn btn-primary mt-5 mb-5" onclick="clone2('clonethis4', 'step6', 4, 0, 2, 5);">Add</button>
                 </div>
                 <div id="step7" style="display: none;">
                     <P class="display-6 strong mt-3">My Trading Schedule and Time Commitment</P>
@@ -1223,7 +1222,7 @@ const { jsPDF } = window.jspdf;
                             </div>
                         </div>
                     </div>
-                    <button id="addButton5" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone3('clonethis5', 'step7', 5, 0)">Add</button>
+                    <button id="addButton5" class="btn btn-primary mt-5 mb-5" onclick="clone3('clonethis5', 'step7', 5, 0)">Add</button>
                 </div>
                 <div id="step8" style="display: none;">
                     <P class="display-6 strong mt-3">My Risk Management Rules (Part 1)</P>
@@ -1289,20 +1288,20 @@ const { jsPDF } = window.jspdf;
                             <label class="col-sm-11 " for="input40" style="font-size: medium;">I use appropriate entry orders to enter my positions. That way I remove my emotions out of the trade</label>
                         </div>
                         <div class="">
-                            <input type="checkbox" class="mr-4" id="input40" style="margin-top: 6px; width: fit-content;">
-                            <label class="col-sm-11 " for="input40" style="font-size: medium;">I am always properly diversified; therefore I don’t take correlated trades in the same markets (for example Long the EURUSD and Short the USDCHF). If I set up several trades that are correlated, when the first opportunity is filled, the other orders are cancelled</label>
+                            <input type="checkbox" class="mr-4" id="input41" style="margin-top: 6px; width: fit-content;">
+                            <label class="col-sm-11 " for="input41" style="font-size: medium;">I am always properly diversified; therefore I don’t take correlated trades in the same markets (for example Long the EURUSD and Short the USDCHF). If I set up several trades that are correlated, when the first opportunity is filled, the other orders are cancelled</label>
                         </div>
                         <div class="">
-                            <input type="checkbox" class="mr-4" id="input40" style="margin-top: 6px; width: fit-content;">
-                            <label class="col-sm-11 " for="input40" style="font-size: medium;">I only use brokers that hold my orders in their servers so in a situation of a power outage or an Internet drop, I will remain protected (Stop Order in place) at all times</label>
+                            <input type="checkbox" class="mr-4" id="input42" style="margin-top: 6px; width: fit-content;">
+                            <label class="col-sm-11 " for="input42" style="font-size: medium;">I only use brokers that hold my orders in their servers so in a situation of a power outage or an Internet drop, I will remain protected (Stop Order in place) at all times</label>
                         </div>
                         <div class="">
-                            <input type="checkbox" class="mr-4" id="input40" style="margin-top: 6px; width: fit-content;">
-                            <label class="col-sm-11 " for="input40" style="font-size: medium;">I backup my trading platform every day and I backup my trading computer on a cloud drive</label>
+                            <input type="checkbox" class="mr-4" id="input43" style="margin-top: 6px; width: fit-content;">
+                            <label class="col-sm-11 " for="input43" style="font-size: medium;">I backup my trading platform every day and I backup my trading computer on a cloud drive</label>
                         </div>
                         <div class="">
-                            <input type="checkbox" class="mr-4" id="input40" style="margin-top: 6px; width: fit-content;">
-                            <label class="col-sm-11 " for="input40" style="font-size: medium;">I log my trades, I review my results and I learn from my mistakes</label>
+                            <input type="checkbox" class="mr-4" id="input44" style="margin-top: 6px; width: fit-content;">
+                            <label class="col-sm-11 " for="input44" style="font-size: medium;">I log my trades, I review my results and I learn from my mistakes</label>
                         </div>
                     </form>
                 </div>
@@ -1862,10 +1861,10 @@ const { jsPDF } = window.jspdf;
                     <P class="display-6 strong mt-3">My Trading Execution – Reviewing Results</P>
                     <p>I will make sure to not only keep the data results of each trade, but I will also take screen shots with notes. In addition I commit to keeping notes on each trade regarding my feelings, impressions and what I learned from the trade.</p>
                 </div>
-                <div id="buttons" class="row mb-4 text-center">
-                    <button class="btn btn-outline-danger col-sm-2" style="width: fit-content;" onclick="nextStep(-1)">Previous</button>
-                    <p class="offset-sm-5 col-sm-2 mb-0 text-center" style="margin-top: 8px;" id="stCount">step 1/20</p>
-                    <button class="btn btn-outline-success col-sm-2" style="width: fit-content;" onclick="nextStep(1)">Next Step</button>
+                <div id="buttons" class="mb-4 d-flex justify-content-between">
+                    <button class="btn btn-outline-danger d-inline-flex" style="width: fit-content;" onclick="nextStep(-1)">Previous</button>
+                    <p class=" mb-0 text-center d-inline-flex" style="margin-top: 8px;" id="stCount">step 1/20</p>
+                    <button class="btn btn-outline-success d-inline-flex" style="width: fit-content;" onclick="nextStep(1)">Next Step</button>
                 </div>
             </div>
 
