@@ -271,9 +271,10 @@ function savePredictions(n) {
 
     }
     //console.log(count, "   ", newValues.length, "   ", document.getElementsByClassName("hms").length)
-    if (newValues.length < document.getElementsByClassName("hms").length) {
-        let i = (newValues.length - 3) / 7
-        let f = ((document.getElementsByClassName("hms").length - 2) / 7)
+    let newTables = Number(document.getElementById('addTable').parentElement.previousElementSibling.children[6].querySelectorAll('button').length)
+    if (newTables != 0) {
+        let i = ((newValues.length - 3) / 7)
+        let f = i + newTables
         let newValues2 = [newValues[0]]
         for (i; i < f; i++) {
             if (document.getElementById("input" + (n+3) + i).value != "") 
@@ -303,10 +304,10 @@ function savePredictions(n) {
                     }
                 }
             }
-            // else {
-            //     alert("please fill all values")
-            //     return
-            // }
+            else {
+                alert("please fill values or delete the empty table")
+                return
+            }
         }
         //console.log(newValues)
         //console.log(newValues2)
@@ -381,7 +382,10 @@ function addPredictions(n) {
             div3.appendChild(data)
         }
     }
-    dltButton.setAttribute("onclick", "{let n2 = (i - document.getElementsByClassName('dltButton').length); document.getElementById('input" + (n+3) + "' + n2).previousElementSibling.previousElementSibling.remove(); document.getElementById('input" + (n+3) + "' + n2).previousElementSibling.remove(); document.getElementById('input" + (n+3) + "' + n2).remove(); document.getElementById('divId' + n2).remove();  }")
+    //dltButton.setAttribute("onclick", "{checkAndUpdateNextTables(this); deleteTable(i, n);}")
+    dltButton.onclick = ()=>{
+        checkAndUpdateNextTables(dltButton, i, n);
+    }
     table.appendChild(label)
     table.appendChild(dltButton)
     table.appendChild(title)
@@ -396,6 +400,48 @@ function loggedIn()
 {
     location.replace("/admin%20success")
     document.getElementById("welcome-msg").innerHTML = 'Welcome, Admin';
+}
+
+function checkAndUpdateNextTables(dltButton, i, n)
+{
+    //console.log(dltButton)
+    if(dltButton != dltButton.parentElement.children[(dltButton.parentElement.children.length - 3)])
+    {
+        //let btn = dltButton
+        //console.log(dltButton.parentElement.children.length)
+        let dltButtonNumber = Number(Object.keys(dltButton.parentElement.children).find(key => dltButton.parentElement.children[key] === dltButton))
+        for(let i = (dltButtonNumber + 5); i < dltButton.parentElement.children.length; i += 4)
+        {
+            //console.log(dltButton.parentElement.children[i].id)
+            dltButton.parentElement.children[i].id = dltButton.parentElement.children[i].id.slice(0, 6) + (Number(dltButton.parentElement.children[i].id.slice(6)) - 1)
+            for(let k = 0; k < 2; k++)
+            {
+                for(let j = 1; j < 6; j += 2)
+                {
+                    let ogId = dltButton.parentElement.children[(i + 1)].children[k].children[j].id
+                    if(ogId.length == 8)
+                    {
+                        dltButton.parentElement.children[(i + 1)].children[k].children[j].id = ogId.slice(0, 6) + (Number(ogId.slice(6, 7)) - 1) + ogId.slice(-1)
+                    }
+                    else
+                    {
+                        dltButton.parentElement.children[(i + 1)].children[k].children[j].id = ogId.slice(0, 6) + (Number(ogId.slice(6, 8)) - 1) + ogId.slice(-1)
+                    }
+                }
+            }
+            
+        }
+        deleteTable(i, n)
+    }
+    
+}
+
+function deleteTable(i, n) {
+    let n2 = (i - document.getElementsByClassName('dltButton').length); 
+    document.getElementById('input' + (n+3) + n2).previousElementSibling.previousElementSibling.remove(); 
+    document.getElementById('input' + (n+3) + n2).previousElementSibling.remove(); 
+    document.getElementById('input' + (n+3) + n2).remove(); 
+    document.getElementById('divId' + n2).remove();
 }
 
 socket.on("adminLoggedIn", ()=>{
