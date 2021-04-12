@@ -154,11 +154,11 @@ function loaddata(n) {
             {
                 ogValues2.push(predictionData.predictions[i].title)
                 let label = document.createElement('label')
-                label.for = "input3" + i
+                label.for = "input" + (n+3) + i
                 label.appendChild(document.createTextNode('Title :'))
                 let title = document.createElement('textarea')
                 title.setAttribute("class", "form-control mb-3 hms")
-                title.id = "input3" + i
+                title.id = "input" + (n+3) + i
                 title.rows = "1"
                 title.appendChild(document.createTextNode(predictionData.predictions[i].title))
                 let div = document.createElement('div')
@@ -195,7 +195,7 @@ function loaddata(n) {
                         }
                         if(predictionData.predictions[i].data[j] == "")
                         data.classList.remove("hms")     
-                        data.id = "input3" + i + j
+                        data.id = "input" + (n+3) + i + j
                         data.appendChild(document.createTextNode(predictionData.predictions[i].data[j]))
                         div2.appendChild(data)
                     }
@@ -217,7 +217,7 @@ function loaddata(n) {
                         }         
                         if(predictionData.predictions[i].data[j] == "")
                         data.classList.remove("hms")           
-                        data.id = "input3" + i + j
+                        data.id = "input" + (n+3) + i + j
                         data.appendChild(document.createTextNode(predictionData.predictions[i].data[j]))
                         div3.appendChild(data)
                     }
@@ -248,11 +248,11 @@ function savePredictions(n) {
     //console.log(predictionData.predictions.length)
     for (let i = 0; i < predictionData.predictions.length; i++)
     {
-        newValues.push(document.getElementById("input3" + i).value)
+        newValues.push(document.getElementById("input" + (n+3) + i).value)
         let j = 0
         while (j < 6) 
         {
-            newValues.push(document.getElementById("input3" + i + j).value)
+            newValues.push(document.getElementById("input" + (n+3) + i + j).value)
             j++
         }
     }
@@ -276,9 +276,9 @@ function savePredictions(n) {
         let f = ((document.getElementsByClassName("hms").length - 2) / 7)
         let newValues2 = [newValues[0]]
         for (i; i < f; i++) {
-            if (document.getElementById("input3" + i).value != "") 
+            if (document.getElementById("input" + (n+3) + i).value != "") 
             {
-                newValues2.push(document.getElementById("input3" + i).value)
+                newValues2.push(document.getElementById("input" + (n+3) + i).value)
                 let flip = true
                 let j = 0
                 while (j < 6) 
@@ -286,19 +286,19 @@ function savePredictions(n) {
                     //console.log(j)
                     if(flip)
                     {
-                        newValues2.push(document.getElementById("input3" + i + j).value)
+                        newValues2.push(document.getElementById("input" + (n+3) + i + j).value)
                         j += 3
                         flip = false
                     }
                     else
                     {
-                        newValues2.push(document.getElementById("input3" + i + j).value)
+                        newValues2.push(document.getElementById("input" + (n+3) + i + j).value)
                         j -= 2
                         flip = true
                     }
                     if(j == 5)
                     {
-                        newValues2.push(document.getElementById("input3" + i + j).value)
+                        newValues2.push(document.getElementById("input" + (n+3) + i + j).value)
                         break
                     }
                 }
@@ -325,27 +325,35 @@ function savePredictions(n) {
 
 let once2 = true
 let i
-function addPredictions() {
-    if (once2 && Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length - 1].id.slice(5, 6)) == 3) 
-    {
-        i = Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length - 1].id.slice(6, 7)) + 1
-        once2 = false
-    }
-    else if (once2 && Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length - 1].id.slice(5, 6)) == 1) 
+function addPredictions(n) {
+    // if (once2 && Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length - 1].id.slice(5, 6)) == (n +3)) 
+    // {
+    //     i = Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length - 1].id.slice(6, 7)) + 1
+    //     once2 = false
+    // }
+    // else if (once2 && Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length - 1].id.slice(5, 6)) == 1) 
+    // {
+    //     i = 0
+    //     once2 = false
+    // }
+    if (Number(document.getElementsByClassName("hms")[document.getElementsByClassName("hms").length - 1].id.slice(5, 6)) == 1) 
     {
         i = 0
-        once2 = false
+    }
+    else
+    {
+        i = (Number(document.getElementById('addTable').parentElement.previousElementSibling.children[6].children[(document.getElementById('addTable').parentElement.previousElementSibling.children[6].children.length - 2)].id.slice(6)) + 1)
     }
     let table = document.getElementById("tables")
     let label = document.createElement('label')
-    label.for = "input3" + i
+    label.for = "input" + (n+3) + i
     label.appendChild(document.createTextNode('Title :'))
     let dltButton = document.createElement('button')
     dltButton.setAttribute('class', "btn btn-danger float-right dltButton")
     dltButton.innerHTML = "delete this"
     let title = document.createElement('textarea')
     title.setAttribute("class", "form-control mb-3 hms")
-    title.id = "input3" + i
+    title.id = "input" + (n+3) + i
     title.rows = "1"
     let div = document.createElement('div')
     div.id = "divId" + i
@@ -356,11 +364,11 @@ function addPredictions() {
     div3.classList.add("col-md-5")
     for (let j = 0; j < 6; j++) {
         let label1 = document.createElement('label')
-        label1.for = "input3" + i + j
+        label1.for = "input" + (n+3) + i + j
         let data = document.createElement('textarea')
         data.setAttribute("class", "form-control mb-3 hms")
         data.style.maxWidth = "300px"
-        data.id = "input3" + i + j
+        data.id = "input" + (n+3) + i + j
         data.rows = "1"
         if (j <= 2) {
             label1.appendChild(document.createTextNode('R' + (j + 1) + ' :'))
@@ -373,7 +381,7 @@ function addPredictions() {
             div3.appendChild(data)
         }
     }
-    dltButton.setAttribute("onclick", "{let n = (i - document.getElementsByClassName('dltButton').length); document.getElementById('input3' + n).previousElementSibling.previousElementSibling.remove(); document.getElementById('input3' + n).previousElementSibling.remove(); document.getElementById('input3' + n).remove(); document.getElementById('divId' + n).remove();  }")
+    dltButton.setAttribute("onclick", "{let n2 = (i - document.getElementsByClassName('dltButton').length); document.getElementById('input" + (n+3) + "' + n2).previousElementSibling.previousElementSibling.remove(); document.getElementById('input" + (n+3) + "' + n2).previousElementSibling.remove(); document.getElementById('input" + (n+3) + "' + n2).remove(); document.getElementById('divId' + n2).remove();  }")
     table.appendChild(label)
     table.appendChild(dltButton)
     table.appendChild(title)
