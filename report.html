@@ -109,10 +109,18 @@ const { jsPDF } = window.jspdf;
         return (otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree)
     }
 
+    let once = true
+
     function clone(id, id2)
     {
         let clone = document.getElementById(id).cloneNode(true)
         document.getElementById(id).id = ""
+        if(once)
+        {
+            clone.children[0].children[0].remove()
+            clone.children[1].children[0].remove()
+            once = false
+        }
         let newId = clone.children[0].children[0].children[0].id.slice(0, (clone.children[0].children[0].children[0].id.length - 1)) + (Number(clone.children[0].children[0].children[0].id.slice(-1)) + 1)
         clone.children[0].children[0].children[0].id = newId
         clone.children[0].children[0].children[0].innerHTML = "choose a option"
@@ -768,25 +776,26 @@ const { jsPDF } = window.jspdf;
 <div id="content" class="container">
     <div id="mainBox" class="row">
         <div class="offset-md-1 mt-10 p-0 col-md-10 mb-10 border border-round">
-            <div style="height: 100px; background-color: orange; padding: 0;">
+            <div style="height: fit-content; background-color: orange; padding: 20px;">
                 <P class="ml-5 display-4">Make Your Own Trading Plan</P>
             </div>
-            <div id="steps" class="ml-5" >
+            <div id="steps" class="p-3" >
                 <div id="step-1" style="display: block;">
-                    <P class="display-6 strong mt-3">Enter your Details</P><form>
-                        <div class="form-group row">
+                    <P class="display-6 strong mt-3">Enter your Details</P>
+                    <form style="max-width: 80%;">
+                        <div class="">
                             <label class="col-sm-4" for="inputName" style="font-size: medium; margin-top: 8px;">Name</label>
                             <input type="text" class="offset-sm-2 col-sm-4" id="inputName" >
                         </div>
-                        <div class="form-group row">
+                        <div class="">
                             <label class="col-sm-4" for="inputMobile" style="font-size: medium; margin-top: 8px;">Mobile Number</label>
                             <input type="number" class="offset-sm-2 col-sm-4" id="inputMobile" >
                         </div> 
-                        <div class="form-group row">
+                        <div class="">
                             <label class="col-sm-4" for="inputEmail" style="font-size: medium; margin-top: 8px;">Email</label>
                             <input type="email" class="offset-sm-2 col-sm-4" id="inputEmail" >
                         </div>                        
-                        <div class="form-group row">
+                        <div class="">
                             <label class="col-sm-4" for="inputTitle" style="font-size: medium; margin-top: 8px;">Report Title</label>
                             <input type="text" class="offset-sm-2 col-sm-4" id="inputTitle" >
                         </div>
@@ -796,38 +805,30 @@ const { jsPDF } = window.jspdf;
                     <P class="display-6 strong mt-3">The reason I trade</P>
                     <p>Everyone has some purpose in life. Yes, I too have and that is trading. The reason why I chose trading as a career as it helps me realize and makes me understand my “Why”. </p>
                     <p>Reasons why I trade. Noting them down so that every day I remind myself why I chose to trade and some of them are - </p>
-                    <form>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input00" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input00" style="font-size: medium;">To enjoy my life and provide beautiful life to my loved ones.</label>
+                    <form class="">
+                        <div class="" >
+                            <label for="input00" style="font-size: medium;"><input type="checkbox" class="mr-4" id="input00" style="margin-top: 6px; width: fit-content;">To enjoy my life and provide beautiful life to my loved ones.</label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input01" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input01" style="font-size: medium;">To spend quality time with my family </label>
+                        <div class="">
+                            <label class="" for="input01" style="font-size: medium;"><input type="checkbox" class="mr-4" id="input01" style="margin-top: 6px; width: fit-content;">To spend quality time with my family </label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input02" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input02" style="font-size: medium;">To have the freedom to choose where I wish to live </label>
+                        <div class="">
+                            <label class="" for="input02" style="font-size: medium;"><input type="checkbox" class="mr-4" id="input02" style="margin-top: 6px; width: fit-content;">To have the freedom to choose where I wish to live </label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input03" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input03" style="font-size: medium;">To work from anywhere in the world </label>
+                        <div class="">
+                            <label class="" for="input03" style="font-size: medium;"><input type="checkbox" class="mr-4" id="input03" style="margin-top: 6px; width: fit-content;">To work from anywhere in the world </label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input04" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input04" style="font-size: medium;">To be my own boss </label>
+                        <div class="">
+                            <label class="" for="input04" style="font-size: medium;"><input type="checkbox" class="mr-4" id="input04" style="margin-top: 6px; width: fit-content;">To be my own boss </label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input05" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input05" style="font-size: medium;">To travel across the World </label>
+                        <div class="">
+                            <label class="" for="input05" style="font-size: medium;"><input type="checkbox" class="mr-4" id="input05" style="margin-top: 6px; width: fit-content;">To travel across the World </label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input06" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input06" style="font-size: medium;">To buy everything I need/want</label>
+                        <div class="">
+                            <label class="" for="input06" style="font-size: medium;"><input type="checkbox" class="mr-4" id="input06" style="margin-top: 6px; width: fit-content;">To buy everything I need/want</label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input07" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input07" style="font-size: medium;">And very important to share my experience and talent with my community which means a lot to me. </label>
+                        <div class="">
+                            <label class="" for="input07" style="font-size: medium;"><input type="checkbox" class="mr-4" id="input07" style="margin-top: 6px; width: fit-content;">And very important to share my experience and talent with my community which means a lot to me. </label>
                         </div>
                     </form>
                 </div>
@@ -835,61 +836,61 @@ const { jsPDF } = window.jspdf;
                     <P class="display-6 strong mt-3">My Traits</P>
                     <p>Being a trader is not an easy job as it comes with huge responsibilities. Certain character traits are key to being a successful trader. I believe those traits in me which are my biggest Strengths. I I'll use these strengths  to aid me in my trading, and I'll continue to hone these skills by reading my trade journal and recognizing when I've used one of these Strengths. I will continue to evaluate my strengths and gain feedback from my community of fellow, like-minded traders and mentors in my life. My strengths are </p>
                     <form>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input10" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input10" style="font-size: medium;">Discipline </label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input10" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input10" style="font-size: medium;">Discipline </label>
                         </div>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input11" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input11" style="font-size: medium;">Patience</label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input11" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input11" style="font-size: medium;">Patience</label>
                         </div>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input12" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input12" style="font-size: medium;">Leadership skills</label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input12" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input12" style="font-size: medium;">Leadership skills</label>
                         </div>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input13" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input13" style="font-size: medium;">Decisiveness</label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input13" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input13" style="font-size: medium;">Decisiveness</label>
                         </div>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input14" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input14" style="font-size: medium;">Flexibility</label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input14" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input14" style="font-size: medium;">Flexibility</label>
                         </div>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input15" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input15" style="font-size: medium;">Committed</label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input15" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input15" style="font-size: medium;">Committed</label>
                         </div>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input16" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input16" style="font-size: medium;">Organized</label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input16" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input16" style="font-size: medium;">Organized</label>
                         </div>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input17" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input17" style="font-size: medium;">Goal Oriented</label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input17" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input17" style="font-size: medium;">Goal Oriented</label>
                         </div>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input18" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input18" style="font-size: medium;">Planner</label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input18" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input18" style="font-size: medium;">Planner</label>
                         </div>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input19" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input19" style="font-size: medium;">Emotionally Stable</label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input19" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input19" style="font-size: medium;">Emotionally Stable</label>
                         </div>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input110" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input110" style="font-size: medium;">Ability to Focus</label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input110" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input110" style="font-size: medium;">Ability to Focus</label>
                         </div>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input111" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input111" style="font-size: medium;">Ability to survive in hardest of times </label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input111" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input111" style="font-size: medium;">Ability to survive in hardest of times </label>
                         </div>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input112" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input112" style="font-size: medium;">Self-starter </label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input112" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input112" style="font-size: medium;">Self-starter </label>
                         </div>
-                        <div class="form-group row p-0">
-                            <input type="checkbox" class="col-sm-1" id="input113" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input113" style="font-size: medium;">Quick Learner</label>
+                        <div class=" p-0">
+                            <input type="checkbox" class="mr-4" id="input113" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input113" style="font-size: medium;">Quick Learner</label>
                         </div>
                     </form>
                 </div>
@@ -898,69 +899,62 @@ const { jsPDF } = window.jspdf;
                     <p>Every strong person has some drawbacks. As the saying goes- Nobody is perfect. And the best part knowing them makes it more perfect to rectify that. So there are some areas which I need to work upon. </p>
                     <p>I will continue to evaluate areas I need to improve upon and gain feedback from my community of fellow, like-minded traders and mentors in my life. My areas to improve upon are </p>
                     <form>
-                        <div class="form-group row mb-0 p-0">
-                            <input type="checkbox" class="col-sm-1" id="input20" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input20" style="font-size: medium;">At times  I feel Lack of Discipline</label>
+                        <div class=" mb-0 p-0">
+                            <input type="checkbox" class="mr-4" id="input20" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input20" style="font-size: medium;">At times  I feel Lack of Discipline</label>
                         </div>
-                        <div class="form-group row mb-0 p-0">
-                            <input type="checkbox" class="col-sm-1" id="input21" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input21" style="font-size: medium;">Impatient</label>
+                        <div class=" mb-0 p-0">
+                            <input type="checkbox" class="mr-4" id="input21" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input21" style="font-size: medium;">Impatient</label>
                         </div>
-                        <div class="form-group row mb-0 p-0">
-                            <input type="checkbox" class="col-sm-1" id="input22" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input22" style="font-size: medium;">Indecisiveness</label>
+                        <div class=" mb-0 p-0">
+                            <input type="checkbox" class="mr-4" id="input22" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input22" style="font-size: medium;">Indecisiveness</label>
                         </div>
-                        <div class="form-group row mb-0 p-0">
-                            <input type="checkbox" class="col-sm-1" id="input23" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input23" style="font-size: medium;">Inflexibility</label>
+                        <div class=" mb-0 p-0">
+                            <input type="checkbox" class="mr-4" id="input23" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input23" style="font-size: medium;">Inflexibility</label>
                         </div>
-                        <div class="form-group row mb-0 p-0">
-                            <input type="checkbox" class="col-sm-1" id="input24" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input24" style="font-size: medium;">Noncommittal</label>
+                        <div class=" mb-0 p-0">
+                            <input type="checkbox" class="mr-4" id="input24" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input24" style="font-size: medium;">Noncommittal</label>
                         </div>
-                        <div class="form-group row mb-0 p-0">
-                            <input type="checkbox" class="col-sm-1" id="input25" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input25" style="font-size: medium;">Disorganized</label>
+                        <div class=" mb-0 p-0">
+                            <input type="checkbox" class="mr-4" id="input25" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input25" style="font-size: medium;">Disorganized</label>
                         </div>
-                        <div class="form-group row mb-0 p-0">
-                            <input type="checkbox" class="col-sm-1" id="input26" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input26" style="font-size: medium;">Impulsive</label>
+                        <div class=" mb-0 p-0">
+                            <input type="checkbox" class="mr-4" id="input26" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input26" style="font-size: medium;">Impulsive</label>
                         </div>
-                        <div class="form-group row mb-0 p-0">
-                            <input type="checkbox" class="col-sm-1" id="input27" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input27" style="font-size: medium;">Emotional</label>
+                        <div class=" mb-0 p-0">
+                            <input type="checkbox" class="mr-4" id="input27" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input27" style="font-size: medium;">Emotional</label>
                         </div>
-                        <div class="form-group row mb-0 p-0">
-                            <input type="checkbox" class="col-sm-1" id="input28" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input28" style="font-size: medium;">At time Difficulty in Focusing </label>
+                        <div class=" mb-0 p-0">
+                            <input type="checkbox" class="mr-4" id="input28" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input28" style="font-size: medium;">At time Difficulty in Focusing </label>
                         </div>
-                        <div class="form-group row mb-0 p-0">
-                            <input type="checkbox" class="col-sm-1" id="input29" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input29" style="font-size: medium;">Get easily discouraged </label>
+                        <div class=" mb-0 p-0">
+                            <input type="checkbox" class="mr-4" id="input29" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input29" style="font-size: medium;">Get easily discouraged </label>
                         </div>
-                        <div class="form-group row mb-0 p-0">
-                            <input type="checkbox" class="col-sm-1" id="input210" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input210" style="font-size: medium;">Procrastinator</label>
+                        <div class=" mb-0 p-0">
+                            <input type="checkbox" class="mr-4" id="input210" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input210" style="font-size: medium;">Procrastinator</label>
                         </div>
-                        <div class="form-group row mb-0 p-0">
-                            <input type="checkbox" class="col-sm-1" id="input211" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input211" style="font-size: medium;">Slow Learner</label>
+                        <div class=" mb-0 p-0">
+                            <input type="checkbox" class="mr-4" id="input211" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input211" style="font-size: medium;">Slow Learner</label>
                         </div>
                     </form>
                 </div>
                 <div id="step3" style="display: none;">
                     <P class="display-6 strong mt-3">Markets I Trade</P>
                     <p>I truly want to diversify my trading activities and be purposeful about the markets I trade in.  The strengths in me makes me try a hand on trading hence I continue to do so. My focus would be on- </p>
-                    <div class="row"> 
-                        <div class="col-md-3">
-                            <h3>Assets</h3>
-                        </div>
-                        <div class="offset-md-1 col-md-8">
-                            <h3>Market Rules</h3>
-                        </div>
-                    </div>
                     <div id="clonethis" class="row mb-3"> 
-                        <div class="col-md-3">
+                        <div class="col-md-3 mb-5">
+                            <h3 class="mb-3">Assets</h3>
                             <div class="dropdown">
                                 <button id="ddb000" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                     choose a option
@@ -975,15 +969,16 @@ const { jsPDF } = window.jspdf;
                                 </div>
                               </div>
                         </div>
-                        <div class="offset-md-1 col-md-7">
+                        <div class="offset-md-1 col-md-7 mb-3">
+                            <h3 class="mb-3">Market Rules</h3>
                             <textarea rows="2" class="w-100"></textarea>
                         </div>
-                        <div class="col-md-1 p-0">
+                        <div class="col-md-1">
                             <span onclick="
                             console.log(this.parentNode.parentNode.parentNode.children)
-                            if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3] || this.parentNode.parentNode.parentNode.children.length > 5)
+                            if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2] || this.parentNode.parentNode.parentNode.children.length > 4)
                             {
-                                if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3])
+                                if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2])
                                 {
                                     this.parentNode.parentNode.previousElementSibling.id = this.parentNode.parentNode.id;
                                 }
@@ -994,7 +989,7 @@ const { jsPDF } = window.jspdf;
                         </div>
                         
                     </div>
-                    <button id="addButton" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone('clonethis', 'step3')">Add</button>
+                    <button id="addButton" class="btn btn-primary mt-3 ml-3 mb-5" onclick="clone('clonethis', 'step3')">Add</button>
                 </div>
                 <div id="step4" style="display: none;">
                     <P class="display-6 strong mt-3">My Income Goals</P>
@@ -1053,9 +1048,9 @@ const { jsPDF } = window.jspdf;
                     <p>Purpose is to learn and  grow everyday as a trader, objective is to be  hopeful with how much money I make with my trading and investing skills and to protect my wealth account. Some of my wealth goals are-</p>
                     <div id="clonethis3" class="row mb-3"> 
                         <input class="form-control col-md-1 p-0" type="number">
-                        <p class="col-md-1 p-0" style="margin-top: 6px; margin-bottom: 0;">%</p>
-                        <p class="col-md-2 p-0"> Increase for </p>
-                        <div class="col-md-2 p-0">
+                        <p class="col-md-1" style="margin-top: 6px; margin-bottom: 0;">%</p>
+                        <p class="col-md-2"> Increase for </p>
+                        <div class="col-md-2">
                             <div class="dropdown">
                                 <button id="ddb030" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                     choose
@@ -1068,7 +1063,7 @@ const { jsPDF } = window.jspdf;
                                 </div>
                             </div>
                         </div>
-                        <select class="select">
+                        <select class="select" style="margin-left: 15px;">
                             <option class="option">choose</option>
                             <option class="option">Trading</option>
                             <option class="option">Investing</option>
@@ -1088,7 +1083,7 @@ const { jsPDF } = window.jspdf;
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-1 p-0">
+                        <div class="col-md-1">
                             <span onclick="
                             if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2] || this.parentNode.parentNode.parentNode.children.length > 4)
                             {
@@ -1108,7 +1103,7 @@ const { jsPDF } = window.jspdf;
                     <P class="display-6 strong mt-3">My Trading and Investing Accounts</P>
                     <p>This portion of my trading plan lists all of my accounts and the initial capital I have in each of them.</p>
                     <div id="clonethis4" class="row mb-3">
-                        <div class="col-md-2 p-0">
+                        <div class="col-md-2 ">
                             <div class="dropdown">
                                 <button id="ddb050" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                     choose
@@ -1122,8 +1117,8 @@ const { jsPDF } = window.jspdf;
                                 </div>
                             </div>
                         </div>
-                        <p class="col-md-2 p-0">account with</p>
-                        <div class="col-md-2 p-0">
+                        <p class="col-md-2 ">account with</p>
+                        <div class="col-md-2 ">
                             <div class="dropdown">
                                 <button id="ddb060" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                     choose
@@ -1142,10 +1137,10 @@ const { jsPDF } = window.jspdf;
                                 </div>
                             </div>
                         </div>
-                        <p class="col-md-2 p-0">containing</p>
-                        <p class="p-0" style="margin-top: 6px; margin-bottom: 0;">Rs.</p>
+                        <p class="col-md-2 ">containing</p>
+                        <p class="" style="margin-top: 6px; margin-bottom: 0;">Rs.</p>
                         <input id="amount1" class="form-control col-md-2 p-0" style="max-height: 34px;" type="text" oninput="onlyNumber(1);">
-                        <div class="col-md-1 p-0 ml-4">
+                        <div class="col-md-1  pl-4">
                             <span onclick="
                             if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[2] || this.parentNode.parentNode.parentNode.children.length > 4)
                             {
@@ -1167,8 +1162,8 @@ const { jsPDF } = window.jspdf;
                     <div id="clonethis5" class="mb-3">
                         <div class="row">
                             <input class="form-control" type="number" style="max-height: 38px; width: 50px;">
-                            <div class="col-md-3 p-0 ml-3">    
-                                <label class="ml-2">hours per</label>
+                            <div class="col-md-3 mb-3">    
+                                <label class="">hours per</label>
                                 <select class="select ml-2">
                                     <option class="option" value=""></option>
                                     <option class="option">day</option>
@@ -1176,18 +1171,41 @@ const { jsPDF } = window.jspdf;
                                     <option class="option">month</option>
                                 </select>
                             </div>
-                            <div class="col-md-3 p-0">    
-                                <label fo>from</label>
+                            <div class="col-md-3 mb-3">    
+                                <label >from</label>
                                 <select class="select" onclick="appendTime(this)">
                                     <option class="option"></option>
                                     <option class="option">00:00 AM</option>
                                 </select>
                             </div>
-                            <div class="col-md-3 p-0">    
-                                <label class="ml-2">to</label>
+                            <div class="col-md-3 mb-3">    
+                                <label class="">to</label>
                                 <select class="select ml-2" onclick="appendTime(this)">
                                     <option class="option"></option>
                                     <option class="option">00:00 AM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 mb-3">    
+                                <label class="">to trade</label>
+                                <select class="select ml-2">
+                                    <option class="option" value=""></option>
+                                    <option class="option">Stocks</option>
+                                    <option class="option">ETFs</option>
+                                    <option class="option">Futures</option>
+                                    <option class="option">Forex</option>
+                                    <option class="option">options (PAI)</option>
+                                    <option class="option">options (Directionals)</option>
+                                    <option class="option">options (Non-Directionals)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">    
+                                <label class="">for</label>
+                                <select class="select ml-2">
+                                    <option class="option" ></option>
+                                    <option class="option">Trading</option>
+                                    <option class="option">Investing</option>
                                 </select>
                             </div>
                             <div class="col-md-1">
@@ -1204,31 +1222,6 @@ const { jsPDF } = window.jspdf;
                                 "><i class="fas fa-trash-alt fa-2x" style="margin-top: 3px;"></i></span>
                             </div>
                         </div>
-                        <div class="row mt-4">
-                            <div class="col-md-5 p-0">    
-                                <label class="ml-2">to trade</label>
-                                <select class="select ml-2">
-                                    <option class="option" value=""></option>
-                                    <option class="option">Stocks</option>
-                                    <option class="option">ETFs</option>
-                                    <option class="option">Futures</option>
-                                    <option class="option">Forex</option>
-                                    <option class="option">options (PAI)</option>
-                                    <option class="option">options (Directionals)</option>
-                                    <option class="option">options (Non-Directionals)</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 p-0 ml-3">    
-                                <label class="ml-2">for</label>
-                                <select class="select ml-2">
-                                    <option class="option" ></option>
-                                    <option class="option">Trading</option>
-                                    <option class="option">Investing</option>
-                                </select>
-                            </div>
-                            
-                        </div>
-                        
                     </div>
                     <button id="addButton5" class="btn btn-primary mt-5 ml-3 mb-5" onclick="clone3('clonethis5', 'step7', 5, 0)">Add</button>
                 </div>
@@ -1236,29 +1229,29 @@ const { jsPDF } = window.jspdf;
                     <P class="display-6 strong mt-3">My Risk Management Rules (Part 1)</P>
                     <p>It's important to make a list of the principles I'll adhere to when it comes to risk management. I use Core Strategy to identify low-cost, high-reward, high-probability opportunities while controlling my risk and emotions with a rule-based strategy that I adhere to diligently</p>
                     <form>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input30" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input30" style="font-size: medium;">I always use Stop Orders.</label>
+                        <div class="">
+                            <input type="checkbox" class="mr-4" id="input30" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input30" style="font-size: medium;">I always use Stop Orders.</label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input31" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input31" style="font-size: medium;">I cut my losses short and I let my profits run.</label>
+                        <div class="">
+                            <input type="checkbox" class="mr-4" id="input31" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input31" style="font-size: medium;">I cut my losses short and I let my profits run.</label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input32" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input020" style="font-size: medium;">I never open a position in the market without knowing my initial risk</label>
+                        <div class="">
+                            <input type="checkbox" class="mr-4" id="input32" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input020" style="font-size: medium;">I never open a position in the market without knowing my initial risk</label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input33" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input33" style="font-size: medium;">I define my profit and loss as some multiple of my initial risk.</label>
+                        <div class="">
+                            <input type="checkbox" class="mr-4" id="input33" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input33" style="font-size: medium;">I define my profit and loss as some multiple of my initial risk.</label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input34" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input34" style="font-size: medium;">I limit my losses to 1:1 or less.</label>
+                        <div class="">
+                            <input type="checkbox" class="mr-4" id="input34" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input34" style="font-size: medium;">I limit my losses to 1:1 or less.</label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input35" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input35" style="font-size: medium;">I only take opportunities with a Reward vs. Ratio >= 
+                        <div class="">
+                            <input type="checkbox" class="mr-4" id="input35" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input35" style="font-size: medium;">I only take opportunities with a Reward vs. Ratio >= 
                                 <select class="">
                                     <option class="option"></option>
                                     <option class="option">10:1</option>
@@ -1273,15 +1266,15 @@ const { jsPDF } = window.jspdf;
                                     <option class="option">1:1</option>
                                 </select> to my 1st target.</label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input36" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input36" style="font-size: medium;">I never risk more than 
+                        <div class="">
+                            <input type="checkbox" class="mr-4" id="input36" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input36" style="font-size: medium;">I never risk more than 
                                 <input type="number" id="input38" style="margin-top: 6px; width: 50px;">
                                 % of my trading account for any single trade.</label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input37" style="margin-top: 6px;">
-                            <label class="col-sm-11 p-0" for="input37" style="font-size: medium;">With multiple trades in the market (positions) at the same time, I never risk more than 
+                        <div class="">
+                            <input type="checkbox" class="mr-4" id="input37" style="margin-top: 6px; width: fit-content;">
+                            <label class="" for="input37" style="font-size: medium;">With multiple trades in the market (positions) at the same time, I never risk more than 
                                 <input type="number" id="input39" style="margin-top: 6px; width: 50px;">
                                 % of my account.</label>
                         </div>
@@ -1291,24 +1284,24 @@ const { jsPDF } = window.jspdf;
                     <P class="display-6 strong mt-3">My Risk Management Rules (Part 2)</P>
                     <p>It is critical to list the rules that I will actively follow in managing my risk.</p>
                     <form>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input40" style="margin-top: 6px;">
+                        <div class="">
+                            <input type="checkbox" class="mr-4" id="input40" style="margin-top: 6px; width: fit-content;">
                             <label class="col-sm-11 " for="input40" style="font-size: medium;">I use appropriate entry orders to enter my positions. That way I remove my emotions out of the trade</label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input40" style="margin-top: 6px;">
+                        <div class="">
+                            <input type="checkbox" class="mr-4" id="input40" style="margin-top: 6px; width: fit-content;">
                             <label class="col-sm-11 " for="input40" style="font-size: medium;">I am always properly diversified; therefore I don’t take correlated trades in the same markets (for example Long the EURUSD and Short the USDCHF). If I set up several trades that are correlated, when the first opportunity is filled, the other orders are cancelled</label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input40" style="margin-top: 6px;">
+                        <div class="">
+                            <input type="checkbox" class="mr-4" id="input40" style="margin-top: 6px; width: fit-content;">
                             <label class="col-sm-11 " for="input40" style="font-size: medium;">I only use brokers that hold my orders in their servers so in a situation of a power outage or an Internet drop, I will remain protected (Stop Order in place) at all times</label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input40" style="margin-top: 6px;">
+                        <div class="">
+                            <input type="checkbox" class="mr-4" id="input40" style="margin-top: 6px; width: fit-content;">
                             <label class="col-sm-11 " for="input40" style="font-size: medium;">I backup my trading platform every day and I backup my trading computer on a cloud drive</label>
                         </div>
-                        <div class="form-group row">
-                            <input type="checkbox" class="col-sm-1" id="input40" style="margin-top: 6px;">
+                        <div class="">
+                            <input type="checkbox" class="mr-4" id="input40" style="margin-top: 6px; width: fit-content;">
                             <label class="col-sm-11 " for="input40" style="font-size: medium;">I log my trades, I review my results and I learn from my mistakes</label>
                         </div>
                     </form>
@@ -1687,7 +1680,7 @@ const { jsPDF } = window.jspdf;
                         </div>
                     </div>
                     <div id="clonestep12" class="row mt-4" style="width: 96%;">
-                        <div class="col-md-4">
+                        <div class="col-md-4 mb-4">
                             <select class="select">
                                 <option class="option"></option>
                                 <option class="option">www.moneycontrol.com</option>
@@ -1695,10 +1688,10 @@ const { jsPDF } = window.jspdf;
                                 <option class="option">investment.com</option>
                             </select>
                         </div>
-                        <div class="offset-md-1 col-md-5">
+                        <div class="offset-md-1 col-md-5 mb-4">
                             <textarea rows="2" class="form-control"></textarea>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-1 mb-5">
                             <span onclick="
                             if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3] || this.parentNode.parentNode.parentNode.children.length > 5)
                             {
@@ -1726,7 +1719,7 @@ const { jsPDF } = window.jspdf;
                         </div>
                     </div>
                     <div id="clonestep13" class="row mt-4" style="width: 96%;">
-                        <div class="col-md-4">
+                        <div class="col-md-4 mb-4">
                             <select class="select">
                                 <option class="option"></option>
                                 <option class="option">Intraday Trading</option>
@@ -1734,10 +1727,10 @@ const { jsPDF } = window.jspdf;
                                 <option class="option">Positional Trading</option>
                             </select>
                         </div>
-                        <div class="offset-md-1 col-md-5">
+                        <div class="offset-md-1 col-md-5 mb-4">
                             <textarea rows="2" class="form-control"></textarea>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-1 mb-5">
                             <span onclick="
                             if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3] || this.parentNode.parentNode.parentNode.children.length > 5)
                             {
@@ -1765,7 +1758,7 @@ const { jsPDF } = window.jspdf;
                         </div>
                     </div>
                     <div id="clonestep14" class="row mt-4" style="width: 96%;">
-                        <div class="col-md-3">
+                        <div class="col-md-3 mb-4">
                             <select class="select">
                                 <option class="option"></option>
                                 <option class="option">Intraday Trading</option>
@@ -1773,16 +1766,16 @@ const { jsPDF } = window.jspdf;
                                 <option class="option">Positional Trading</option>
                             </select>
                         </div>
-                        <div class="col-md-3 p-0 d-inline-flex">
+                        <div class="col-md-3 d-inline-flex mb-4">
                             <label>Target is placed</label>
                             <input type="number" class="form-control ml-1 p-0 pl-2" style="width: 40px; height: 41px;">
                             <label>%</label>
                         </div>
-                        <div class="col-md-5 p-0 d-inline-flex">
+                        <div class="col-md-5 d-inline-flex mb-4">
                             <label>or trailing stock loss</label>
                             <input type="text" class="form-control ml-3" style="width: 100%; height: 41px;">
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-1 mb-4">
                             <span onclick="
                             if(this.parentNode.parentNode != this.parentNode.parentNode.parentNode.children[3] || this.parentNode.parentNode.parentNode.children.length > 5)
                             {
@@ -1830,7 +1823,7 @@ const { jsPDF } = window.jspdf;
                     <P class="display-6 strong mt-3">My Trading Execution – Managing the Trade</P>
                     <p>Once my trade has met entry and begins to move in my favor I will begin moving my Stop Loss Order to lock in profits.</p>
                     <div class="row mt-4" style="width: 96%;">
-                        <p class="mt-5 mb-5">Move the stop to BREAK EVEN once the trade has reached 
+                        <p class="mt-5 mb-5 pl-3">Move the stop to BREAK EVEN once the trade has reached 
                             <select class="">
                                 <option class="option"></option>
                                 <option class="option">10:1</option>
@@ -1850,10 +1843,10 @@ const { jsPDF } = window.jspdf;
                 <div id="step17" style="display: none;">
                     <P class="display-6 strong mt-3">My Trading Execution – Logging the Trade</P>
                     <p>Logging Trades is critical to helping me stay disciplined with my trading and help me learn from my mistakes and identify what helps me to be successful with my trades.</p>
-                    <div class="row mt-4" style="width: 96%;">
+                    <div class="row mt-4 pl-3" style="width: 96%;">
                         <p class="mt-5">Every closed trade will be logged in My personal trade log.</p>
                     </div>
-                    <div class="row mt-4" style="width: 96%;">
+                    <div class="row mt-4 pl-3" style="width: 96%;">
                         <p class="mt-2 mb-5">Trades will be logged
                             <select class="select">
                                 <option class="option"></option>
@@ -1869,10 +1862,10 @@ const { jsPDF } = window.jspdf;
                     <P class="display-6 strong mt-3">My Trading Execution – Reviewing Results</P>
                     <p>I will make sure to not only keep the data results of each trade, but I will also take screen shots with notes. In addition I commit to keeping notes on each trade regarding my feelings, impressions and what I learned from the trade.</p>
                 </div>
-                <div id="buttons" class="row ml-0 mb-4">
-                    <button class="btn btn-outline-danger col-sm-2" onclick="nextStep(-1)">Previous</button>
-                    <p class="offset-sm-5 col-sm-2 mb-0" style="margin-top: 8px;" id="stCount">step 1/20</p>
-                    <button class="btn btn-outline-success col-sm-2" onclick="nextStep(1)">Next Step</button>
+                <div id="buttons" class="row mb-4 text-center">
+                    <button class="btn btn-outline-danger col-sm-2" style="width: fit-content;" onclick="nextStep(-1)">Previous</button>
+                    <p class="offset-sm-5 col-sm-2 mb-0 text-center" style="margin-top: 8px;" id="stCount">step 1/20</p>
+                    <button class="btn btn-outline-success col-sm-2" style="width: fit-content;" onclick="nextStep(1)">Next Step</button>
                 </div>
             </div>
 
